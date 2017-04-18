@@ -54,10 +54,28 @@ bool testen_ob_man_es_darf(int felt[8][8], int zurueckgeben){
         return oo_x;
 }
 
-bool rokade(int felt[8][8], int zahl[4], int farbe, bool ifrokade){
+bool rokade(int felt[8][8], int zahl[4], bool ifrokade){
     if(ifrokade==false)
          testen_ob_man_es_darf(felt, 0);
     if(ifrokade==true){
-        
+       if(((zahl[0]==0) && (zahl[1]==4))
+       && ((zahl[2]==0) && (zahl[3]==1)))
+           if(testen_ob_man_es_darf(felt, 1)==true)
+               return true;
+
+       if(((zahl[0]==0) && (zahl[0]==4))
+       && ((zahl[0]==0) && (zahl[0]==6)))
+           if(testen_ob_man_es_darf(felt, 3)==true)
+               return true;
+
+       if(((zahl[0]==7) && (zahl[1]==4))
+       && ((zahl[2]==7) && (zahl[3]==1)))
+           if(testen_ob_man_es_darf(felt, 2)==true)
+               return true;
+
+       if(((zahl[0]==7) && (zahl[0]==4))
+       && ((zahl[0]==7) && (zahl[0]==6)))
+           if(testen_ob_man_es_darf(felt, 4)==true)
+               return true;
     }
 }
