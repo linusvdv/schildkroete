@@ -1,5 +1,7 @@
 #include <iostream>
 
+#include "rokade.h"
+
 using namespace std;
 
 bool testen_ob_man_es_darf(int felt[8][8], int zurueckgeben){
