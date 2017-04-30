@@ -144,7 +144,7 @@ bool fperd(int felt[8][8], int zahl[4], int farbe){
     return false;
 }
 
-bool echt_zug(int felt[8][8], int Zahl[4], int farbe){
+bool echt_zug(int felt[8][8], int Zahl[4], int farbe, bool ifcompi){
     if(farben(felt[Zahl[0]][Zahl[1]], farbe)==true){
         if(!((Zahl[0]==Zahl[2]) && (Zahl[1]==Zahl[3]))){
             switch(felt[Zahl[0]][Zahl[1]]){
@@ -203,6 +203,7 @@ bool echt_zug(int felt[8][8], int Zahl[4], int farbe){
                 }
             }
         }
-    cout << "du darfst das nicht machen\n";
+    if(ifcompi==false)
+        cout << "du darfst das nicht machen\n";
     return false;
 }

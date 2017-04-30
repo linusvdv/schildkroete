@@ -36,11 +36,13 @@ char zeichen(int felt){
 }
 
 void feld(int felt[8][8]){
-    cout << "_________________\n";
+    cout << "  _________________\n";
     for(int i=7; i>=0; i--){
+        cout << i+1 << " ";
         for(int j=0; j<8; j++){
             cout << "|" << zeichen(felt[i][j]);
         }
-        cout << "|\n_________________\n";
+        cout << "|\n  _________________\n";
     }
+    cout << "   1 2 3 4 5 6 7 8\n\n";
 }

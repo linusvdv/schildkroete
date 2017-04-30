@@ -14,6 +14,6 @@ void mensch(int zahl[4], int felt[8][8], int farbe){
                     zahl[i]-=1;
                 }while(!(zahl[i] >= 0) && !(zahl[i] <= 7));
             }
-        }while(echt_zug(felt, zahl, farbe)==false);
+        }while(echt_zug(felt, zahl, farbe, false)==false);
         rokade(felt, zahl, false);
 }
