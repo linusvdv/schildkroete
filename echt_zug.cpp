@@ -69,7 +69,7 @@ bool Koenig(int felt[8][8], int Zahl[4], int farbe){
 bool turm(int felt[8][8], int zahl[4], int farbe){
     if(zahl[0]==zahl[2]){
         int abstand = zahl[1]-zahl[3]-1;
-        if(zahl[1]-zahl[3]<0)
+        if(zahl[1]-zahl[3]>0)
             abstand = zahl[1]-zahl[3]+1;
         int dazwischen=0;
         for(int i=abstand; i!=0; zahl[1]-zahl[3]<0 ? i++ : i--)
@@ -81,7 +81,7 @@ bool turm(int felt[8][8], int zahl[4], int farbe){
     }
     if(zahl[1]==zahl[3]){
         int abstand = zahl[0]-zahl[2]-1;
-        if(zahl[0]-zahl[2]<0)
+        if(zahl[0]-zahl[2]>0)
             abstand = zahl[0]-zahl[2]+1;
         int dazwischen=0;
         for(int i=abstand; i!=0; (zahl[0]-zahl[2]<0) ? i++ : i--)
@@ -95,30 +95,40 @@ bool turm(int felt[8][8], int zahl[4], int farbe){
 }
 
 bool leufer(int felt[8][8], int zahl[4], int farbe){
-    int abstand[2]={zahl[0]-zahl[2]-1, zahl[1]-zahl[3]-1}; 
+    cout << "ook\n";
+    int abstand[2]={zahl[0]-zahl[2], zahl[1]-zahl[3]}; 
     if(abstand[0]==abstand[1]){
-        if(zahl[0]-zahl[2]<0)
-            abstand[1] = zahl[0]-zahl[2]+1;
-        if(zahl[1]-zahl[3]<0)
-            abstand[2] = zahl[1]-zahl[3]+1;
+        if(zahl[0]-zahl[2]>0){
+            abstand[0] = zahl[0]-zahl[2]-1;
+            abstand[1] = zahl[1]-zahl[3]-1;
+        }
+        else{
+            abstand[0] = zahl[0]-zahl[2]+1;
+            abstand[1] = zahl[1]-zahl[3]+1;
+        }
         int dazwischen=0;
         for(int i=abstand[0]; i!=0; (zahl[0]-zahl[2]<0) ? i++ : i--)
-            if(felt[zahl[i]][zahl[i]]==0)
+            if(felt[zahl[0]+i][zahl[1]+i]==0)
                 dazwischen+=1;
-        if(dazwischen==abstand[0])
+        if(dazwischen==(abstand[0]<0 ? -abstand[0] : abstand[0]))
             if(farben(felt[zahl[2]][zahl[3]], farbe)==false)
                 return true;
+
     }
-    if(abstand[0]==(abstand[1]*=-1)){
-        if(zahl[0]-zahl[2]<0)
-            abstand[1] = zahl[0]-zahl[2]+1;
-        if(zahl[1]-zahl[3]<0)
-            abstand[2] = zahl[1]-zahl[3]+1;
+    if(abstand[0]==(abstand[1]*-1)){
+        if(zahl[0]-zahl[2]<0){
+            abstand[0] = zahl[0]-zahl[2]+1;
+            abstand[1] = zahl[1]-zahl[3]-1;
+        }
+        else{
+            abstand[0] = zahl[0]-zahl[2]-1;
+            abstand[1] = zahl[1]-zahl[3]+1;
+        }
         int dazwischen=0;
         for(int i=abstand[0]; i!=0; (zahl[0]-zahl[2]<0) ? i++ : i--)
-            if(felt[zahl[i*=-1]][zahl[i]]==0)
+            if(felt[zahl[0]-i][zahl[1]+i]==0)
                 dazwischen+=1;
-        if(dazwischen==abstand[0])
+        if(dazwischen==(abstand[0]<0 ? abstand[1] : abstand[0]))
             if(farben(felt[zahl[2]][zahl[3]], farbe)==false)
                 return true;
     }
@@ -136,13 +146,12 @@ bool fperd(int felt[8][8], int zahl[4], int farbe){
 }
 
 bool echt_zug(int felt[8][8], int Zahl[4], int farbe){
-    if(farben(felt[Zahl[0]][Zahl[1]], farbe)==true)
+    if(farben(felt[Zahl[0]][Zahl[1]], farbe)==true){
         if(!((Zahl[0]==Zahl[2]) && (Zahl[1]==Zahl[3]))){
             switch(felt[Zahl[0]][Zahl[1]]){
                 case  6:
                     if(bauer(felt, Zahl, 1)==true)
                         return true;
-                    }
                     break;
                 case -6:
                     if( bauer(felt, Zahl,-1)==true)
@@ -150,22 +159,22 @@ bool echt_zug(int felt[8][8], int Zahl[4], int farbe){
                     break;
                 case  5:
                     if((Koenig(felt, Zahl, 1)==true)
-                    && (rokade(felt, Zahl, true)==true))
+                    || (rokade(felt, Zahl, true)==true))
                         return true;
                     break;
                 case -5:
                     if((Koenig(felt, Zahl,-1)==true)
-                    && (rokade(felt, Zahl, true)==true))
+                    || (rokade(felt, Zahl, true)==true))
                         return true;
                     break;
                 case  4:
-                    if(!((  turm(felt, Zahl, 1)==false)
-                      && (leufer(felt, Zahl, 1)==false)))
+                    if((  turm(felt, Zahl,-1)==true)
+                    || (leufer(felt, Zahl,-1)==true))
                         return true;
                     break;
                 case -4:
-                    if(!((  turm(felt, Zahl, 1)==false)
-                      && (leufer(felt, Zahl, 1)==false)))
+                    if((  turm(felt, Zahl, 1)==true)
+                    || (leufer(felt, Zahl, 1)==true))
                         return true;
                     break;
                 case  3:
@@ -192,7 +201,9 @@ bool echt_zug(int felt[8][8], int Zahl[4], int farbe){
                     if( fperd(felt, Zahl,-1)==true)
                         return true;
                     break;
+                }
             }
         }
+    cout << "du derfst das nicht machen\n";
     return false;
 }

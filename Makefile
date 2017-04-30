@@ -1,2 +1,2 @@
 all:
-	g++ -std=c++11 mensch.cpp feld.cpp main.cpp echt_zug.cpp
+	g++ -g -std=c++11 mensch.cpp rokade.cpp feld.cpp main.cpp echt_zug.cpp

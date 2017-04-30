@@ -61,23 +61,27 @@ bool rokade(int felt[8][8], int zahl[4], bool ifrokade){
          testen_ob_man_es_darf(felt, 0);
     if(ifrokade==true){
        if(((zahl[0]==0) && (zahl[1]==4))
-       && ((zahl[2]==0) && (zahl[3]==1)))
-           if(testen_ob_man_es_darf(felt, 1)==true)
-               return true;
+       && ((zahl[2]==0) && (zahl[3]==2)))
+           if((felt[0][1]==0) && (felt[0][2]==0) && (felt[0][3]==0))
+               if(testen_ob_man_es_darf(felt, 1)==true)
+                   return true;
 
        if(((zahl[0]==0) && (zahl[0]==4))
        && ((zahl[0]==0) && (zahl[0]==6)))
-           if(testen_ob_man_es_darf(felt, 3)==true)
-               return true;
+           if((felt[0][5]==0) && (felt[0][6]==0))
+               if(testen_ob_man_es_darf(felt, 3)==true)
+                   return true;
 
        if(((zahl[0]==7) && (zahl[1]==4))
-       && ((zahl[2]==7) && (zahl[3]==1)))
-           if(testen_ob_man_es_darf(felt, 2)==true)
-               return true;
+       && ((zahl[2]==7) && (zahl[3]==2)))
+           if((felt[7][1]==0) && (felt[7][2]==0) && (felt[7][3]==0))
+               if(testen_ob_man_es_darf(felt, 2)==true)
+                   return true;
 
        if(((zahl[0]==7) && (zahl[0]==4))
        && ((zahl[0]==7) && (zahl[0]==6)))
-           if(testen_ob_man_es_darf(felt, 4)==true)
-               return true;
+           if((felt[7][5]==0) && (felt[7][6]==0))
+               if(testen_ob_man_es_darf(felt, 4)==true)
+                   return true;
     }
 }
