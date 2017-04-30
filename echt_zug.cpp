@@ -68,26 +68,26 @@ bool Koenig(int felt[8][8], int Zahl[4], int farbe){
 
 bool turm(int felt[8][8], int zahl[4], int farbe){
     if(zahl[0]==zahl[2]){
-        int abstand = zahl[1]-zahl[3]-1;
+        int abstand = zahl[1]-zahl[3]+1;
         if(zahl[1]-zahl[3]>0)
-            abstand = zahl[1]-zahl[3]+1;
+            abstand = zahl[1]-zahl[3]-1;
         int dazwischen=0;
-        for(int i=abstand; i!=0; zahl[1]-zahl[3]<0 ? i++ : i--)
-            if(felt[zahl[0]][i]==0)
+        for(int i=abstand; i!=0; (zahl[1]-zahl[3]<0) ? i++ : i--)
+            if(felt[zahl[0]][zahl[3]+i]==0)
                 dazwischen+=1;
-        if(dazwischen==abstand)
+        if(dazwischen==(abstand<0 ? -abstand : abstand))
             if(farben(felt[zahl[2]][zahl[3]], farbe)==false)
                 return true;
     }
     if(zahl[1]==zahl[3]){
-        int abstand = zahl[0]-zahl[2]-1;
+        int abstand = zahl[0]-zahl[2]+1;
         if(zahl[0]-zahl[2]>0)
-            abstand = zahl[0]-zahl[2]+1;
+            abstand = zahl[0]-zahl[2]-1;
         int dazwischen=0;
         for(int i=abstand; i!=0; (zahl[0]-zahl[2]<0) ? i++ : i--)
-            if(felt[zahl[i]][zahl[2]]==0)
+            if(felt[zahl[2]+i][zahl[1]]==0)
                 dazwischen+=1;
-        if(dazwischen==abstand)
+        if(dazwischen==(abstand<0 ? -abstand : abstand))
             if(farben(felt[zahl[2]][zahl[3]], farbe)==false)
                 return true;
     }
@@ -95,7 +95,6 @@ bool turm(int felt[8][8], int zahl[4], int farbe){
 }
 
 bool leufer(int felt[8][8], int zahl[4], int farbe){
-    cout << "ook\n";
     int abstand[2]={zahl[0]-zahl[2], zahl[1]-zahl[3]}; 
     if(abstand[0]==abstand[1]){
         if(zahl[0]-zahl[2]>0){
@@ -204,6 +203,6 @@ bool echt_zug(int felt[8][8], int Zahl[4], int farbe){
                 }
             }
         }
-    cout << "du derfst das nicht machen\n";
+    cout << "du darfst das nicht machen\n";
     return false;
 }
