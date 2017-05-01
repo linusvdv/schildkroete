@@ -9,7 +9,7 @@ using namespace std;
 
 bool mensch(int zahl[4], int felt[8][8], int farbe){
         bool fuenfzig=false;
-        if(fuenfzig_zuege_regel(1))
+        if(fuenfzig_zuege_regel(1)==1000)
             fuenfzig=true;
         do{
             for(int i=0; i<4; i++){

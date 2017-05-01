@@ -23,6 +23,6 @@ bool drei_zuege_wiederholung(int felt[8][8]){
             schauer_ob_es_gleich_ist+=1;
     }
     if(schauer_ob_es_gleich_ist==3)
-        return false;
-    return true;
+        return true;
+    return false;
 }

@@ -19,10 +19,29 @@ bool farben(int felt, int farbe){
 }
 
 int promovieren(int Zahl[4], int farbe){
+    bool darf_man_promovieren=false;
     if((Zahl[2]==0) && (farbe==-1))
-        return -4;
+        darf_man_promovieren=true;
     if((Zahl[2]==7) && (farbe== 1))
-        return  4;
+        darf_man_promovieren=true;
+    if(darf_man_promovieren==true){
+        char zu_was_man_promovieren_will;
+        cin >> zu_was_man_promovieren_will;
+        switch(zu_was_man_promovieren_will){
+            case 'd':
+            case 'D':
+                return farbe*4;
+            case 't':
+            case 'T':
+                return farbe*3;
+            case 'p':
+            case 'P':
+                return farbe;
+            case 'l':
+            case 'L':
+                return farbe*2;
+        }
+    }
     return farbe*6;
 }
 
