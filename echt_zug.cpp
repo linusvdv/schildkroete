@@ -2,6 +2,7 @@
 
 #include "echt_zug.h"
 #include "rokade.h"
+#include "fuenfzig_zuege_regel.h"
 
 using namespace std;
 
@@ -149,12 +150,16 @@ bool echt_zug(int felt[8][8], int Zahl[4], int farbe, bool ifcompi){
         if(!((Zahl[0]==Zahl[2]) && (Zahl[1]==Zahl[3]))){
             switch(felt[Zahl[0]][Zahl[1]]){
                 case  6:
-                    if(bauer(felt, Zahl, 1)==true)
+                    if(bauer(felt, Zahl, 1)==true){
+                        fuenfzig_zuege_regel(0);
                         return true;
+                    }
                     break;
                 case -6:
-                    if( bauer(felt, Zahl,-1)==true)
+                    if( bauer(felt, Zahl,-1)==true){
+                        fuenfzig_zuege_regel(0);
                         return true;
+                    }
                     break;
                 case  5:
                     if((Koenig(felt, Zahl, 1)==true)
