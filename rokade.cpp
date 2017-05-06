@@ -57,7 +57,7 @@ bool testen_ob_man_es_darf(int felt[8][8], int zurueckgeben){
     return false;
 }
 
-bool rokade(int felt[8][8], int zahl[4], bool ifrokade){
+bool rokade(int felt[8][8], array<int,4> zahl, bool ifrokade){
     if(ifrokade==false)
          testen_ob_man_es_darf(felt, 0);
     if(ifrokade==true){

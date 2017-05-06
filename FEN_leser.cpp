@@ -66,7 +66,7 @@ void feltleser(int felt[8][8], char cpin){
 int FEN_leser(int felt[8][8], int& farbe, int welches){
     static int rokaden[4];
     static int fuenfzig=0;
-    static int onpassent;
+    static int enpassent;
     int was;
     if(welches==0){
         string cppin;
@@ -117,12 +117,12 @@ int FEN_leser(int felt[8][8], int& farbe, int welches){
             was=+1;
         was=+1;
 
-        //onpassent
+        //enpassent
         if(cppin[was]=='-')
-            onpassent=8;
+            enpassent=8;
         else{
             was=+1;
-            onpassent=int(cppin[was])-int('0');
+            enpassent=int(cppin[was])-int('0');
         }
         was+=2;
 
@@ -144,6 +144,12 @@ int FEN_leser(int felt[8][8], int& farbe, int welches){
         return rokaden[3];
     else if(welches==5)
         return fuenfzig;
-    else
-        return onpassent;
+    else if(welches==6)
+        return enpassent;
+    else{
+        if(enpassent==8)
+            return 0;
+        else
+            return 1;
+    }
 }

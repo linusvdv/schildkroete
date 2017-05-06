@@ -19,7 +19,7 @@ bool farben(int felt, int farbe){
      return false;
 }
 
-int promovieren(int Zahl[4], int farbe){
+int promovieren(array<int,4> Zahl, int farbe){
     bool darf_man_promovieren=false;
     if((Zahl[2]==0) && (farbe==-1))
         darf_man_promovieren=true;
@@ -46,14 +46,14 @@ int promovieren(int Zahl[4], int farbe){
     return farbe*6;
 }
 
-void wegnemen_von_promowiren(int felt[8][8], int farbe, int onpassent){
+void wegnemen_von_promowiren(int felt[8][8], int farbe, int enpassent){
             if(farbe== 1)
-                felt[4][onpassent]=0;
+                felt[4][enpassent]=0;
             if(farbe==-1)
-                felt[3][onpassent]=0;
+                felt[3][enpassent]=0;
 }
 
-bool bauer(int felt[8][8], int Zahl[4], int farbe, int& onpassent, int& onpassenttester){
+bool bauer(int felt[8][8], array<int,4> Zahl, int farbe, int& enpassent, int& enpassenttester){
     if(farben(felt[Zahl[2]][Zahl[3]], farbe*-1)==true){
         if((Zahl[0]==(Zahl[2]-(farbe))) && (Zahl[1]==(Zahl[3]-1))){
             felt[Zahl[0]][Zahl[1]] = promovieren(Zahl, farbe);
@@ -72,34 +72,34 @@ bool bauer(int felt[8][8], int Zahl[4], int farbe, int& onpassent, int& onpassen
             }
             if((Zahl[0]==1) && (farbe== 1)){
                 if(Zahl[0]==(Zahl[2]-2)){
-                    onpassenttester=1;
-                    onpassent=Zahl[1];
+                    enpassenttester=1;
+                    enpassent=Zahl[1];
                     return true;
                 }
             }
             if((Zahl[0]==6) && (farbe==-1)){
                 if(Zahl[0]==(Zahl[2]+2)){
-                    onpassenttester=1;
-                    onpassent=Zahl[1];
+                    enpassenttester=1;
+                    enpassent=Zahl[1];
                     return true;
                 }
             }
         }
     }
-    if(Zahl[3]==onpassent){
+    if(Zahl[3]==enpassent){
         if((Zahl[0]==(Zahl[2]-farbe)) && (Zahl[1]==(Zahl[3]-1))){
-            wegnemen_von_promowiren(felt, farbe, onpassent);
+            wegnemen_von_promowiren(felt, farbe, enpassent);
             return true;
         }
         else if((Zahl[0]==(Zahl[2]-farbe)) && (Zahl[1]==(Zahl[3]+1))){
-            wegnemen_von_promowiren(felt, farbe, onpassent);
+            wegnemen_von_promowiren(felt, farbe, enpassent);
             return true;
         }
     }
     return false;
 }
 
-bool Koenig(int felt[8][8], int Zahl[4], int farbe){
+bool Koenig(int felt[8][8], array<int,4> Zahl, int farbe){
     if(farben(felt[Zahl[2]][Zahl[3]], farbe)==false)
         for(int i=-1; i<=1; i++)
             for(int j=-1; j<=1; j++)
@@ -108,7 +108,7 @@ bool Koenig(int felt[8][8], int Zahl[4], int farbe){
     return false;
 }
 
-bool turm(int felt[8][8], int zahl[4], int farbe){
+bool turm(int felt[8][8], array<int,4> zahl, int farbe){
     if(zahl[0]==zahl[2]){
         int abstand = zahl[1]-zahl[3]+1;
         if(zahl[1]-zahl[3]>0)
@@ -136,7 +136,7 @@ bool turm(int felt[8][8], int zahl[4], int farbe){
     return false;
 }
 
-bool leufer(int felt[8][8], int zahl[4], int farbe){
+bool leufer(int felt[8][8], array<int,4> zahl, int farbe){
     int abstand[2]={zahl[0]-zahl[2], zahl[1]-zahl[3]}; 
     if(abstand[0]==abstand[1]){
         if(zahl[0]-zahl[2]>0){
@@ -149,8 +149,10 @@ bool leufer(int felt[8][8], int zahl[4], int farbe){
         }
         int dazwischen=0;
         for(int i=abstand[0]; i!=0; (zahl[0]-zahl[2]<0) ? i++ : i--)
-            if(felt[zahl[0]+i][zahl[1]+i]==0)
+        {
+            if(felt[zahl[0]-i][zahl[1]-i]==0)
                 dazwischen+=1;
+        }
         if(dazwischen==(abstand[0]<0 ? -abstand[0] : abstand[0]))
             if(farben(felt[zahl[2]][zahl[3]], farbe)==false)
                 return true;
@@ -176,7 +178,7 @@ bool leufer(int felt[8][8], int zahl[4], int farbe){
     return false;
 }
 
-bool fperd(int felt[8][8], int zahl[4], int farbe){
+bool fperd(int felt[8][8], array<int,4> zahl, int farbe){
     if(farben(felt[zahl[2]][zahl[3]], farbe)==false)
         for(int i : {-2, 2})
             for(int j : {-1, 1}){
@@ -188,10 +190,10 @@ bool fperd(int felt[8][8], int zahl[4], int farbe){
     return false;
 }
 
-bool echt_zug(int felt[8][8], int Zahl[4], int farbe, bool ifcompi, int& onpassenttester){
-    static int onpassent=FEN_leser(felt, farbe, 6);
-    if(onpassenttester==0)
-        onpassent=8;
+bool echt_zug(int felt[8][8], array<int,4> Zahl, int farbe, bool ifcompi, int& enpassenttester){
+    static int enpassent=FEN_leser(felt, farbe, 6);
+    if(enpassenttester==0)
+        enpassent=8;
     for(int i=0; i<4; i++)
         if(!(Zahl[i]>=0) && !(Zahl[i]<8)){
             if(ifcompi==false)
@@ -202,13 +204,13 @@ bool echt_zug(int felt[8][8], int Zahl[4], int farbe, bool ifcompi, int& onpasse
         if(!((Zahl[0]==Zahl[2]) && (Zahl[1]==Zahl[3]))){
             switch(felt[Zahl[0]][Zahl[1]]){
                 case  6:
-                    if(bauer(felt, Zahl, 1, onpassent, onpassenttester)==true){
+                    if(bauer(felt, Zahl, 1, enpassent, enpassenttester)==true){
                         fuenfzig_zuege_regel(0);
                         return true;
                     }
                     break;
                 case -6:
-                    if(bauer(felt, Zahl,-1, onpassent, onpassenttester)==true){
+                    if(bauer(felt, Zahl,-1, enpassent, enpassenttester)==true){
                         fuenfzig_zuege_regel(0);
                         return true;
                     }
@@ -224,13 +226,13 @@ bool echt_zug(int felt[8][8], int Zahl[4], int farbe, bool ifcompi, int& onpasse
                         return true;
                     break;
                 case  4:
-                    if((  turm(felt, Zahl,-1)==true)
-                    || (leufer(felt, Zahl,-1)==true))
+                    if((  turm(felt, Zahl, 1)==true)
+                    || (leufer(felt, Zahl, 1)==true))
                         return true;
                     break;
                 case -4:
-                    if((  turm(felt, Zahl, 1)==true)
-                    || (leufer(felt, Zahl, 1)==true))
+                    if((  turm(felt, Zahl,-1)==true)
+                    || (leufer(felt, Zahl,-1)==true))
                         return true;
                     break;
                 case  3:

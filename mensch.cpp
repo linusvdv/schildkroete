@@ -8,10 +8,9 @@
 
 using namespace std;
 
-bool mensch(int zahl[4], int felt[8][8], int farbe){
+bool mensch(array<int,4> zahl, int felt[8][8], int farbe, int enpassenttester){
         bool fuenfzig=false;
         char helfer[2];
-        static int enpassenttester=0;
         if(fuenfzig_zuege_regel(1)==1000)
             fuenfzig=true;
         do{
