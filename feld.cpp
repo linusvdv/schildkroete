@@ -44,5 +44,5 @@ void feld(int felt[8][8]){
         }
         cout << "|\n  _________________\n";
     }
-    cout << "   1 2 3 4 5 6 7 8\n\n";
+    cout << "   A B C D E F G H\n\n";
 }

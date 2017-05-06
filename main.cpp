@@ -21,12 +21,12 @@ int main(){
     for(;;){
         farbe*=-1;
         feld(felt);
+        if(drei_zuege_wiederholung(felt)==true)
+            break;
         if(mensch(zahl, felt, farbe)==true)
             break;
         if(felt[zahl[2]][zahl[3]] != 0)
             fuenfzig_zuege_regel(0);
-        if(drei_zuege_wiederholung(felt)==true)
-            break;
         felt[zahl[2]][zahl[3]] = felt[zahl[0]][zahl[1]];
         felt[zahl[0]][zahl[1]] = 0;
     }

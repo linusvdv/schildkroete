@@ -45,9 +45,15 @@ int promovieren(int Zahl[4], int farbe){
     return farbe*6;
 }
 
-bool bauer(int felt[8][8], int Zahl[4], int farbe){
-    if(farben(felt[Zahl[2]][Zahl[3]], farbe*=-1)==true){
-        farbe*=-1;
+void wegnemen_von_promowiren(int felt[8][8], int farbe, int onpassent){
+            if(farbe== 1)
+                felt[4][onpassent]=0;
+            if(farbe==-1)
+                felt[3][onpassent]=0;
+}
+
+bool bauer(int felt[8][8], int Zahl[4], int farbe, int& onpassent, int& onpassenttester){
+    if(farben(felt[Zahl[2]][Zahl[3]], farbe*-1)==true){
         if((Zahl[0]==(Zahl[2]-(farbe))) && (Zahl[1]==(Zahl[3]-1))){
             felt[Zahl[0]][Zahl[1]] = promovieren(Zahl, farbe);
             return true;
@@ -58,7 +64,6 @@ bool bauer(int felt[8][8], int Zahl[4], int farbe){
         }
     }
     else if(felt[Zahl[2]][Zahl[3]]==0){
-        farbe*=-1;
         if(Zahl[1]==Zahl[3]){
             if(Zahl[0]==(Zahl[2]-farbe)){
                 felt[Zahl[0]][Zahl[1]] = promovieren(Zahl, farbe);
@@ -66,12 +71,28 @@ bool bauer(int felt[8][8], int Zahl[4], int farbe){
             }
             if((Zahl[0]==1) && (farbe== 1)){
                 if(Zahl[0]==(Zahl[2]-2)){
+                    onpassenttester=1;
+                    onpassent=Zahl[1];
                     return true;
                 }
             }
-            if((Zahl[0]==6) && (farbe==-1))
-                if(Zahl[0]==(Zahl[2]+2))
+            if((Zahl[0]==6) && (farbe==-1)){
+                if(Zahl[0]==(Zahl[2]+2)){
+                    onpassenttester=1;
+                    onpassent=Zahl[1];
                     return true;
+                }
+            }
+        }
+    }
+    if(Zahl[3]==onpassent){
+        if((Zahl[0]==(Zahl[2]-farbe)) && (Zahl[1]==(Zahl[3]-1))){
+            wegnemen_von_promowiren(felt, farbe, onpassent);
+            return true;
+        }
+        else if((Zahl[0]==(Zahl[2]-farbe)) && (Zahl[1]==(Zahl[3]+1))){
+            wegnemen_von_promowiren(felt, farbe, onpassent);
+            return true;
         }
     }
     return false;
@@ -164,18 +185,27 @@ bool fperd(int felt[8][8], int zahl[4], int farbe){
     return false;
 }
 
-bool echt_zug(int felt[8][8], int Zahl[4], int farbe, bool ifcompi){
+bool echt_zug(int felt[8][8], int Zahl[4], int farbe, bool ifcompi, int& onpassenttester){
+    static int onpassent=8;
+    if(onpassenttester==0)
+        onpassent=8;
+    for(int i=0; i<4; i++)
+        if(!(Zahl[i]>=0) && !(Zahl[i]<8)){
+            if(ifcompi==false)
+                 cout << "du darfst das nicht machen.\n";
+            return false;
+        }
     if(farben(felt[Zahl[0]][Zahl[1]], farbe)==true){
         if(!((Zahl[0]==Zahl[2]) && (Zahl[1]==Zahl[3]))){
             switch(felt[Zahl[0]][Zahl[1]]){
                 case  6:
-                    if(bauer(felt, Zahl, 1)==true){
+                    if(bauer(felt, Zahl, 1, onpassent, onpassenttester)==true){
                         fuenfzig_zuege_regel(0);
                         return true;
                     }
                     break;
                 case -6:
-                    if( bauer(felt, Zahl,-1)==true){
+                    if(bauer(felt, Zahl,-1, onpassent, onpassenttester)==true){
                         fuenfzig_zuege_regel(0);
                         return true;
                     }
