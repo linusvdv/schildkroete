@@ -4,20 +4,15 @@
 #include "feld.h"
 #include "fuenfzig_zuege_regel.h"
 #include "drei_zuege_wiederholung.h"
+#include "FEN_leser.h"
 
 using namespace std;
 
 int main(){
-    int felt[8][8]={{ 3, 1, 2, 4, 5, 2, 1, 3},
-                    { 6, 6, 6, 6, 6, 6, 6, 6},
-                    { 0, 0, 0, 0, 0, 0, 0, 0},
-                    { 0, 0, 0, 0, 0, 0, 0, 0},
-                    { 0, 0, 0, 0, 0, 0, 0, 0},
-                    { 0, 0, 0, 0, 0, 0, 0, 0},
-                    {-6,-6,-6,-6,-6,-6,-6,-6},
-                    {-3,-1,-2,-4,-5,-2,-1,-3}};
+    int felt[8][8]={};
     int zahl[4];
     int farbe=-1;
+    FEN_leser(felt, farbe, 0);
     for(;;){
         farbe*=-1;
         feld(felt);

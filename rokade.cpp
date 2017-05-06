@@ -1,6 +1,7 @@
 #include <iostream>
 
 #include "rokade.h"
+#include "FEN_leser.h"
 
 using namespace std;
 
@@ -8,10 +9,11 @@ bool testen_ob_man_es_darf(int felt[8][8], int zurueckgeben){
     //static = anfang true wen es sich endert zu false dann bleibt es false.
     //o = w = weis
     //x = s = schwarz 
-    static bool    ooo_o = true;
-    static bool    ooo_x = true;
-    static bool     oo_o = true;
-    static bool     oo_x = true;
+    int a=1;
+    static bool    ooo_o = FEN_leser(felt, a, 2);
+    static bool    ooo_x = FEN_leser(felt, a, 4);
+    static bool     oo_o = FEN_leser(felt, a, 1);
+    static bool     oo_x = FEN_leser(felt, a, 3);
     static bool koenig_o = true;
     static bool koenig_x = true;
     if(ooo_o==true){

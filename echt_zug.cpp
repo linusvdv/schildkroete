@@ -3,6 +3,7 @@
 #include "echt_zug.h"
 #include "rokade.h"
 #include "fuenfzig_zuege_regel.h"
+#include "FEN_leser.h"
 
 using namespace std;
 
@@ -188,7 +189,7 @@ bool fperd(int felt[8][8], int zahl[4], int farbe){
 }
 
 bool echt_zug(int felt[8][8], int Zahl[4], int farbe, bool ifcompi, int& onpassenttester){
-    static int onpassent=8;
+    static int onpassent=FEN_leser(felt, farbe, 6);
     if(onpassenttester==0)
         onpassent=8;
     for(int i=0; i<4; i++)

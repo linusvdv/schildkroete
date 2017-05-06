@@ -9,29 +9,29 @@ char zeichen(int felt){
         case  0:
             return ' ';
         case  6:
-            return 'B';
+            return 'P';
         case -6:
-            return 'b';
+            return 'p';
         case  5:
             return 'K';
         case -5:
             return 'k';
         case  4:
-            return 'D';
+            return 'Q';
         case -4:
-            return 'd';
+            return 'q';
         case  3:
-            return 'T';
+            return 'R';
         case -3:
-            return 't';
+            return 'r';
         case  2:
-            return 'L';
+            return 'B';
         case -2:
-            return 'l';
+            return 'b';
         case  1:
-            return 'P';
+            return 'N';
         case -1:
-            return 'p';
+            return 'n';
         default:
             return 'X';
     }
