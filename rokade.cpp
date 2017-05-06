@@ -33,7 +33,7 @@ bool testen_ob_man_es_darf(int felt[8][8], int zurueckgeben){
         if(felt[7][0]!=-3)
             ooo_x = false;
     }
-    if(koenig_o==true){
+    if(koenig_x==true){
         if(felt[7][4]!=-5){
              koenig_x = false;
              ooo_x = false;
@@ -44,8 +44,6 @@ bool testen_ob_man_es_darf(int felt[8][8], int zurueckgeben){
         if(felt[7][7]!=-3)
             oo_x = false;
     }
-    if(zurueckgeben==0)
-        return false;
     if(zurueckgeben==1)
         return ooo_o;
     if(zurueckgeben==2)
@@ -54,6 +52,7 @@ bool testen_ob_man_es_darf(int felt[8][8], int zurueckgeben){
         return oo_o;
     if(zurueckgeben==4)
         return oo_x;
+    return false;
 }
 
 bool rokade(int felt[8][8], int zahl[4], bool ifrokade){

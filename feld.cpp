@@ -32,6 +32,8 @@ char zeichen(int felt){
             return 'P';
         case -1:
             return 'p';
+        default:
+            return 'X';
     }
 }
 

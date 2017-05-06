@@ -176,12 +176,14 @@ bool leufer(int felt[8][8], int zahl[4], int farbe){
 }
 
 bool fperd(int felt[8][8], int zahl[4], int farbe){
-    for(int i : {-2, 2})
-        for(int j : {-1, 1})
-            if((zahl[0]==zahl[2]+i) && (zahl[1]==zahl[3]+j))
-                return true;
-            else if((zahl[0]==zahl[2]+j) && (zahl[1]==zahl[3]+i))
-                return true;
+    if(farben(felt[zahl[2]][zahl[3]], farbe)==false)
+        for(int i : {-2, 2})
+            for(int j : {-1, 1}){
+                if((zahl[0]==zahl[2]+i) && (zahl[1]==zahl[3]+j))
+                    return true;
+                else if((zahl[0]==zahl[2]+j) && (zahl[1]==zahl[3]+i))
+                    return true;
+                }
     return false;
 }
 
