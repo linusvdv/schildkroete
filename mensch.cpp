@@ -8,7 +8,7 @@
 
 using namespace std;
 
-bool mensch(array<int,4> zahl, int felt[8][8], int farbe, int enpassenttester){
+bool mensch(array<int,4>& zahl, int felt[8][8], int farbe, int enpassenttester){
         bool fuenfzig=false;
         char helfer[2];
         if(fuenfzig_zuege_regel(1)==1000)
