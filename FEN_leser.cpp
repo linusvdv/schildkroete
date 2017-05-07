@@ -63,7 +63,7 @@ void feltleser(int felt[8][8], char cpin){
     b+=1;
 }
 
-int FEN_leser(int felt[8][8], int& farbe, int welches){
+int FEN_leser(int felt[8][8], int& farbe, int welches, int& zugtife){
     static int rokaden[4];
     static int fuenfzig=0;
     static int enpassent;
@@ -71,6 +71,8 @@ int FEN_leser(int felt[8][8], int& farbe, int welches){
     if(welches==0){
         string cppin;
         getline (cin, cppin);
+        if(cppin[0]=='a')
+            cppin="rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
         for (unsigned int i=0; i<cppin.size(); i++) {
             if(cppin[i]!=' ')
                 feltleser(felt, cppin[i]);
@@ -127,11 +129,20 @@ int FEN_leser(int felt[8][8], int& farbe, int welches){
         was+=2;
 
         //fuenfzig
-        do{
+        while(cppin[was]==' '){
             fuenfzig*=10;
             fuenfzig+=int(cppin[was])-int('0');
             was=+1;
-        }while(cppin[was]==' ');
+        }
+        fuenfzig*=2;
+        was=+1;
+
+        //zugtife
+        while(cppin[was]==' '){
+            zugtife*=10;
+            zugtife+=int(cppin[was])-int('0');
+            was=+1;
+        }
         return 1;
     }
     else if(welches==1)

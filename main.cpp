@@ -1,4 +1,5 @@
 #include <iostream>
+#include <random>
 
 #include "mensch.h"
 #include "feld.h"
@@ -13,19 +14,33 @@ int main(){
     int felt[8][8]={};
     array<int,4> zahl;
     int farbe=-1;
-    FEN_leser(felt, farbe, 0);
-    int enpassenttester=FEN_leser(felt, farbe, 7);
-    random_namber_zuege(felt, farbe, enpassenttester);
+    int zugtife=0;
+    FEN_leser(felt, farbe, 0, zugtife);
+    int enpassenttester=FEN_leser(felt, farbe, 7, zugtife);
+    default_random_engine generator;
+    uniform_int_distribution<int> distribution(0, 10000);
     for(;;){
         farbe*=-1;
         feld(felt);
+        int koenige=0;
+        for(int i=0; i<8; i++)
+            for(int j=0; j<8; j++)
+                if(felt[i][j]==5*farbe)
+                    koenige+=1;
+        if(koenige==0)
+            break;
         if(drei_zuege_wiederholung(felt)==true)
             break;
-        if(mensch(zahl, felt, farbe, enpassenttester)==true)
+        if(farbe==1)
+            zugtife+=1;
+        cout << zugtife << "\n";
+        if(random_namber_zuege(felt, zahl, farbe, enpassenttester, distribution(generator))==true)
             break;
         if(felt[zahl[2]][zahl[3]] != 0)
             fuenfzig_zuege_regel(0);
         felt[zahl[2]][zahl[3]] = felt[zahl[0]][zahl[1]];
         felt[zahl[0]][zahl[1]] = 0;
+        cin.sync();
+        cin.get();
     }
 }

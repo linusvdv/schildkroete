@@ -10,10 +10,10 @@ bool testen_ob_man_es_darf(int felt[8][8], int zurueckgeben){
     //o = w = weis
     //x = s = schwarz 
     int a=1;
-    static bool    ooo_o = FEN_leser(felt, a, 2);
-    static bool    ooo_x = FEN_leser(felt, a, 4);
-    static bool     oo_o = FEN_leser(felt, a, 1);
-    static bool     oo_x = FEN_leser(felt, a, 3);
+    static bool    ooo_o = FEN_leser(felt, a, 2, a);
+    static bool    ooo_x = FEN_leser(felt, a, 4, a);
+    static bool     oo_o = FEN_leser(felt, a, 1, a);
+    static bool     oo_x = FEN_leser(felt, a, 3, a);
     static bool koenig_o = true;
     static bool koenig_x = true;
     if(ooo_o==true){
