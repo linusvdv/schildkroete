@@ -20,7 +20,9 @@ int main(){
     int zugtife=0;
     FEN_leser(felt, farbe, 0, zugtife);
     int enpassenttester=FEN_leser(felt, farbe, 7, zugtife);
-    cout << perft(felt, farbe, enpassenttester, 3) << "\n";
+    int perfttiefe;
+    cin >> perfttiefe;
+    cout << perft(felt, farbe, enpassenttester, perfttiefe, perfttiefe) << "\n";
     default_random_engine generator;
     uniform_int_distribution<int> distribution(0, 10000);
     array<int, 4> a={};
