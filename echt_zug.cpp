@@ -54,7 +54,7 @@ int promovieren(array<int,4> Zahl, int farbe, bool ifcompi){
     return farbe*6;
 }
 
-bool wegnemen_von_promowiren(int felt[8][8], int farbe, int enpassent){
+bool wegnemen_von_enpassent(int felt[8][8], int farbe, int enpassent){
     if(farbe== 1)
         if(felt[4][enpassent]==-1){
             felt[4][enpassent]=0;
@@ -71,35 +71,33 @@ bool wegnemen_von_promowiren(int felt[8][8], int farbe, int enpassent){
 bool bauer(int felt[8][8], array<int,4> Zahl, int farbe, int& enpassent, int& enpassenttester, bool ifcompi){
     if(farben(felt[Zahl[2]][Zahl[3]], farbe*-1)==true){
         if((Zahl[0]==(Zahl[2]-(farbe))) && (Zahl[1]==(Zahl[3]-1))){
-            felt[Zahl[0]][Zahl[1]] = promovieren(Zahl, ifcompi, farbe);
+            felt[Zahl[0]][Zahl[1]] = promovieren(Zahl, farbe, ifcompi);
             return true;
         }
         else if((Zahl[0]==(Zahl[2]-farbe)) && (Zahl[1]==(Zahl[3]+1))){
-            felt[Zahl[0]][Zahl[1]] = promovieren(Zahl, ifcompi, farbe);
+            felt[Zahl[0]][Zahl[1]] = promovieren(Zahl, farbe, ifcompi);
             return true;
         }
     }
-    else if(felt[Zahl[2]][Zahl[3]]==0){
+    if(felt[Zahl[2]][Zahl[3]]==0){
         if(Zahl[1]==Zahl[3]){
             if(Zahl[0]==(Zahl[2]-farbe)){
-                felt[Zahl[0]][Zahl[1]] = promovieren(Zahl, ifcompi, farbe);
+                felt[Zahl[0]][Zahl[1]] = promovieren(Zahl, farbe, ifcompi);
                 return true;
             }
-            if((Zahl[0]==1) && (farbe== 1)){
+            if((Zahl[0]==1) && (farbe== 1) &&
+               (felt[2][Zahl[1]]==0)){
                 if(Zahl[0]==(Zahl[2]-2)){
-                    if(ifcompi==false){
-                        enpassenttester=1;
-                        enpassent=Zahl[1];
-                    }
+                    enpassenttester=1;
+                    enpassent=Zahl[1];
                     return true;
                 }
             }
-            if((Zahl[0]==6) && (farbe==-1)){
+            if((Zahl[0]==6) && (farbe==-1) &&
+               (felt[5][Zahl[1]]==0)){
                 if(Zahl[0]==(Zahl[2]+2)){
-                    if(ifcompi==false){
-                        enpassenttester=1;
-                        enpassent=Zahl[1];
-                    }
+                    enpassenttester=1;
+                    enpassent=Zahl[1];
                     return true;
                 }
             }
@@ -107,11 +105,11 @@ bool bauer(int felt[8][8], array<int,4> Zahl, int farbe, int& enpassent, int& en
     }
     if(Zahl[3]==enpassent){
         if((Zahl[0]==(Zahl[2]-farbe)) && (Zahl[1]==(Zahl[3]-1))){
-            if(wegnemen_von_promowiren(felt, farbe, enpassent)==true)
+            if(wegnemen_von_enpassent(felt, farbe, enpassent)==true)
                 return true;
         }
         else if((Zahl[0]==(Zahl[2]-farbe)) && (Zahl[1]==(Zahl[3]+1)))
-            if(wegnemen_von_promowiren(felt, farbe, enpassent)==true)
+            if(wegnemen_von_enpassent(felt, farbe, enpassent)==true)
                 return true;
     }
     return false;
@@ -236,12 +234,12 @@ bool echt_zug(int felt[8][8], array<int,4> Zahl, int farbe, bool ifcompi, int& e
                     break;
                 case  5:
                     if((Koenig(felt, Zahl, 1)==true)
-                    || (rokade(felt, Zahl, true)==true))
+                    || (rokade(felt, Zahl, true, false)==true))
                         return true;
                     break;
                 case -5:
                     if((Koenig(felt, Zahl,-1)==true)
-                    || (rokade(felt, Zahl, true)==true))
+                    || (rokade(felt, Zahl, true, false)==true))
                         return true;
                     break;
                 case  4:

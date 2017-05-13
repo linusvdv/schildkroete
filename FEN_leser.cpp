@@ -64,10 +64,11 @@ void feltleser(int felt[8][8], char cpin){
 }
 
 int FEN_leser(int felt[8][8], int& farbe, int welches, int& zugtife){
-    static int rokaden[4];
+    static bool rokaden[4];
+    static bool helferrokaden[4];
     static int fuenfzig=0;
     static int enpassent;
-    int was;
+    unsigned int was=0;
     if(welches==0){
         string cppin;
         getline (cin, cppin);
@@ -85,45 +86,44 @@ int FEN_leser(int felt[8][8], int& farbe, int welches, int& zugtife){
             farbe=-1;
         if(cppin[was]=='b')
             farbe= 1;
-        was=+2;
+        was+=2;
         //rokaden
+        if(cppin[was]=='-')
+            was+=1;
         if(cppin[was]=='K'){
-            rokaden[0]=1;
-            was=+1;
+            helferrokaden[0]=1;
+            was+=1;
         }
         else
-            rokaden[0]=0;
+            helferrokaden[0]=0;
 
         if(cppin[was]=='Q'){
-            was=+1;
-            rokaden[1]=1;
+            was+=1;
+            helferrokaden[1]=1;
         }
         else
-            rokaden[1]=0;
+            helferrokaden[1]=0;
 
         if(cppin[was]=='k'){
-            was=+1;
-            rokaden[2]=1;
+            was+=1;
+            helferrokaden[2]=1;
         }
         else
-            rokaden[2]=0;
+            helferrokaden[2]=0;
 
         if(cppin[was]=='q'){
-            was=+1;
-            rokaden[3]=1;
+            was+=1;
+            helferrokaden[3]=1;
         }
         else
-            rokaden[3]=0;
-
-        if(cppin[was]=='-')
-            was=+1;
-        was=+1;
+            helferrokaden[3]=0;
+        was+=1;
 
         //enpassent
         if(cppin[was]=='-')
             enpassent=8;
         else{
-            was=+1;
+            was+=1;
             enpassent=int(cppin[was])-int('0');
         }
         was+=2;
@@ -132,20 +132,25 @@ int FEN_leser(int felt[8][8], int& farbe, int welches, int& zugtife){
         while(cppin[was]==' '){
             fuenfzig*=10;
             fuenfzig+=int(cppin[was])-int('0');
-            was=+1;
+            was+=1;
         }
         fuenfzig*=2;
-        was=+1;
-
+        was+=2;
+        cout << was << " " << cppin.size() << "\n";
         //zugtife
         while(cppin[was]==' '){
             zugtife*=10;
             zugtife+=int(cppin[was])-int('0');
-            was=+1;
+            was+=1;
+        for(int i=0; i<4; i++)
+            rokaden[i]=helferrokaden[i];
         }
         return 1;
     }
-    else if(welches==1)
+    for(int i=0; i<4; i++){
+        rokaden[i]=helferrokaden[i];
+    }
+    if(welches==1)
         return rokaden[0];
     else if(welches==2)
         return rokaden[1];

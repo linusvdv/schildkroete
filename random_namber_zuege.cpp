@@ -22,7 +22,7 @@ bool random_namber_zuege(int felt[8][8], array<int,4>& zahl, int farbe, int enpa
         for(zahl[1]=0; zahl[1]<8; zahl[1]++)
             for(zahl[2]=0; zahl[2]<8; zahl[2]++)
                 for(zahl[3]=0; zahl[3]<8; zahl[3]++)
-                    if(echt_zug(felt, zahl, farbe, true, enpassenttester))
+                    if(echt_zug(felt, zahl, farbe, true, enpassenttester)==true)
                     {
                         for(int i=0; i<8; i++)
                             for(int j=0; j<8; j++)
@@ -36,6 +36,6 @@ bool random_namber_zuege(int felt[8][8], array<int,4>& zahl, int farbe, int enpa
         enpassenttester+=1;
     if(enpassenttester==3)
         enpassenttester=0;
-    rokade(felt, zahl, false);
+    rokade(felt, zahl, false, false);
     return fuenfzig;
 }

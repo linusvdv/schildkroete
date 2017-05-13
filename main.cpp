@@ -1,5 +1,6 @@
 #include <iostream>
 #include <random>
+#include <array>
 
 #include "mensch.h"
 #include "feld.h"
@@ -7,6 +8,8 @@
 #include "drei_zuege_wiederholung.h"
 #include "FEN_leser.h"
 #include "random_namber_zuege.h"
+#include "perft.h"
+#include "rokade.h"
 
 using namespace std;
 
@@ -17,8 +20,11 @@ int main(){
     int zugtife=0;
     FEN_leser(felt, farbe, 0, zugtife);
     int enpassenttester=FEN_leser(felt, farbe, 7, zugtife);
+    cout << perft(felt, farbe, enpassenttester, 3) << "\n";
     default_random_engine generator;
     uniform_int_distribution<int> distribution(0, 10000);
+    array<int, 4> a={};
+    rokade(felt, a, false, true);
     for(;;){
         farbe*=-1;
         feld(felt);
@@ -34,7 +40,8 @@ int main(){
         if(farbe==1)
             zugtife+=1;
         cout << zugtife << "\n";
-        if(random_namber_zuege(felt, zahl, farbe, enpassenttester, distribution(generator))==true)
+        if(mensch(zahl, felt, farbe, enpassenttester))
+        //if(random_namber_zuege(felt, zahl, farbe, enpassenttester, distribution(generator))==true)
             break;
         if(felt[zahl[2]][zahl[3]] != 0)
             fuenfzig_zuege_regel(0);
