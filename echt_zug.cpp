@@ -54,17 +54,19 @@ int promovieren(array<int,4> Zahl, int farbe, bool ifcompi){
     return farbe*6;
 }
 
-bool wegnemen_von_enpassent(int felt[8][8], int farbe, int enpassent){
+bool wegnemen_von_enpassent(int felt[8][8], int farbe, int enpassent, array<int,4> Zahl){
     if(farbe== 1)
-        if(felt[4][enpassent]==-1){
-            felt[4][enpassent]=0;
-            return true;
-        }
+        if(felt[4][enpassent]==-6)
+            if(Zahl[0]==4){
+                felt[4][enpassent]=0;
+                return true;
+            }
     if(farbe==-1)
-        if(felt[3][enpassent]== 1){
-            felt[3][enpassent]=0;
-            return true;
-        }
+        if(felt[3][enpassent]== 6)
+            if(Zahl[0]==3){
+                felt[3][enpassent]=0;
+                return true;
+            }
     return false;
 }
 
@@ -105,11 +107,11 @@ bool bauer(int felt[8][8], array<int,4> Zahl, int farbe, int& enpassent, int& en
     }
     if(Zahl[3]==enpassent){
         if((Zahl[0]==(Zahl[2]-farbe)) && (Zahl[1]==(Zahl[3]-1))){
-            if(wegnemen_von_enpassent(felt, farbe, enpassent)==true)
+            if(wegnemen_von_enpassent(felt, farbe, enpassent, Zahl)==true)
                 return true;
         }
         else if((Zahl[0]==(Zahl[2]-farbe)) && (Zahl[1]==(Zahl[3]+1)))
-            if(wegnemen_von_enpassent(felt, farbe, enpassent)==true)
+            if(wegnemen_von_enpassent(felt, farbe, enpassent, Zahl)==true)
                 return true;
     }
     return false;
