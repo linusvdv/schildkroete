@@ -227,7 +227,8 @@ bool echt_zug(position& pos, zuege& zug, bool ifcompi){
                     break;
                 case  5:
                 case -5:
-                    if(Koenig(pos, zug)==true)
+                    if(   (Koenig(pos, zug)==true)
+                       || (rokade(pos, zug)==true))
                         return true;
                     break;
                 case  4:
