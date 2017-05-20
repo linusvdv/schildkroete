@@ -26,7 +26,6 @@ int main(){
     default_random_engine generator;
     uniform_int_distribution<int> distribution(0, 10000);
     for(;;){
-        pos.farbe*=-1;
         feld(pos);
         int koenige=0;
         for(int i=0; i<8; i++)
@@ -51,6 +50,7 @@ int main(){
             break;
         pos.felt[zug.Zahl[2]][zug.Zahl[3]] = pos.felt[zug.Zahl[0]][zug.Zahl[1]];
         pos.felt[zug.Zahl[0]][zug.Zahl[1]] = 0;
+        pos.farbe*=-1;
         cin.sync();
         cin.get();
     }

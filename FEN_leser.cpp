@@ -67,9 +67,9 @@ void feltleser(array<array<int,8>,8>& felt, char cpin){
 
 void FEN_leser(position& pos){
     unsigned int was=0;
-    pos.felt = {};
     string cppin;
     getline (cin, cppin);
+    pos.felt = {};
     if(cppin[0]=='a')
         cppin="rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
     for (unsigned int i=0; i<cppin.size(); i++) {
@@ -81,9 +81,9 @@ void FEN_leser(position& pos){
         }
     }
     if(cppin[was]=='w')
-        pos.farbe=-1;
-    if(cppin[was]=='b')
         pos.farbe= 1;
+    if(cppin[was]=='b')
+        pos.farbe=-1;
     was+=2;
     //rokaden
     if(cppin[was]=='-')
@@ -128,13 +128,15 @@ void FEN_leser(position& pos){
     was+=2;
 
     //fuenfzig
+    pos.fuenfzigzuege=0;
     while(cppin[was]==' '){
         pos.fuenfzigzuege*=10;
         pos.fuenfzigzuege+=int(cppin[was])-int('0');
         was+=1;
     }
     was+=2;
-    //zugtife
+    //zugtiefe
+    pos.zugtiefe=0;
     while(cppin[was]==' '){
         pos.zugtiefe*=10;
         pos.zugtiefe+=int(cppin[was])-int('0');

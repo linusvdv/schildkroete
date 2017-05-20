@@ -10,13 +10,11 @@
 using namespace std;
 
 int perft(position& pos, int tiefe, int drucktiefe){
-
     if(tiefe==0)
         return 1;
 
     position pos2;
     zuege zug;
-
     int zaehler=0;
     for(zug.Zahl[0]=0; zug.Zahl[0]<8; zug.Zahl[0]++)
         for(zug.Zahl[1]=0; zug.Zahl[1]<8; zug.Zahl[1]++)
@@ -28,6 +26,7 @@ int perft(position& pos, int tiefe, int drucktiefe){
                     {
                         pos2.felt[zug.Zahl[2]][zug.Zahl[3]]=pos2.felt[zug.Zahl[0]][zug.Zahl[1]];
                         pos2.felt[zug.Zahl[0]][zug.Zahl[1]]=0;
+                        pos2.farbe*=-1;
                         if(stet_der_koenig_schach(pos2)==true)
                             continue;
                         int k=perft(pos2, tiefe-1, drucktiefe);
