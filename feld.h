@@ -1,1 +1,3 @@
-void feld(int felt[8][8]);
+#include "types.h"
+
+void feld(position pos);

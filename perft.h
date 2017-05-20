@@ -1,1 +1,3 @@
-int perft(int felt[8][8], int farbe, int enpassenttester, int tife, int drucktife);
+#include "types.h"
+
+int perft(position& pos, int tiefe, int drucktiefe);

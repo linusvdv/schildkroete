@@ -1,5 +1,5 @@
-#include <array> 
+#include "types.h"
 
 using namespace std;
 
-bool echt_zug(int felt[8][8], array<int,4> Zahl, int farbe, bool ifcompi, int& enpassenttester);
+bool echt_zug(position& pos, zuege& zug, bool ifcompi);

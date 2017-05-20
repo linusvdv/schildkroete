@@ -1,1 +1,3 @@
-bool drei_zuege_wiederholung(int felt[8][8]);
+#include "types.h" 
+
+bool drei_zuege_wiederholung(position& pos);

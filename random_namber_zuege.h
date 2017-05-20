@@ -1,1 +1,3 @@
-bool random_namber_zuege(int felt[8][8], array<int,4>& Zahl, int farbe, int enpassenttester, int ifgenerator);
+#include "types.h"
+
+void random_namber_zuege(position& pos, zuege& zug, int random);

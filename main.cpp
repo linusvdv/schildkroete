@@ -2,9 +2,9 @@
 #include <random>
 #include <array>
 
+#include "types.h"
 #include "mensch.h"
 #include "feld.h"
-#include "fuenfzig_zuege_regel.h"
 #include "drei_zuege_wiederholung.h"
 #include "FEN_leser.h"
 #include "random_namber_zuege.h"
@@ -14,41 +14,43 @@
 using namespace std;
 
 int main(){
-    int felt[8][8]={};
-    array<int,4> zahl;
-    int farbe=-1;
-    int zugtife=0;
-    FEN_leser(felt, farbe, 0, zugtife);
-    int enpassenttester=FEN_leser(felt, farbe, 7, zugtife);
+    position pos;
+    zuege zug;
+    FEN_leser(pos);
+
+    feld(pos);
+
     int perfttiefe;
     cin >> perfttiefe;
-    cout << perft(felt, farbe, enpassenttester, perfttiefe, perfttiefe) << "\n";
+    cout << perft(pos, perfttiefe, perfttiefe) << "\n";
     default_random_engine generator;
     uniform_int_distribution<int> distribution(0, 10000);
-    array<int, 4> a={};
-    rokade(felt, a, false, true);
     for(;;){
-        farbe*=-1;
-        feld(felt);
+        pos.farbe*=-1;
+        feld(pos);
         int koenige=0;
         for(int i=0; i<8; i++)
             for(int j=0; j<8; j++)
-                if(felt[i][j]==5*farbe)
+                if(pos.felt[i][j]==5*pos.farbe)
                     koenige+=1;
         if(koenige==0)
             break;
-        if(drei_zuege_wiederholung(felt)==true)
+        if(drei_zuege_wiederholung(pos)==true)
             break;
-        if(farbe==1)
-            zugtife+=1;
-        cout << zugtife << "\n";
-        if(mensch(zahl, felt, farbe, enpassenttester))
-        //if(random_namber_zuege(felt, zahl, farbe, enpassenttester, distribution(generator))==true)
+        if(pos.farbe==1)
+            pos.zugtiefe+=1;
+        cout << pos.zugtiefe << "\n";
+        
+        mensch(pos, zug);
+        //if(random_namber_zuege(felt, Zahl, farbe, enpassenttester, distribution(generator))==true)
+
+        pos.fuenfzigzuege+=1;
+        if(pos.felt[zug.Zahl[2]][zug.Zahl[3]] != 0)
+            pos.fuenfzigzuege=0;
+        if(pos.fuenfzigzuege==100)
             break;
-        if(felt[zahl[2]][zahl[3]] != 0)
-            fuenfzig_zuege_regel(0);
-        felt[zahl[2]][zahl[3]] = felt[zahl[0]][zahl[1]];
-        felt[zahl[0]][zahl[1]] = 0;
+        pos.felt[zug.Zahl[2]][zug.Zahl[3]] = pos.felt[zug.Zahl[0]][zug.Zahl[1]];
+        pos.felt[zug.Zahl[0]][zug.Zahl[1]] = 0;
         cin.sync();
         cin.get();
     }

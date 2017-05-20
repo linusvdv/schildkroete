@@ -38,7 +38,7 @@ char zeichen(int felt){
     }
 }
 
-void feld(int felt[8][8]){
+void feld(position pos){
     string reset = "\033[0m";
     string hintergrund_weiss   = "\033[47m";
     string hintergrund_schwarz = "\033[40m";
@@ -49,9 +49,9 @@ void feld(int felt[8][8]){
     for(int i=7; i>=0; i--){
         cout << i+1 << " ";
         for(int j=0; j<8; j++){
-            cout << "|" << (felt[i][j]<0 ? schrift_rot : schrift_blau)
+            cout << "|" << (pos.felt[i][j]<0 ? schrift_rot : schrift_blau)
                  << ((i+j)%2==0 ? hintergrund_schwarz : hintergrund_weiss)
-                 << zeichen(felt[i][j])
+                 << zeichen(pos.felt[i][j])
                  << reset;
         }
         cout << "|\n";  

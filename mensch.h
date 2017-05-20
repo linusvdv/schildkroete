@@ -1,5 +1,4 @@
-#include <array>
+#include "types.h" 
 
-using namespace std;
+void mensch(position& pos, zuege& zug);
 
-bool mensch(array<int,4>& zahl, int felt[8][8], int farbe, int enpassent);
