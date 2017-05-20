@@ -13,7 +13,7 @@ bool stet_der_koenig_schach(position& pos){
 
     for(int i=0; i<8; i++)
         for(int j=0; j<8; j++){
-            if(pos.felt[i][j]==5*pos.farbe){
+            if(pos.felt[i][j]==-5*pos.farbe){
                 zug.Zahl[2]=i;
                 zug.Zahl[3]=j;
             }
