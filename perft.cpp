@@ -31,7 +31,7 @@ int perft(position& pos, int tiefe, int drucktiefe){
                             continue;
                         int k=perft(pos2, tiefe-1, drucktiefe);
                         if(tiefe==drucktiefe)
-                            cout << char('A'+zug.Zahl[1]) << zug.Zahl[0]+1 << char('A'+zug.Zahl[3]) << zug.Zahl[2]+1 << " " << k << "\n";
+                            cout << char('a'+zug.Zahl[1]) << zug.Zahl[0]+1 << char('a'+zug.Zahl[3]) << zug.Zahl[2]+1 << " " << k << "\n";
                         zaehler+=k;
                     }
                 }
