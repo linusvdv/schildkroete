@@ -118,12 +118,14 @@ void FEN_leser(position& pos){
     was+=1;
 
     //enpassent
-    if(cppin[was]=='-')
-        pos.enpassent[0]=8;
+    if(cppin[was]=='-'){
+        pos.enpassent[0]=0;
+        pos.enpassent[1]=0;
+    }
     else{
+        pos.enpassent[0]=int(cppin[was])-int('a');
+        pos.enpassent[1]=2;
         was+=1;
-        pos.enpassent[0]=int(cppin[was])-int('0');
-        pos.enpassent[1]=1;
     }
     was+=2;
 

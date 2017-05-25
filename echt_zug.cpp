@@ -56,15 +56,15 @@ int promovieren(position& pos, zuege& zug, bool ifcompi){
 
 bool wegnemen_von_enpassent(position& pos, zuege& zug){
     if(pos.farbe== 1)
-        if(pos.felt[4][zug.enpassent]==-6)
+        if(pos.felt[4][pos.enpassent[0]]==-6)
             if(zug.Zahl[0]==4){
-                pos.felt[4][zug.enpassent]=0;
+                pos.felt[4][pos.enpassent[0]]=0;
                 return true;
             }
     if(pos.farbe==-1)
-        if(pos.felt[3][zug.enpassent]== 6)
+        if(pos.felt[3][pos.enpassent[0]]== 6)
             if(zug.Zahl[0]==3){
-                pos.felt[3][zug.enpassent]=0;
+                pos.felt[3][pos.enpassent[0]]=0;
                 return true;
             }
     return false;
@@ -105,7 +105,7 @@ bool bauer(position& pos, zuege& zug, bool ifcompi){
             }
         }
     }
-    if(zug.Zahl[3]==pos.enpassent[0]){
+    if(zug.Zahl[3]==pos.enpassent[0] && pos.enpassent[1]==2){
         if((zug.Zahl[0]==(zug.Zahl[2]-pos.farbe)) && (zug.Zahl[1]==(zug.Zahl[3]-1))){
             if(wegnemen_von_enpassent(pos, zug)==true)
                 return true;

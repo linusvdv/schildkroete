@@ -27,6 +27,10 @@ int perft(position& pos, int tiefe, int drucktiefe){
                         pos2.felt[zug.Zahl[2]][zug.Zahl[3]]=pos2.felt[zug.Zahl[0]][zug.Zahl[1]];
                         pos2.felt[zug.Zahl[0]][zug.Zahl[1]]=0;
                         pos2.farbe*=-1;
+                        if(pos2.enpassent[1]==2)
+                            pos2.enpassent[1]=0;
+                        if(pos2.enpassent[1]==1)
+                            pos2.enpassent[1]=2;
                         if(stet_der_koenig_schach(pos2)==true)
                             continue;
                         int k=perft(pos2, tiefe-1, drucktiefe);
