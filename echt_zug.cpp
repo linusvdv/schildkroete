@@ -28,6 +28,7 @@ int promovieren(position& pos, zuege& zug, bool ifcompi){
         darf_man_promovieren=true;
     if(darf_man_promovieren==true){
         if(ifcompi==true){
+            zug.promotion=1;
             random_device generator;
             uniform_int_distribution<int> distribution(1,4);
             return pos.farbe*distribution(generator);
