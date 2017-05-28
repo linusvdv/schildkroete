@@ -1,4 +1,5 @@
 #include <iostream>
+#include <string>
 #include <random>
 #include <array>
 
@@ -16,13 +17,19 @@ using namespace std;
 int main(){
     position pos;
     zuege zug;
-    FEN_leser(pos);
 
+    FEN_leser(pos);
     feld(pos);
 
     int perfttiefe;
     cin >> perfttiefe;
-    cout << perft(pos, perfttiefe, perfttiefe) << "\n";
+    cout << perft(pos, perfttiefe, perfttiefe) << " = perft\n";
+
+    string befehl;
+    cin >> befehl;
+    if (befehl == "quit")
+       return 0;
+
     default_random_engine generator;
     uniform_int_distribution<int> distribution(0, 10000);
     for(;;){
