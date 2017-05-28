@@ -31,7 +31,7 @@ int perft(position& pos, int tiefe, int drucktiefe){
                             pos2.enpassent[1]=0;
                         if(pos2.enpassent[1]==1)
                             pos2.enpassent[1]=2;
-                        if(stet_der_koenig_schach(pos2)==true)
+                        if(stet_der_koenig_schach(pos2, 8, 8)==true)
                             continue;
                         int k=perft(pos2, tiefe-1, drucktiefe);
                         if(tiefe==drucktiefe)
