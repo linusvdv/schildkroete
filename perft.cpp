@@ -19,6 +19,8 @@ int perft(position& pos, int tiefe, int drucktiefe){
     int zaehler=0;
     for(zug.Zahl[0]=0; zug.Zahl[0]<8; zug.Zahl[0]++)
         for(zug.Zahl[1]=0; zug.Zahl[1]<8; zug.Zahl[1]++)
+        {
+            if (pos.felt[zug.Zahl[0]][zug.Zahl[1]]*pos.farbe<=0) continue;
             for(zug.Zahl[2]=0; zug.Zahl[2]<8; zug.Zahl[2]++)
                 for(zug.Zahl[3]=0; zug.Zahl[3]<8; zug.Zahl[3]++)
                 {
@@ -56,5 +58,6 @@ int perft(position& pos, int tiefe, int drucktiefe){
                         zaehler+=k;
                     }
                 }
+       }
     return zaehler;
 }
