@@ -27,12 +27,8 @@ int promovieren(position& pos, zuege& zug, bool ifcompi){
     if((zug.Zahl[2]==7) && (pos.farbe== 1))
         darf_man_promovieren=true;
     if(darf_man_promovieren==true){
-        if(ifcompi==true){
+        if(ifcompi==true)
             zug.promotion=1;
-            random_device generator;
-            uniform_int_distribution<int> distribution(1,4);
-            return pos.farbe*distribution(generator);
-        }
         else{
             char zu_was_man_promovieren_will;
             cin >> zu_was_man_promovieren_will;
@@ -59,13 +55,13 @@ bool wegnemen_von_enpassent(position& pos, zuege& zug){
     if(pos.farbe== 1)
         if(pos.felt[4][pos.enpassent[0]]==-6)
             if(zug.Zahl[0]==4){
-                pos.felt[4][pos.enpassent[0]]=0;
+                zug.enpassent[2]=true;
                 return true;
             }
     if(pos.farbe==-1)
         if(pos.felt[3][pos.enpassent[0]]== 6)
             if(zug.Zahl[0]==3){
-                pos.felt[3][pos.enpassent[0]]=0;
+                zug.enpassent[2]=true;
                 return true;
             }
     return false;
@@ -108,12 +104,14 @@ bool bauer(position& pos, zuege& zug, bool ifcompi){
     }
     if(zug.Zahl[3]==pos.enpassent[0] && pos.enpassent[1]==2){
         if((zug.Zahl[0]==(zug.Zahl[2]-pos.farbe)) && (zug.Zahl[1]==(zug.Zahl[3]-1))){
+            if(wegnemen_von_enpassent(pos, zug)==true){
+                return true;
+            }
+        }
+        else if((zug.Zahl[0]==(zug.Zahl[2]-pos.farbe)) && (zug.Zahl[1]==(zug.Zahl[3]+1))){
             if(wegnemen_von_enpassent(pos, zug)==true)
                 return true;
         }
-        else if((zug.Zahl[0]==(zug.Zahl[2]-pos.farbe)) && (zug.Zahl[1]==(zug.Zahl[3]+1)))
-            if(wegnemen_von_enpassent(pos, zug)==true)
-                return true;
     }
     return false;
 }
@@ -209,7 +207,7 @@ bool pferd(position& pos, zuege& zug){
     return false;
 }
 
-bool echt_zug(position& pos, zuege& zug, bool ifcompi){
+bool echt_zug(position& pos, zuege& zug, bool ifcompi, bool scachstehen){
     for(int i=0; i<4; i++)
         if(!(zug.Zahl[i]>=0) && !(zug.Zahl[i]<8)){
             if(ifcompi==false)
@@ -228,8 +226,7 @@ bool echt_zug(position& pos, zuege& zug, bool ifcompi){
                     break;
                 case  5:
                 case -5:
-                    if(   (Koenig(pos, zug)==true)
-                       || (rokade(pos, zug)==true))
+                    if((Koenig(pos, zug)==true) || (scachstehen==false ? rokade(pos, zug)==true : scachstehen==false))
                         return true;
                     break;
                 case  4:

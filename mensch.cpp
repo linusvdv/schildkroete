@@ -17,5 +17,5 @@ void mensch(position& pos, zuege& zug){
         zug.Zahl[3]=helfer[1];
         for(int i=0; i<4; i++)
             zug.Zahl[i]-=1;
-    }while(echt_zug(pos, zug, false)==false);
+    }while(echt_zug(pos, zug, false, false)==false);
 }

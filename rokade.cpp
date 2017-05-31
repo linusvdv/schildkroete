@@ -7,9 +7,6 @@
 using namespace std;
 
 void testen_ob_man_es_darf(position& pos){
-    //static = anfang true wen es sich endert zu false dann bleibt es false.
-    //o = w = weis
-    //x = s = schwarz 
     if(pos.felt[0][0]!=3)
         pos.rokaden[1] = false;
     if(pos.felt[0][4]!=5){
@@ -38,8 +35,7 @@ bool rokade(position& pos, zuege& zug){
         && ((zug.Zahl[2]==0) && (zug.Zahl[3]==2)))
             if((pos.felt[0][1]==0) && (pos.felt[0][2]==0) && (pos.felt[0][3]==0) && (stet_der_koenig_schach(pos2, 0, 3)==false) && (stet_der_koenig_schach(pos2, 0, 4)==false))
                 if(pos.rokaden[1]==true){
-                    pos.felt[0][3]= 3;
-                    pos.felt[0][0]= 0;
+                    zug.rokaden=2;
                     return true;
                 }
 
@@ -47,8 +43,7 @@ bool rokade(position& pos, zuege& zug){
         && ((zug.Zahl[2]==0) && (zug.Zahl[3]==6)))
             if((pos.felt[0][5]==0) && (pos.felt[0][6]==0) && (stet_der_koenig_schach(pos2, 0, 4)==false) && (stet_der_koenig_schach(pos2, 0, 5)==false))
                 if(pos.rokaden[0]==true){
-                    pos.felt[0][7]= 0;
-                    pos.felt[0][5]= 3;
+                    zug.rokaden=1;
                     return true;
                 }
         return false;
@@ -57,8 +52,7 @@ bool rokade(position& pos, zuege& zug){
     && ((zug.Zahl[2]==7) && (zug.Zahl[3]==2)))
         if((pos.felt[7][1]==0) && (pos.felt[7][2]==0) && (pos.felt[7][3]==0) && (stet_der_koenig_schach(pos2, 7, 3)==false) && (stet_der_koenig_schach(pos2, 7, 4)==false))
             if(pos.rokaden[3]==true){
-                pos.felt[7][3]=-3;
-                pos.felt[7][0]= 0;
+                zug.rokaden=4;
                 return true;
             }
 
@@ -66,8 +60,7 @@ bool rokade(position& pos, zuege& zug){
     && ((zug.Zahl[2]==7) && (zug.Zahl[3]==6)))
         if((pos.felt[7][5]==0) && (pos.felt[7][6]==0) && (stet_der_koenig_schach(pos2, 7, 4)==false) && (stet_der_koenig_schach(pos2, 7, 5)==false))
             if(pos.rokaden[2]==true){
-                pos.felt[7][7]= 0;
-                pos.felt[7][5]=-3;
+                zug.rokaden=3;
                 return true;
             }
     return false;

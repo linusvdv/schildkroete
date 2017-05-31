@@ -9,7 +9,7 @@ struct position {
     array<array<int,8>,8> felt;
     int farbe;
     array<bool,4> rokaden;
-    array<int,2> enpassent;
+    array<int, 2> enpassent;
     int fuenfzigzuege;
     int zugtiefe;
 };
@@ -17,8 +17,8 @@ struct position {
 struct zuege {
     array<int,4> Zahl;
     int promotion;
-    int geschlagen;
-    bool enpassent;
+    array<int, 3> enpassent;
+    int rokaden;
 };
 
 #endif

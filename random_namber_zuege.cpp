@@ -19,7 +19,7 @@ void random_namber_zuege(position& pos, zuege& zug, int random){
                 for(zug.Zahl[3]=0; zug.Zahl[3]<8; zug.Zahl[3]++)
                 {
                     pos2=pos;
-                    if(echt_zug(pos2, zug, true)==true)
+                    if(echt_zug(pos2, zug, true, false)==true)
                         moegliche_zuege.push_back(zug);
                 }
 

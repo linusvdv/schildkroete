@@ -5,7 +5,7 @@
 
 using namespace std;
 
-char zeichen(int felt){
+char zeichen(int felt) {
     switch(felt){
         case  0:
             return ' ';
