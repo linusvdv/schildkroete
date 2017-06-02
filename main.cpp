@@ -6,11 +6,11 @@
 #include "types.h"
 #include "mensch.h"
 #include "feld.h"
-#include "drei_zuege_wiederholung.h"
+#include "alleZuege.h"
 #include "FEN_leser.h"
-#include "random_namber_zuege.h"
 #include "perft.h"
-#include "rokade.h"
+#include "drei_zuege_wiederholung.h"
+#include "zugmacher.h"
 
 using namespace std;
 
@@ -26,12 +26,11 @@ int main(){
     cout << perft(pos, perfttiefe, perfttiefe) << " = perft\n";
 
     string befehl;
+    string gegenwehr;
     cin >> befehl;
     if (befehl == "quit")
        return 0;
-
-    default_random_engine generator;
-    uniform_int_distribution<int> distribution(0, 10000);
+    cin >> gegenwehr;
     for(;;){
         feld(pos);
         int koenige=0;
@@ -46,19 +45,30 @@ int main(){
         if(pos.farbe==1)
             pos.zugtiefe+=1;
         cout << pos.zugtiefe << "\n";
-        
-        mensch(pos, zug);
-        //if(random_namber_zuege(felt, Zahl, farbe, enpassenttester, distribution(generator))==true)
-
-        pos.fuenfzigzuege+=1;
-        if(pos.felt[zug.Zahl[2]][zug.Zahl[3]] != 0)
-            pos.fuenfzigzuege=0;
-        if(pos.fuenfzigzuege==100)
-            break;
-        pos.felt[zug.Zahl[2]][zug.Zahl[3]] = pos.felt[zug.Zahl[0]][zug.Zahl[1]];
-        pos.felt[zug.Zahl[0]][zug.Zahl[1]] = 0;
-        pos.farbe*=-1;
-        cin.sync();
-        cin.get();
+        if(pos.farbe== 1){
+//            if(befehl=="s")
+            if(befehl=="m")
+                mensch(pos, zug);
+            if(befehl=="r"){
+                vector<zuege> zugliste = alleZuege(pos);
+                random_device generator;
+                uniform_int_distribution<int> distribution(0, zugliste.size()-1);
+                zug=zugliste[distribution(generator)];
+            }
+        }
+        if(pos.farbe==-1){
+//            if(gegenwehr=="s")
+            if(gegenwehr=="m")
+                mensch(pos, zug);
+            if(gegenwehr=="r"){
+                vector<zuege> zugliste = alleZuege(pos);
+                random_device generator;
+                uniform_int_distribution<int> distribution(0, zugliste.size()-1);
+                zug=zugliste[distribution(generator)];
+            }
+        }
+        zugmacher(pos, zug);
+        // cin.sync();
+        // cin.get();
     }
 }

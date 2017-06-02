@@ -14,7 +14,7 @@ int perft(position& pos, int tiefe, int drucktiefe){
 
     int zaehler=0;
     vector<zuege> zugliste = alleZuege(pos);
-    
+
     for(auto& zug : zugliste){
         position pos2 = pos;
         zugmacher(pos2, zug);
