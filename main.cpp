@@ -12,6 +12,7 @@
 #include "drei_zuege_wiederholung.h"
 #include "zugmacher.h"
 #include "suche.h"
+#include "stet_der_koenig_schach.h"
 
 using namespace std;
 
@@ -34,19 +35,24 @@ int main(){
        return 0;
     cin >> gegenwehr;
     for(;;){
-        feld(pos);
-        int koenige=0;
-        for(int i=0; i<8; i++)
-            for(int j=0; j<8; j++)
-                if(pos.felt[i][j]==5*pos.farbe)
-                    koenige+=1;
-        if(koenige==0)
-            break;
-        if(drei_zuege_wiederholung(pos)==true)
-            break;
         if(pos.farbe==1)
             pos.zugtiefe+=1;
         cout << pos.zugtiefe << "\n";
+        feld(pos);
+        if(alleZuege(pos).size()==0){
+            pos.farbe*=-1;
+            if(stet_der_koenig_schach(pos, 8, 8)==true){
+                if (pos.farbe>0)
+                   cout << "1-0\n";
+                else
+                   cout << "0-1\n";
+            }
+            else
+                cout << "1/2-1/2\n";
+            break;
+        }
+        if(drei_zuege_wiederholung(pos)==true)
+            break;
         if(pos.farbe== 1){
             if(befehl=="s")
                 wert=miniMax(pos, 4, 4, zug);

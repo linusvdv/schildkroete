@@ -54,7 +54,7 @@ void feld(position pos){
                  << zeichen(pos.felt[i][j])
                  << reset;
         }
-        cout << "|\n";  
+        cout << "|\n";
     }
-    cout << "   A B C D E F G H\n\n";
+    cout << "   A B C D E F G H " << (pos.farbe<0 ? schrift_rot : schrift_blau) << "O" << reset << "\n\n";
 }

@@ -33,10 +33,10 @@ int bewertung(const position& pos){
                     gute-=900;
                     break;
                 case  6:
-                    gute+=100;
+                    gute+=100+i;
                     break;
                 case -6:
-                    gute-=100;
+                    gute-=100+(7-i);
                     break;
             }
     if(stet_der_koenig_schach(pos, 8, 8))

@@ -18,7 +18,7 @@ int miniMax(position& pos, int tiefe, int ausgabe, zuege& besterZug){
        position pos2 = pos;
        pos2.farbe*=-1;
        if(stet_der_koenig_schach(pos2, 8, 8)==true)
-          return (100000+tiefe)*pos2.farbe;
+          return -(100000+tiefe);
        else
           return 0;
     }
