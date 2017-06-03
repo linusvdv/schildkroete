@@ -26,6 +26,28 @@ void mensch(position& pos, zuege& zug){
             if(zug.Zahl==zug2.Zahl){
                 echt=true;
                 zug=zug2;
+                if(zug.promotion!=0){
+                    char inwas;
+                    cin >> inwas;
+                    switch(inwas){
+                       case 'n':
+                       case 'N':
+                           zug.promotion=1*pos.farbe;
+                           break;
+                       case 'b':
+                       case 'B':
+                           zug.promotion=2*pos.farbe;
+                           break;
+                       case 'r':
+                       case 'R':
+                           zug.promotion=3*pos.farbe;
+                           break;
+                       default :
+                           zug.promotion=4*pos.farbe;
+                           break;
+
+                    }
+                }
                 break;
             }
     }while(echt==false);
