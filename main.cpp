@@ -11,6 +11,7 @@
 #include "perft.h"
 #include "drei_zuege_wiederholung.h"
 #include "zugmacher.h"
+#include "suche.h"
 
 using namespace std;
 
@@ -25,6 +26,7 @@ int main(){
     cin >> perfttiefe;
     cout << perft(pos, perfttiefe, perfttiefe) << " = perft\n";
 
+    int wert;
     string befehl;
     string gegenwehr;
     cin >> befehl;
@@ -46,7 +48,8 @@ int main(){
             pos.zugtiefe+=1;
         cout << pos.zugtiefe << "\n";
         if(pos.farbe== 1){
-//            if(befehl=="s")
+            if(befehl=="s")
+                wert=miniMax(pos, 4, 4, zug);
             if(befehl=="m")
                 mensch(pos, zug);
             if(befehl=="r"){
@@ -54,10 +57,12 @@ int main(){
                 random_device generator;
                 uniform_int_distribution<int> distribution(0, zugliste.size()-1);
                 zug=zugliste[distribution(generator)];
+                wert=0;
             }
         }
         if(pos.farbe==-1){
-//            if(gegenwehr=="s")
+            if(gegenwehr=="s")
+                wert=-miniMax(pos, 4, 4, zug);
             if(gegenwehr=="m")
                 mensch(pos, zug);
             if(gegenwehr=="r"){
@@ -65,9 +70,11 @@ int main(){
                 random_device generator;
                 uniform_int_distribution<int> distribution(0, zugliste.size()-1);
                 zug=zugliste[distribution(generator)];
+                wert=0;
             }
         }
         zugmacher(pos, zug);
+        cout << "Wert: " << wert << endl;
         // cin.sync();
         // cin.get();
     }
