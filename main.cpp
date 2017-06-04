@@ -27,6 +27,7 @@ int main(){
     cin >> perfttiefe;
     cout << perft(pos, perfttiefe, perfttiefe) << " = perft\n";
 
+    int spieltiefe = 4;
     int wert;
     string befehl;
     string gegenwehr;
@@ -56,7 +57,7 @@ int main(){
         wert=0;
         if(pos.farbe== 1){
             if(befehl=="s"){
-                wert=miniMax(pos, 4, 4, zug);
+                wert=miniMax(pos, spieltiefe, spieltiefe, zug);
                 cout << char('a'+zug.Zahl[1]) << zug.Zahl[0]+1 << char('a'+zug.Zahl[3]) << zug.Zahl[2]+1 << "\n";
             }
             if(befehl=="m")
@@ -71,7 +72,7 @@ int main(){
         }
         if(pos.farbe==-1){
             if(gegenwehr=="s"){
-                wert=-miniMax(pos, 4, 4, zug);
+                wert=-miniMax(pos, spieltiefe, spieltiefe, zug);
                 cout << char('a'+zug.Zahl[1]) << zug.Zahl[0]+1 << char('a'+zug.Zahl[3]) << zug.Zahl[2]+1 << "\n";
 
             }
@@ -88,6 +89,7 @@ int main(){
         }
         zugmacher(pos, zug);
         cout << "Wert: " << wert << endl;
+        // warten auf enter
         // cin.sync();
         // cin.get();
     }

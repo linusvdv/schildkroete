@@ -20,10 +20,10 @@ vector<zuege> alleZuege(const position& pos){
                 for(zug.Zahl[3]=0; zug.Zahl[3]<8; zug.Zahl[3]++)
                     for(zug.Zahl[2]=0; zug.Zahl[2]<8; zug.Zahl[2]++)
                     {
-                        pos2 = pos;
                         zug2 = zug;
-                        if(echt_zug(pos2, zug2, false)==true)
+                        if(echt_zug(pos, zug2, false)==true)
                         {
+                            pos2 = pos;
                             if(zug2.promotion==1){
                                 for(int i=1; i<=4; i++){
                                     zug2.promotion=i*pos2.farbe;

@@ -181,9 +181,6 @@ bool pferd(const position& pos, zuege& zug){
 }
 
 bool echt_zug(const position& pos, zuege& zug, bool scachstehen){
-    for(int i=0; i<4; i++)
-        if(!(zug.Zahl[i]>=0) && !(zug.Zahl[i]<8))
-            return false;
     if(farben(pos.felt[zug.Zahl[0]][zug.Zahl[1]], pos.farbe)==true){
         if(!((zug.Zahl[0]==zug.Zahl[2]) && (zug.Zahl[1]==zug.Zahl[3]))){
             switch(pos.felt[zug.Zahl[0]][zug.Zahl[1]]){

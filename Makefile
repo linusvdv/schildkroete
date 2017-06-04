@@ -7,8 +7,13 @@ ifeq ($(opt),yes)
   CXXFLAGS=-Wall -Wextra -g3 -O3 -flto -std=c++11
   LDFLAGS=-g3 -O3 -flto -std=c++11
 else
-  CXXFLAGS=-Wall -Wextra -g3 -O0 -std=c++11
-  LDFLAGS=-g3 -O0 -std=c++11
+  ifeq ($(opt),nolto)
+    CXXFLAGS=-Wall -Wextra -g3 -O3 -std=c++11
+    LDFLAGS=-g3 -O3 -std=c++11
+  else
+    CXXFLAGS=-Wall -Wextra -g3 -O0 -std=c++11
+    LDFLAGS=-g3 -O0 -std=c++11
+  endif
 endif
 
 LDLIBS=
