@@ -1,12 +1,6 @@
-#include <random>
-#include <iostream>
-
 #include "types.h"
 #include "echt_zug.h"
 #include "rokade.h"
-#include "FEN_leser.h"
-
-using namespace std;
 
 bool farben(int felt, int farbe){
     if(farbe== 1)
@@ -20,38 +14,17 @@ bool farben(int felt, int farbe){
      return false;
 }
 
-int promovieren(position& pos, zuege& zug, bool ifcompi){
+void promovieren(const position& pos, zuege& zug){
     bool darf_man_promovieren=false;
     if((zug.Zahl[2]==0) && (pos.farbe==-1))
         darf_man_promovieren=true;
     if((zug.Zahl[2]==7) && (pos.farbe== 1))
         darf_man_promovieren=true;
-    if(darf_man_promovieren==true){
-        if(ifcompi==true)
+    if(darf_man_promovieren==true)
             zug.promotion=1;
-        else{
-            char zu_was_man_promovieren_will;
-            cin >> zu_was_man_promovieren_will;
-            switch(zu_was_man_promovieren_will){
-                case 'q':
-                case 'Q':
-                    return pos.farbe*4;
-                case 'r':
-                case 'R':
-                    return pos.farbe*3;
-                case 'n':
-                case 'N':
-                    return pos.farbe;
-                case 'b':
-                case 'B':
-                    return pos.farbe*2;
-            }
-        }
-    }
-    return pos.farbe*6;
 }
 
-bool wegnemen_von_enpassent(position& pos, zuege& zug){
+bool wegnemen_von_enpassent(const position& pos, zuege& zug){
     if(pos.farbe== 1)
         if(pos.felt[4][pos.enpassent[0]]==-6)
             if(zug.Zahl[0]==4){
@@ -67,36 +40,36 @@ bool wegnemen_von_enpassent(position& pos, zuege& zug){
     return false;
 }
 
-bool bauer(position& pos, zuege& zug, bool ifcompi){
+bool bauer(const position& pos, zuege& zug){
     if(farben(pos.felt[zug.Zahl[2]][zug.Zahl[3]], pos.farbe*-1)==true){
         if((zug.Zahl[0]==(zug.Zahl[2]-pos.farbe)) && (zug.Zahl[1]==(zug.Zahl[3]-1))){
-            pos.felt[zug.Zahl[0]][zug.Zahl[1]] = promovieren(pos, zug, ifcompi);
+            promovieren(pos, zug);
             return true;
         }
         else if((zug.Zahl[0]==(zug.Zahl[2]-pos.farbe)) && (zug.Zahl[1]==(zug.Zahl[3]+1))){
-            pos.felt[zug.Zahl[0]][zug.Zahl[1]] = promovieren(pos, zug, ifcompi);
+            promovieren(pos, zug);
             return true;
         }
     }
     if(pos.felt[zug.Zahl[2]][zug.Zahl[3]]==0){
         if(zug.Zahl[1]==zug.Zahl[3]){
             if(zug.Zahl[0]==(zug.Zahl[2]-pos.farbe)){
-                pos.felt[zug.Zahl[0]][zug.Zahl[1]] = promovieren(pos, zug, ifcompi);
+                promovieren(pos, zug);
                 return true;
             }
             if((zug.Zahl[0]==1) && (pos.farbe== 1) &&
                (pos.felt[2][zug.Zahl[1]]==0)){
                 if(zug.Zahl[0]==(zug.Zahl[2]-2)){
-                    pos.enpassent[1]=1;
-                    pos.enpassent[0]=zug.Zahl[1];
+                    zug.enpassent[1]=1;
+                    zug.enpassent[0]=zug.Zahl[1];
                     return true;
                 }
             }
             if((zug.Zahl[0]==6) && (pos.farbe==-1) &&
                (pos.felt[5][zug.Zahl[1]]==0)){
                 if(zug.Zahl[0]==(zug.Zahl[2]+2)){
-                    pos.enpassent[1]=1;
-                    pos.enpassent[0]=zug.Zahl[1];
+                    zug.enpassent[1]=1;
+                    zug.enpassent[0]=zug.Zahl[1];
                     return true;
                 }
             }
@@ -116,7 +89,7 @@ bool bauer(position& pos, zuege& zug, bool ifcompi){
     return false;
 }
 
-bool Koenig(position& pos, zuege& zug){
+bool Koenig(const position& pos, zuege& zug){
     if(farben(pos.felt[zug.Zahl[2]][zug.Zahl[3]], pos.farbe)==false)
         for(int i=-1; i<=1; i++)
             for(int j=-1; j<=1; j++)
@@ -125,7 +98,7 @@ bool Koenig(position& pos, zuege& zug){
     return false;
 }
 
-bool turm(position& pos, zuege& zug){
+bool turm(const position& pos, zuege& zug){
     if(zug.Zahl[0]==zug.Zahl[2]){
         int abstand = zug.Zahl[1]-zug.Zahl[3]+1;
         if(zug.Zahl[1]-zug.Zahl[3]>0)
@@ -153,7 +126,7 @@ bool turm(position& pos, zuege& zug){
     return false;
 }
 
-bool leufer(position& pos, zuege& zug){
+bool leufer(const position& pos, zuege& zug){
     int abstand[2]={zug.Zahl[0]-zug.Zahl[2], zug.Zahl[1]-zug.Zahl[3]}; 
     if(abstand[0]==abstand[1]){
         if(zug.Zahl[0]-zug.Zahl[2]>0){
@@ -195,7 +168,7 @@ bool leufer(position& pos, zuege& zug){
     return false;
 }
 
-bool pferd(position& pos, zuege& zug){
+bool pferd(const position& pos, zuege& zug){
     if(farben(pos.felt[zug.Zahl[2]][zug.Zahl[3]], pos.farbe)==false)
         for(int i : {-2, 2})
             for(int j : {-1, 1}){
@@ -207,22 +180,17 @@ bool pferd(position& pos, zuege& zug){
     return false;
 }
 
-bool echt_zug(position& pos, zuege& zug, bool ifcompi, bool scachstehen){
+bool echt_zug(const position& pos, zuege& zug, bool scachstehen){
     for(int i=0; i<4; i++)
-        if(!(zug.Zahl[i]>=0) && !(zug.Zahl[i]<8)){
-            if(ifcompi==false)
-                 cout << "du darfst das nicht machen.\n";
+        if(!(zug.Zahl[i]>=0) && !(zug.Zahl[i]<8))
             return false;
-        }
     if(farben(pos.felt[zug.Zahl[0]][zug.Zahl[1]], pos.farbe)==true){
         if(!((zug.Zahl[0]==zug.Zahl[2]) && (zug.Zahl[1]==zug.Zahl[3]))){
             switch(pos.felt[zug.Zahl[0]][zug.Zahl[1]]){
                 case  6:
                 case -6:
-                    if(bauer(pos, zug, ifcompi)==true){
-                        pos.fuenfzigzuege=0;
+                    if(bauer(pos, zug)==true)
                         return true;
-                    }
                     break;
                 case  5:
                 case -5:
@@ -253,7 +221,5 @@ bool echt_zug(position& pos, zuege& zug, bool ifcompi, bool scachstehen){
                 }
             }
         }
-    if(ifcompi==false)
-        cout << "du darfst das nicht machen\n";
     return false;
 }

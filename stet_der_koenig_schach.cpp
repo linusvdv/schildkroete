@@ -29,7 +29,7 @@ bool stet_der_koenig_schach(position pos, int zeile, int spalte){
         for(zug.Zahl[1]=0; zug.Zahl[1]<8; zug.Zahl[1]++)
          {
             pos2 = pos;
-            if(echt_zug(pos2, zug, true, true)==true)
+            if(echt_zug(pos2, zug, true)==true)
             {
                 schach=true;
                 break;

@@ -1,10 +1,6 @@
-#include <iostream>
-
 #include "rokade.h"
 #include "stet_der_koenig_schach.h"
 #include "types.h"
-
-using namespace std;
 
 void testen_ob_man_es_darf(position& pos){
     if(pos.felt[0][0]!=3)
@@ -26,8 +22,7 @@ void testen_ob_man_es_darf(position& pos){
         pos.rokaden[2] = false;
 }
 
-bool rokade(position& pos, zuege& zug){
-    testen_ob_man_es_darf(pos);
+bool rokade(const position& pos, zuege& zug){
     position pos2 = pos;
     pos2.farbe*=-1;
     if(pos.farbe==1){

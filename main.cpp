@@ -53,9 +53,12 @@ int main(){
         }
         if(drei_zuege_wiederholung(pos)==true)
             break;
+        wert=0;
         if(pos.farbe== 1){
-            if(befehl=="s")
+            if(befehl=="s"){
                 wert=miniMax(pos, 4, 4, zug);
+                cout << char('a'+zug.Zahl[1]) << zug.Zahl[0]+1 << char('a'+zug.Zahl[3]) << zug.Zahl[2]+1 << "\n";
+            }
             if(befehl=="m")
                 mensch(pos, zug);
             if(befehl=="r"){
@@ -63,12 +66,15 @@ int main(){
                 random_device generator;
                 uniform_int_distribution<int> distribution(0, zugliste.size()-1);
                 zug=zugliste[distribution(generator)];
-                wert=0;
+                cout << char('a'+zug.Zahl[1]) << zug.Zahl[0]+1 << char('a'+zug.Zahl[3]) << zug.Zahl[2]+1 << "\n";
             }
         }
         if(pos.farbe==-1){
-            if(gegenwehr=="s")
+            if(gegenwehr=="s"){
                 wert=-miniMax(pos, 4, 4, zug);
+                cout << char('a'+zug.Zahl[1]) << zug.Zahl[0]+1 << char('a'+zug.Zahl[3]) << zug.Zahl[2]+1 << "\n";
+
+            }
             if(gegenwehr=="m")
                 mensch(pos, zug);
             if(gegenwehr=="r"){
@@ -76,7 +82,8 @@ int main(){
                 random_device generator;
                 uniform_int_distribution<int> distribution(0, zugliste.size()-1);
                 zug=zugliste[distribution(generator)];
-                wert=0;
+                cout << char('a'+zug.Zahl[1]) << zug.Zahl[0]+1 << char('a'+zug.Zahl[3]) << zug.Zahl[2]+1 << "\n";
+
             }
         }
         zugmacher(pos, zug);
