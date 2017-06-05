@@ -9,7 +9,7 @@
 #include "alleZuege.h"
 #include "FEN_leser.h"
 #include "perft.h"
-#include "drei_zuege_wiederholung.h"
+#include "istRemis.h"
 #include "zugmacher.h"
 #include "suche.h"
 #include "stet_der_koenig_schach.h"
@@ -52,8 +52,6 @@ int main(){
                 cout << "1/2-1/2\n";
             break;
         }
-        if(drei_zuege_wiederholung(pos)==true)
-            break;
         wert=0;
         if(pos.farbe== 1){
             if(befehl=="s"){
@@ -88,6 +86,10 @@ int main(){
             }
         }
         zugmacher(pos, zug);
+        if(istRemis(pos)==true) {
+            cout << "1/2-1/2\n";
+            break;
+        }
         cout << "Wert: " << wert << endl;
         // warten auf enter
         // cin.sync();

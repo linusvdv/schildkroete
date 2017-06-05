@@ -8,6 +8,11 @@ using namespace std;
 
 void zugmacher(position& pos, const zuege& zug){
 
+    if (pos.felt[zug.Zahl[0]][zug.Zahl[1]]==pos.farbe*6 || pos.felt[zug.Zahl[2]][zug.Zahl[3]]!=0)
+       pos.fuenfzigzuege=0;
+    else
+       pos.fuenfzigzuege++;
+
     pos.farbe*=-1;
     pos.felt[zug.Zahl[2]][zug.Zahl[3]]= zug.promotion!=0 ? zug.promotion : pos.felt[zug.Zahl[0]][zug.Zahl[1]];
     pos.felt[zug.Zahl[0]][zug.Zahl[1]]=0;

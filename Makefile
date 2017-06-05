@@ -20,7 +20,7 @@ LDLIBS=
 EXE=schildkroete
 RM=rm -f
 
-SRCS=mensch.cpp uuebersetzer.cpp drei_zuege_wiederholung.cpp rokade.cpp feld.cpp main.cpp zugmacher.cpp\
+SRCS=mensch.cpp uuebersetzer.cpp istRemis.cpp rokade.cpp feld.cpp main.cpp zugmacher.cpp\
      FEN_leser.cpp  echt_zug.cpp perft.cpp stet_der_koenig_schach.cpp alleZuege.cpp suche.cpp bewertung.cpp
 
 OBJS=$(subst .cpp,.o,$(SRCS))
