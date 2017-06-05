@@ -4,12 +4,12 @@ RM=rm -f
 
 CPPFLAGS=-std=c++11
 ifeq ($(opt),yes)
-  CXXFLAGS=-Wall -Wextra -g3 -O3 -flto -std=c++11
-  LDFLAGS=-g3 -O3 -flto -std=c++11
+  CXXFLAGS=-Wall -Wextra -g3 -O3 -flto -std=c++11 -march=native
+  LDFLAGS=-g3 -O3 -flto -std=c++11 -march=native
 else
   ifeq ($(opt),nolto)
-    CXXFLAGS=-Wall -Wextra -g3 -O3 -std=c++11
-    LDFLAGS=-g3 -O3 -std=c++11
+    CXXFLAGS=-Wall -Wextra -g3 -O3 -std=c++11 -march=native
+    LDFLAGS=-g3 -O3 -std=c++11 -march=native
   else
     CXXFLAGS=-Wall -Wextra -g3 -O0 -std=c++11
     LDFLAGS=-g3 -O0 -std=c++11
