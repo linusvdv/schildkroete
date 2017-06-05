@@ -57,7 +57,7 @@ int main(){
         wert=0;
         if(pos.farbe== 1){
             if(befehl=="s"){
-                wert=miniMax(pos, spieltiefe, spieltiefe, zug);
+                wert=miniMax(pos, spieltiefe, spieltiefe, zug, -1000000000, 1000000000);
                 cout << char('a'+zug.Zahl[1]) << zug.Zahl[0]+1 << char('a'+zug.Zahl[3]) << zug.Zahl[2]+1 << "\n";
             }
             if(befehl=="m")
@@ -72,7 +72,7 @@ int main(){
         }
         if(pos.farbe==-1){
             if(gegenwehr=="s"){
-                wert=-miniMax(pos, spieltiefe, spieltiefe, zug);
+                wert=-miniMax(pos, spieltiefe, spieltiefe, zug, -1000000000, 1000000000);
                 cout << char('a'+zug.Zahl[1]) << zug.Zahl[0]+1 << char('a'+zug.Zahl[3]) << zug.Zahl[2]+1 << "\n";
 
             }

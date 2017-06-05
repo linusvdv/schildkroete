@@ -9,7 +9,7 @@
 #include "alleZuege.h"
 #include "stet_der_koenig_schach.h"
 
-int miniMax(position& pos, int tiefe, int ausgabe, zuege& besterZug){
+int miniMax(position& pos, int tiefe, int ausgabe, zuege& besterZug, int alpha, int beta){
     if (tiefe == 0)
        return bewertung(pos);
 
@@ -23,13 +23,15 @@ int miniMax(position& pos, int tiefe, int ausgabe, zuege& besterZug){
           return 0;
     }
 
-    int maxWert = -1000000000;
+    int maxWert = alpha;
     for(auto& zug : zugliste) {
        position pos2=pos;
        zugmacher(pos2, zug);
-       int wert = -miniMax(pos2, tiefe-1, ausgabe, besterZug);
+       int wert = -miniMax(pos2, tiefe-1, ausgabe, besterZug, -beta, -maxWert);
        if (wert > maxWert) {
           maxWert = wert;
+          if(maxWert>=beta)
+             break;
           if (tiefe == ausgabe)
              besterZug = zug;
        }
