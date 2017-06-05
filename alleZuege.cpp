@@ -28,7 +28,7 @@ vector<zuege> alleZuege(const position& pos){
                                 for(int i=1; i<=4; i++){
                                     zug2.promotion=i*pos2.farbe;
                                     zugmacher(pos2, zug2);
-                                    if(stet_der_koenig_schach(pos2, 8, 8)==true) {
+                                    if(stet_der_koenig_schach(pos2)==true) {
                                         pos2 = pos;
                                         zug2 = zug;
                                         continue;
@@ -41,7 +41,7 @@ vector<zuege> alleZuege(const position& pos){
                                 continue;
                             }
                             zugmacher(pos2, zug2);
-                            if(stet_der_koenig_schach(pos2, 8, 8)==true)
+                            if(stet_der_koenig_schach(pos2)==true)
                                 continue;
                             zugliste.push_back(zug2);
                         }

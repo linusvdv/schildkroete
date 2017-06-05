@@ -42,7 +42,7 @@ int main(){
         feld(pos);
         if(alleZuege(pos).size()==0){
             pos.farbe*=-1;
-            if(stet_der_koenig_schach(pos, 8, 8)==true){
+            if(stet_der_koenig_schach(pos)==true){
                 if (pos.farbe>0)
                    cout << "1-0\n";
                 else

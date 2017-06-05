@@ -18,7 +18,7 @@ int miniMax(position& pos, int tiefe, int ausgabe, zuege& besterZug, int alpha, 
     if (zugliste.size()==0) {
        position pos2 = pos;
        pos2.farbe*=-1;
-       if(stet_der_koenig_schach(pos2, 8, 8)==true)
+       if(stet_der_koenig_schach(pos2)==true)
           return -(100000+tiefe);
        else
           return 0;

@@ -117,7 +117,7 @@ int bewertung(const position& pos){
     if (leufer[0]>1) gute+=10;
     if (leufer[1]>1) gute-=10;
 
-    if(stet_der_koenig_schach(pos, 8, 8))
+    if(stet_der_koenig_schach(pos))
         gute-=1;
 
     gute*=pos.farbe;
