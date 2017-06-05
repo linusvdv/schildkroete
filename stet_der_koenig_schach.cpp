@@ -27,6 +27,7 @@ bool stet_der_koenig_schach(position pos, int zeile, int spalte){
     for(zug.Zahl[0]=0; zug.Zahl[0]<8; zug.Zahl[0]++)
         for(zug.Zahl[1]=0; zug.Zahl[1]<8; zug.Zahl[1]++)
          {
+            if (pos.felt[zug.Zahl[0]][zug.Zahl[1]]*pos.farbe<=0) continue;
             if(echt_zug(pos, zug, true)==true)
             {
                 schach=true;
