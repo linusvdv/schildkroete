@@ -6,7 +6,7 @@
 
 using namespace std;
 
-void feltleser(array<array<int,8>,8>& felt, char cpin){
+void feltleser(feldType& felt, char cpin){
     static int a=7;
     static int b=0;
     switch(cpin){

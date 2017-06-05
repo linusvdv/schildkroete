@@ -5,8 +5,10 @@
 
 using namespace std;
 
+typedef array<array<int,8>,8> feldType;
+
 struct position {
-    array<array<int,8>,8> felt;
+    feldType felt;
     int farbe;
     array<bool,4> rokaden;
     array<int, 2> enpassent;
