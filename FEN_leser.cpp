@@ -14,6 +14,10 @@ void feltleser(feldType& felt, char cpin){
             a-=1;
             b=-1;
             break;
+        case '?':
+            a=7;
+            b=-1;
+            break;
         case '1':
         case '2':
         case '3':
@@ -65,10 +69,8 @@ void feltleser(feldType& felt, char cpin){
     b+=1;
 }
 
-void FEN_leser(position& pos){
+void FEN_leser(position& pos, string cppin){
     unsigned int was=0;
-    string cppin;
-    getline (cin, cppin);
     pos.felt = {};
     if(cppin[0]=='a')
         cppin="rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
@@ -80,6 +82,7 @@ void FEN_leser(position& pos){
             break;
         }
     }
+    feltleser(pos.felt, '?');
     if(cppin[was]=='w')
         pos.farbe= 1;
     if(cppin[was]=='b')

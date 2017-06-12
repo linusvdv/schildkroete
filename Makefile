@@ -16,7 +16,7 @@ else
   endif
 endif
 
-LDLIBS=
+LDLIBS=-lpthread
 EXE=schildkroete
 RM=rm -f
 
