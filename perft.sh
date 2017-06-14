@@ -2,7 +2,7 @@
 
 function perft {
   echo "test $1, tiefe $2"
-  zuege=`printf "$1\n$2\nquit\n" | ./schildkroete | grep "= perft" | awk '{print $1}'`
+  zuege=`printf "position fen $1\nperft $2\nquit\n" | ./schildkroete | grep "= perft" | awk '{print $1}'`
   echo "schildkroete: $zuege , echt $3"
   if [ "$zuege" != "$3" ]; then
      echo "Falsch!"
@@ -12,9 +12,9 @@ function perft {
   fi
 }
 
-perft "a" "3" 8902
-perft "a" "4" 197281
-perft "a" "5" 4865609
+perft "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1" "3" 8902
+perft "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1" "4" 197281
+perft "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1" "5" 4865609
 perft "r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq - 0 0" "3" 97862
 perft "r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq - 0 0" "4" 4085603
 perft "8/2p5/3p4/KP5r/1R3p1k/8/4P1P1/8 w - - 0 0"  5 674624

@@ -34,12 +34,6 @@ int main(){
 
     int spieltiefe = 4;
 
-//    int perfttiefe;
-//    cin >> perfttiefe;
-//    cout << perft(pos, perfttiefe, perfttiefe) << " = perft\n";
-
-    
-
     auto future = std::async(std::launch::async, zeileLeser);
     std::string zeile;
 
@@ -58,15 +52,16 @@ int main(){
                 cout << "id author Linus VandeVondele" << endl;
                 cout << "uciok" << endl;
             }
-            else if(zeile.find("position startpos")!=std::string::npos ||
+            else if(zeile.find("position startpos")!=string::npos ||
                     zeile.find("position fen ")!=string::npos){
-                if (zeile.find("position startpos")!=std::string::npos) {
+                if (zeile.find("position startpos")!=string::npos) {
                     FEN_leser(pos, "a");
                 } else {
                     auto n=zeile.find("position fen ");
-                    auto fen=zeile.substr(n+12);
+                    auto fen=zeile.substr(n+13);
                     FEN_leser(pos, fen);
                 }
+                istRemis(pos);
                 auto n=zeile.find("moves ");
                 if(n!=string::npos) {
                     string moves=zeile.substr(n+6);
@@ -78,6 +73,7 @@ int main(){
                        strIn >> ws;
                        mensch(pos, zug, nextmove);
                        zugmacher(pos, zug);
+                       istRemis(pos);
                     }
                 }
             }
@@ -93,8 +89,14 @@ int main(){
             }
             else if(zeile=="feld")
                 feld(pos);
-           // else if(zeile=="perft")
-
+            else if(zeile.find("perft")!=string::npos) {
+                auto n=zeile.find("perft");
+                string strTiefe=zeile.substr(n+6);
+                istringstream strIn(strTiefe);
+                int perfttiefe;
+                strIn >> perfttiefe;
+                cout << perft(pos, perfttiefe, perfttiefe) << " = perft\n";
+            }
             /*
             else if(zeile=="randomnumber" || zeile=="r"){
                 vector<zuege> zugliste = alleZuege(pos);
