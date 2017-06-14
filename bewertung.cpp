@@ -5,6 +5,8 @@
 #include "types.h"
 #include "stet_der_koenig_schach.h"
 
+uint64_t nodes;
+
 feldType Bauer=   {{       // weiss
                   {{0, 0, 0, 0, 0, 0, 0, 0}},
                   {{2, 2, 2, 0, 0, 2, 2, 2}},
@@ -61,6 +63,7 @@ feldType Koenig=  {{       // weiss
                   }} ;     // schwarz
 
 int bewertung(const position& pos){ 
+    nodes++;
     int gute, leufer[2]={};
     gute=0;
     for(int i=0; i<8; i++)

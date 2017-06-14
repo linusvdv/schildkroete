@@ -10,6 +10,7 @@
 #include "mensch.h"
 #include "feld.h"
 #include "alleZuege.h"
+#include "bewertung.h"
 #include "FEN_leser.h"
 #include "perft.h"
 #include "istRemis.h"
@@ -78,9 +79,14 @@ int main(){
                 }
             }
             else if(zeile.find("go")!=string::npos){
+                nodes=0;
+                std::chrono::time_point<std::chrono::high_resolution_clock> start, stop;
+                start = std::chrono::high_resolution_clock::now();
                 int wert = miniMax(pos, spieltiefe, spieltiefe, zug, -1000000000, 1000000000);
-                cout << "info depth " << spieltiefe << " score cp " << wert << " pv "
-                                    << char('a'+zug.Zahl[1]) << zug.Zahl[0]+1 << char('a'+zug.Zahl[3]) << zug.Zahl[2]+1 << promo(zug) << endl;
+                stop = std::chrono::high_resolution_clock::now();
+                cout << "info depth " << spieltiefe << " score cp " << wert << " nodes " << nodes <<
+                        " time " << std::chrono::duration_cast<std::chrono::milliseconds>(stop-start).count() <<
+                        " pv " << char('a'+zug.Zahl[1]) << zug.Zahl[0]+1 << char('a'+zug.Zahl[3]) << zug.Zahl[2]+1 << promo(zug) << endl;
                 cout << "bestmove " << char('a'+zug.Zahl[1]) << zug.Zahl[0]+1 << char('a'+zug.Zahl[3]) << zug.Zahl[2]+1 << promo(zug) << endl;
                 
             }
