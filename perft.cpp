@@ -4,7 +4,7 @@
 #include "perft.h"
 #include "alleZuege.h"
 #include "zugmacher.h"
-#include "feld.h"
+#include "mensch.h"
 
 using namespace std;
 
@@ -21,7 +21,7 @@ uint64_t perft(position& pos, int tiefe, int drucktiefe){
         uint64_t k = perft(pos2, tiefe-1, drucktiefe);
 
         if(tiefe==drucktiefe)
-            cout << char('a'+zug.Zahl[1]) << zug.Zahl[0]+1 << char('a'+zug.Zahl[3]) << zug.Zahl[2]+1  << zeichen(zug.promotion) << ": " << k << "\n";
+            cout << char('a'+zug.Zahl[1]) << zug.Zahl[0]+1 << char('a'+zug.Zahl[3]) << zug.Zahl[2]+1  << promo(zug) << ": " << k << "\n";
 
         zaehler += k;
 
