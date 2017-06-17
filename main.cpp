@@ -43,7 +43,7 @@ int main(){
             zeile = future.get();
             future = async(launch::async, zeileLeser);
             if(zeile.find("isready")!=string::npos)
-                cout << "readyok\n";
+                cout << "readyok" << endl;
             else if(zeile.find("ucinewgame")!=string::npos) {
                 FEN_leser(pos, "a");
             }
