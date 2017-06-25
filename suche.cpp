@@ -10,11 +10,11 @@
 #include "stet_der_koenig_schach.h"
 #include "istRemis.h"
 
-int miniMax(position& pos, int tiefe, int ausgabe, zuege& besterZug, int alpha, int beta){
+int miniMax(position& pos, int tiefe, int ausgabe, zuege& besterZug, int alpha, int beta, int alphabeta_katofs){
     if (tiefe == 0)
        return bewertung(pos);
 
-    vector<zuege> zugliste = alleZuege(pos);
+    vector<zuege> zugliste = alleZuege(pos, alphabeta_katofs);
     if (zugliste.size()==0) {
        position pos2 = pos;
        pos2.farbe*=-1;
@@ -33,7 +33,7 @@ int miniMax(position& pos, int tiefe, int ausgabe, zuege& besterZug, int alpha, 
            wert = 0;
        }
        else {
-           wert = -miniMax(pos2, tiefe-1, ausgabe, besterZug, -beta, -maxWert);
+           wert = -miniMax(pos2, tiefe-1, ausgabe, besterZug, -beta, -maxWert, alphabeta_katofs);
        }
        if (wert > maxWert) {
           maxWert = wert;

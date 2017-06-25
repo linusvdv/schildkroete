@@ -21,6 +21,7 @@ struct zuege {
     int promotion;
     array<int, 3> enpassent;
     int rokaden;
+    int wert;
 };
 
 #endif
