@@ -122,13 +122,19 @@ vector<zuege> alleZuege(const position& pos, int alphabeta_katofs){
             }
         }
 
-    for(zuege & z : zugliste)
-       if (pos.felt[zug2.Zahl[2]][zug2.Zahl[3]]!=0)
-           z.wert=1*-alphabeta_katofs;
+    for(unsigned int i=0; i<zugliste.size(); i++){
+       if (pos.felt[zugliste[i].Zahl[2]][zugliste[i].Zahl[3]]!=0)
+           zugliste[i].wert+=2;
+       if (pos.felt[zugliste[i].Zahl[0]][zugliste[i].Zahl[1]]==6)
+           zugliste[i].wert+=1;
+    }
+
+    for(unsigned int i=0; i<zugliste.size(); i++)
+       zugliste[i].wert*=alphabeta_katofs;
+
 
     std::sort(zugliste.begin(),zugliste.end(),[](zuege& a, zuege& b) {
         return b.wert < a.wert;   
     });
-
     return zugliste;
 }
