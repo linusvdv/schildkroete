@@ -122,19 +122,13 @@ vector<zuege> alleZuege(const position& pos, int alphabeta_katofs){
             }
         }
 
+    int linie[8]={5, 10, 25, 50, 50, 25, 10, 5};
     for(unsigned int i=0; i<zugliste.size(); i++){
        if (pos.felt[zugliste[i].Zahl[2]][zugliste[i].Zahl[3]]!=0)
            zugliste[i].wert+=200;
        if (pos.felt[zugliste[i].Zahl[0]][zugliste[i].Zahl[1]]==6)
            zugliste[i].wert+=100;
-       if (zugliste[i].Zahl[1]==3 || zugliste[i].Zahl[1]==4)
-           zugliste[i].wert+=50;
-       else if(zugliste[i].Zahl[1]==2 || zugliste[i].Zahl[1]==5)
-           zugliste[i].wert+=25;
-       else if(zugliste[i].Zahl[1]==1 || zugliste[i].Zahl[1]==6)
-           zugliste[i].wert+=10;
-       else if(zugliste[i].Zahl[1]==0 || zugliste[i].Zahl[1]==7)
-           zugliste[i].wert+=5;
+       zugliste[i].wert+=linie[zugliste[i].Zahl[3]];
     }
 
     for(unsigned int i=0; i<zugliste.size(); i++)
