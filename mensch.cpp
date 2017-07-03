@@ -33,7 +33,7 @@ string promo(const zuege& zug) {
 
 void mensch(position& pos, zuege& zug, string vonwonachwo){
     bool echt=false;
-    vector<zuege> zugliste = alleZuege(pos, 1);
+    vector<zuege> zugliste = alleZuege(pos);
 
     do{
         zug.Zahl[1]=int(vonwonachwo[0]-'a');

@@ -13,7 +13,7 @@ uint64_t perft(position& pos, int tiefe, int drucktiefe){
         return 1;
 
     uint64_t zaehler=0;
-    vector<zuege> zugliste = alleZuege(pos, 1);
+    vector<zuege> zugliste = alleZuege(pos);
 
     for(auto& zug : zugliste){
         position pos2 = pos;

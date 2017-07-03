@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <algorithm>
 
 #include "types.h"
 #include "feld.h"
@@ -10,11 +11,38 @@
 #include "stet_der_koenig_schach.h"
 #include "istRemis.h"
 
-int miniMax(position& pos, int tiefe, int ausgabe, zuege& besterZug, int alpha, int beta, int alphabeta_katofs){
+std::array<zuege,100> betaZuege0 = {};
+std::array<zuege,100> betaZuege1 = {};
+
+int miniMax(position& pos, int tiefe, int ausgabe, zuege& besterZug, int alpha, int beta){
     if (tiefe == 0)
        return bewertung(pos);
 
-    vector<zuege> zugliste = alleZuege(pos, alphabeta_katofs);
+    vector<zuege> zugliste = alleZuege(pos);
+
+    int linie[8]={5, 10, 25, 50, 50, 25, 10, 5};
+    for(unsigned int i=0; i<zugliste.size(); i++){
+       if (zugliste[i].Zahl[0]==betaZuege0[tiefe].Zahl[0] &&
+           zugliste[i].Zahl[1]==betaZuege0[tiefe].Zahl[1] &&
+           zugliste[i].Zahl[2]==betaZuege0[tiefe].Zahl[2] &&
+           zugliste[i].Zahl[3]==betaZuege0[tiefe].Zahl[3] ) zugliste[i].wert+=500;
+
+       if (zugliste[i].Zahl[0]==betaZuege1[tiefe].Zahl[0] &&
+           zugliste[i].Zahl[1]==betaZuege1[tiefe].Zahl[1] &&
+           zugliste[i].Zahl[2]==betaZuege1[tiefe].Zahl[2] &&
+           zugliste[i].Zahl[3]==betaZuege1[tiefe].Zahl[3] ) zugliste[i].wert+=300;
+
+       if (pos.felt[zugliste[i].Zahl[2]][zugliste[i].Zahl[3]]!=0)
+           zugliste[i].wert+=200;
+       if (pos.felt[zugliste[i].Zahl[0]][zugliste[i].Zahl[1]]==6)
+           zugliste[i].wert+=100;
+       zugliste[i].wert+=linie[zugliste[i].Zahl[3]];
+    }
+
+    std::sort(zugliste.begin(),zugliste.end(),[](zuege& a, zuege& b) {
+        return b.wert < a.wert;
+    });
+
     if (zugliste.size()==0) {
        position pos2 = pos;
        pos2.farbe*=-1;
@@ -33,12 +61,16 @@ int miniMax(position& pos, int tiefe, int ausgabe, zuege& besterZug, int alpha, 
            wert = 0;
        }
        else {
-           wert = -miniMax(pos2, tiefe-1, ausgabe, besterZug, -beta, -maxWert, alphabeta_katofs);
+           wert = -miniMax(pos2, tiefe-1, ausgabe, besterZug, -beta, -maxWert);
        }
        if (wert > maxWert) {
           maxWert = wert;
           if(maxWert>=beta)
+          {
+             betaZuege1[tiefe]=betaZuege0[tiefe];
+             betaZuege0[tiefe]=zug;
              break;
+          }
           if (tiefe == ausgabe)
              besterZug = zug;
        }

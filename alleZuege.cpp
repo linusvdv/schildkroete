@@ -1,7 +1,6 @@
 #include <iostream>
 #include <vector>
 #include <array>
-#include <algorithm>
 
 #include "echt_zug.h"
 #include "stet_der_koenig_schach.h"
@@ -39,7 +38,7 @@ bool ok(const position& pos, zuege& zug, vector<zuege>& zugliste, int i, int j){
     }
 }
 
-vector<zuege> alleZuege(const position& pos, int alphabeta_katofs){
+vector<zuege> alleZuege(const position& pos){
     zuege zug = {};
     zuege zug2;
     vector<zuege> zugliste;
@@ -122,21 +121,5 @@ vector<zuege> alleZuege(const position& pos, int alphabeta_katofs){
             }
         }
 
-    int linie[8]={5, 10, 25, 50, 50, 25, 10, 5};
-    for(unsigned int i=0; i<zugliste.size(); i++){
-       if (pos.felt[zugliste[i].Zahl[2]][zugliste[i].Zahl[3]]!=0)
-           zugliste[i].wert+=200;
-       if (pos.felt[zugliste[i].Zahl[0]][zugliste[i].Zahl[1]]==6)
-           zugliste[i].wert+=100;
-       zugliste[i].wert+=linie[zugliste[i].Zahl[3]];
-    }
-
-    for(unsigned int i=0; i<zugliste.size(); i++)
-       zugliste[i].wert*=alphabeta_katofs;
-
-
-    std::sort(zugliste.begin(),zugliste.end(),[](zuege& a, zuege& b) {
-        return b.wert < a.wert;   
-    });
     return zugliste;
 }
