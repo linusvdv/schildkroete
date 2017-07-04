@@ -16,6 +16,7 @@ bool stet_der_koenig_schach(const position& pos){
             if(pos.felt[i][j]==-5*pos.farbe){
                 zug.Zahl[2]=i;
                 zug.Zahl[3]=j;
+                i=8; j=8;
             }
         }
     bool schach=false;
