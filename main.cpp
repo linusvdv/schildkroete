@@ -78,6 +78,12 @@ int main(){
                 }
             }
             else if(zeile.find("go")!=string::npos){
+                auto n=zeile.find("depth ");
+                if (n!=string::npos) {
+                    string tiefe=zeile.substr(n+6);
+                    istringstream strIn(tiefe);
+                    strIn >> spieltiefe;
+                }
                 nodes=0;
                 std::chrono::time_point<std::chrono::high_resolution_clock> start, stop;
                 start = std::chrono::high_resolution_clock::now();
