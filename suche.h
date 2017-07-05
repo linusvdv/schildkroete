@@ -1,3 +1,3 @@
 #include "types.h"
 
-int miniMax(position& pos, int tiefe, int ausgabe, zuege& besterZug, int alpha, int beta);
+int miniMax(position& pos, int tiefe, int hoehe, zuege& besterZug, int alpha, int beta);

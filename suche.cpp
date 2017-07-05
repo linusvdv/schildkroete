@@ -14,7 +14,7 @@
 std::array<zuege,100> betaZuege0 = {};
 std::array<zuege,100> betaZuege1 = {};
 
-int miniMax(position& pos, int tiefe, int ausgabe, zuege& besterZug, int alpha, int beta){
+int miniMax(position& pos, int tiefe, int hoehe, zuege& besterZug, int alpha, int beta){
     if (tiefe == 0)
        return bewertung(pos);
 
@@ -22,15 +22,15 @@ int miniMax(position& pos, int tiefe, int ausgabe, zuege& besterZug, int alpha, 
 
     int linie[8]={5, 10, 25, 50, 50, 25, 10, 5};
     for(unsigned int i=0; i<zugliste.size(); i++){
-       if (zugliste[i].Zahl[0]==betaZuege0[tiefe].Zahl[0] &&
-           zugliste[i].Zahl[1]==betaZuege0[tiefe].Zahl[1] &&
-           zugliste[i].Zahl[2]==betaZuege0[tiefe].Zahl[2] &&
-           zugliste[i].Zahl[3]==betaZuege0[tiefe].Zahl[3] ) zugliste[i].wert+=500;
+       if (zugliste[i].Zahl[0]==betaZuege0[hoehe].Zahl[0] &&
+           zugliste[i].Zahl[1]==betaZuege0[hoehe].Zahl[1] &&
+           zugliste[i].Zahl[2]==betaZuege0[hoehe].Zahl[2] &&
+           zugliste[i].Zahl[3]==betaZuege0[hoehe].Zahl[3] ) zugliste[i].wert+=500;
 
-       if (zugliste[i].Zahl[0]==betaZuege1[tiefe].Zahl[0] &&
-           zugliste[i].Zahl[1]==betaZuege1[tiefe].Zahl[1] &&
-           zugliste[i].Zahl[2]==betaZuege1[tiefe].Zahl[2] &&
-           zugliste[i].Zahl[3]==betaZuege1[tiefe].Zahl[3] ) zugliste[i].wert+=300;
+       if (zugliste[i].Zahl[0]==betaZuege1[hoehe].Zahl[0] &&
+           zugliste[i].Zahl[1]==betaZuege1[hoehe].Zahl[1] &&
+           zugliste[i].Zahl[2]==betaZuege1[hoehe].Zahl[2] &&
+           zugliste[i].Zahl[3]==betaZuege1[hoehe].Zahl[3] ) zugliste[i].wert+=300;
 
        if (pos.felt[zugliste[i].Zahl[2]][zugliste[i].Zahl[3]]!=0)
            zugliste[i].wert+=200;
@@ -61,17 +61,17 @@ int miniMax(position& pos, int tiefe, int ausgabe, zuege& besterZug, int alpha, 
            wert = 0;
        }
        else {
-           wert = -miniMax(pos2, tiefe-1, ausgabe, besterZug, -beta, -maxWert);
+           wert = -miniMax(pos2, tiefe-1, hoehe+1, besterZug, -beta, -maxWert);
        }
        if (wert > maxWert) {
           maxWert = wert;
           if(maxWert>=beta)
           {
-             betaZuege1[tiefe]=betaZuege0[tiefe];
-             betaZuege0[tiefe]=zug;
+             betaZuege1[hoehe]=betaZuege0[hoehe];
+             betaZuege0[hoehe]=zug;
              break;
           }
-          if (tiefe == ausgabe)
+          if (hoehe == 0)
              besterZug = zug;
        }
     }

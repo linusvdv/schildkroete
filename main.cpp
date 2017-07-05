@@ -87,7 +87,7 @@ int main(){
                 nodes=0;
                 std::chrono::time_point<std::chrono::high_resolution_clock> start, stop;
                 start = std::chrono::high_resolution_clock::now();
-                int wert = miniMax(pos, spieltiefe, spieltiefe, zug, -1000000000, 1000000000);
+                int wert = miniMax(pos, spieltiefe, 0, zug, -1000000000, 1000000000);
                 stop = std::chrono::high_resolution_clock::now();
                 cout << "info depth " << spieltiefe << " score cp " << wert << " nodes " << nodes <<
                         " time " << std::chrono::duration_cast<std::chrono::milliseconds>(stop-start).count() <<
