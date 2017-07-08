@@ -7,6 +7,7 @@
 #include <future>
 
 #include "types.h"
+#include "hashtable.h"
 #include "mensch.h"
 #include "feld.h"
 #include "alleZuege.h"
@@ -30,9 +31,12 @@ std::string zeileLeser() {
 int main(){
     position pos;
     zuege zug;
+    std::hash<position> hash_fn;
     FEN_leser(pos, "a");
 
-    int spieltiefe = 2;
+    TT.groesseAendern(1024*1024*16);
+
+    int spieltiefe = 6;
 
     auto future = std::async(std::launch::async, zeileLeser);
     std::string zeile;
@@ -73,6 +77,7 @@ int main(){
                        strIn >> ws;
                        mensch(pos, zug, nextmove);
                        zugmacher(pos, zug);
+                       pos.hash = hash_fn(pos);
                        istRemis(pos);
                     }
                 }

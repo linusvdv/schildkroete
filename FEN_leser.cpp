@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 
+#include "hashtable.h"
 #include "FEN_leser.h"
 #include "types.h"
 
@@ -70,6 +71,7 @@ void feltleser(feldType& felt, char cpin){
 }
 
 void FEN_leser(position& pos, string cppin){
+    std::hash<position> hash_fn;
     unsigned int was=0;
     pos.felt = {};
     if(cppin[0]=='a')
@@ -147,4 +149,5 @@ void FEN_leser(position& pos, string cppin){
         pos.zugtiefe+=int(cppin[was])-int('0');
         was+=1;
     }
+    pos.hash=hash_fn(pos);
 }

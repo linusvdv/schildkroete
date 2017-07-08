@@ -1,13 +1,14 @@
 #include "istRemis.h"
+#include "hashtable.h"
 
-bool istRemis(position& pos){
-    static feldType behaelter[100]={};
+bool istRemis(const position& pos){
+    static size_t  behaelter[100]={};
     int groese=pos.fuenfzigzuege;
 
     if (groese>=100)
        return true;
 
-    behaelter[groese]=pos.felt;
+    behaelter[groese]=pos.hash;
 
     //fergleichung
     int schauer_ob_es_gleich_ist=0;

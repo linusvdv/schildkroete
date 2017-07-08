@@ -1,3 +1,3 @@
 #include "types.h" 
 
-bool istRemis(position& pos);
+bool istRemis(const position& pos);

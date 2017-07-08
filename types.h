@@ -9,9 +9,10 @@ typedef array<array<int,8>,8> feldType;
 
 struct position {
     feldType felt;
-    int farbe;
+    size_t hash;
     array<bool,4> rokaden;
     array<int, 2> enpassent;
+    int farbe;
     int fuenfzigzuege;
     int zugtiefe;
 };
