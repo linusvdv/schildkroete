@@ -7,7 +7,6 @@
 #include "mensch.h"
 #include "echt_zug.h"
 #include "alleZuege.h"
-#include "uuebersetzer.h"
 
 using namespace std;
 
