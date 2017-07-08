@@ -32,7 +32,7 @@ int main(){
     zuege zug;
     FEN_leser(pos, "a");
 
-    int spieltiefe = 8;
+    int spieltiefe = 2;
 
     auto future = std::async(std::launch::async, zeileLeser);
     std::string zeile;
@@ -85,11 +85,12 @@ int main(){
                     strIn >> spieltiefe;
                 }
                 nodes=0;
+                seldepth=0;
                 std::chrono::time_point<std::chrono::high_resolution_clock> start, stop;
                 start = std::chrono::high_resolution_clock::now();
                 int wert = miniMax(pos, spieltiefe, 0, zug, -1000000000, 1000000000);
                 stop = std::chrono::high_resolution_clock::now();
-                cout << "info depth " << spieltiefe << " score cp " << wert << " nodes " << nodes <<
+                cout << "info depth " << spieltiefe << " seldepth " << seldepth << " score cp " << wert << " nodes " << nodes <<
                         " time " << std::chrono::duration_cast<std::chrono::milliseconds>(stop-start).count() <<
                         " pv " << char('a'+zug.Zahl[1]) << zug.Zahl[0]+1 << char('a'+zug.Zahl[3]) << zug.Zahl[2]+1 << promo(zug) << endl;
                 cout << "bestmove " << char('a'+zug.Zahl[1]) << zug.Zahl[0]+1 << char('a'+zug.Zahl[3]) << zug.Zahl[2]+1 << promo(zug) << endl;

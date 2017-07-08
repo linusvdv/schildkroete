@@ -11,14 +11,14 @@
 #include "stet_der_koenig_schach.h"
 #include "istRemis.h"
 
+int seldepth;
+
 std::array<zuege,100> betaZuege0 = {};
 std::array<zuege,100> betaZuege1 = {};
 
-int miniMax(position& pos, int tiefe, int hoehe, zuege& besterZug, int alpha, int beta){
-    if (tiefe == 0)
-       return bewertung(pos);
+void zuegesort(position& pos, vector<zuege>& zugliste, int hoehe){
 
-    vector<zuege> zugliste = alleZuege(pos);
+    zugliste = alleZuege(pos);
 
     int linie[8]={5, 10, 25, 50, 50, 25, 10, 5};
     for(unsigned int i=0; i<zugliste.size(); i++){
@@ -42,6 +42,64 @@ int miniMax(position& pos, int tiefe, int hoehe, zuege& besterZug, int alpha, in
     std::sort(zugliste.begin(),zugliste.end(),[](zuege& a, zuege& b) {
         return b.wert < a.wert;
     });
+}
+
+int quiescence(position& pos, int tiefe, int hoehe, int alpha, int beta){
+
+    seldepth=hoehe>seldepth?hoehe:seldepth;
+
+    int wert = bewertung(pos);
+    if (wert>=beta)    
+       return beta;
+    if (alpha<wert)
+       alpha = wert;
+
+    vector<zuege> zugliste;
+    zuegesort(pos, zugliste, hoehe);
+
+    if (zugliste.size()==0) {
+       position pos2 = pos;
+       pos2.farbe*=-1;
+       if(stet_der_koenig_schach(pos2)==true)
+          return -(100000+tiefe);
+       else
+          return 0;
+    }
+
+    for(auto& zug : zugliste) {
+
+       if (pos.felt[zug.Zahl[2]][zug.Zahl[3]]==0)
+          continue;
+
+       position pos2=pos;
+       zugmacher(pos2, zug);
+       int wert;
+       if (istRemis(pos2)==true) {
+           wert = 0;
+       }
+       else {
+           wert = -quiescence(pos2, tiefe-1, hoehe+1, -beta, -alpha);
+       }
+       if(wert>=beta)
+       {
+          betaZuege1[hoehe]=betaZuege0[hoehe];
+          betaZuege0[hoehe]=zug;
+          return beta;
+       }
+       if (wert > alpha) 
+          alpha = wert;
+    }
+    return alpha;
+
+}
+
+int miniMax(position& pos, int tiefe, int hoehe, zuege& besterZug, int alpha, int beta){
+    if (tiefe == 0)
+       return quiescence(pos, tiefe, hoehe, alpha, beta);
+       // return bewertung(pos);
+
+    vector<zuege> zugliste;
+    zuegesort(pos, zugliste, hoehe);
 
     if (zugliste.size()==0) {
        position pos2 = pos;
