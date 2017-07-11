@@ -37,6 +37,7 @@ int main(){
     TT.groesseAendern(1024*1024*16);
 
     int spieltiefe = 6;
+    int spielzeit;
 
     auto future = std::async(std::launch::async, zeileLeser);
     std::string zeile;
@@ -88,6 +89,19 @@ int main(){
                     string tiefe=zeile.substr(n+6);
                     istringstream strIn(tiefe);
                     strIn >> spieltiefe;
+                    spielzeit=1000*3600*24*7;
+                } else {
+                    spieltiefe=100;
+                }
+                if (pos.farbe==1) 
+                    n=zeile.find("wtime ");
+                else
+                    n=zeile.find("btime ");
+                if (n!=string::npos) {
+                    string zeit=zeile.substr(n+6);
+                    istringstream strIn(zeit);
+                    strIn >> spielzeit;
+                    spielzeit/=100;
                 }
                 nodes=0;
                 seldepth=0;
@@ -96,9 +110,12 @@ int main(){
                 for(int i=1; i<=spieltiefe; i++){
                     int wert = miniMax(pos, i, 0, zug, -1000000000, 1000000000);
                     stop = std::chrono::high_resolution_clock::now();
+                    auto denkZeit = std::chrono::duration_cast<std::chrono::milliseconds>(stop-start).count();
                     cout << "info depth " << i << " seldepth " << seldepth << " score cp " << wert << " nodes " << nodes <<
-                            " time " << std::chrono::duration_cast<std::chrono::milliseconds>(stop-start).count() <<
+                            " time " << denkZeit <<
                             " pv " << char('a'+zug.Zahl[1]) << zug.Zahl[0]+1 << char('a'+zug.Zahl[3]) << zug.Zahl[2]+1 << promo(zug) << endl;
+                    if (denkZeit>spielzeit)
+                       break;
                 }
                 cout << "bestmove " << char('a'+zug.Zahl[1]) << zug.Zahl[0]+1 << char('a'+zug.Zahl[3]) << zug.Zahl[2]+1 << promo(zug) << endl;
             }
