@@ -141,6 +141,10 @@ int miniMax(position& pos, int tiefe, int hoehe, zuege& besterZug, int alpha, in
        if(ttTiefe>=tiefe && ttWert>=beta) {
          return ttWert;
        }
+    } else {
+      if (tiefe>4)
+         miniMax(pos, tiefe*2/3, hoehe, besterZug, alpha, beta);
+         TT.finden(pos, ttZug, ttWert, ttTiefe);
     }
 
     vector<zuege> zugliste;
