@@ -76,6 +76,10 @@ int quiescence(position& pos, int tiefe, int hoehe, int alpha, int beta){
     vector<zuege> zugliste;
     zuegesort(pos, zugliste, hoehe, ttZug);
 
+    position pos2 = pos;
+    pos2.farbe*=-1;
+    bool schach = stet_der_koenig_schach(pos2)==true;
+
     if (zugliste.size()==0) {
        position pos2 = pos;
        pos2.farbe*=-1;
@@ -92,7 +96,7 @@ int quiescence(position& pos, int tiefe, int hoehe, int alpha, int beta){
 
     for(auto& zug : zugliste) {
 
-       if (pos.felt[zug.Zahl[2]][zug.Zahl[3]]==0)
+       if (pos.felt[zug.Zahl[2]][zug.Zahl[3]]==0 && zug.promotion==0 && !schach)
           continue;
 
        position pos2=pos;
