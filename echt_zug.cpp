@@ -21,7 +21,7 @@ void promovieren(const position& pos, zuege& zug){
     if((zug.Zahl[2]==7) && (pos.farbe== 1))
         darf_man_promovieren=true;
     if(darf_man_promovieren==true)
-            zug.promotion=1;
+            zug.promotion=1*pos.farbe;
 }
 
 bool wegnemen_von_enpassent(const position& pos, zuege& zug){

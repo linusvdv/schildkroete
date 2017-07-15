@@ -76,8 +76,7 @@ vector<zuege> alleZuege(const position& pos){
             if(pos.felt[zug.Zahl[0]][zug.Zahl[1]]*pos.farbe==6){
                 for(int j=-1; j<2; j++){
                     if(ok(pos, zug2, zugliste, 1*pos.farbe, j)==true){
-                       if(zugliste[zugliste.size()-1].promotion==1){
-                           zugliste[zugliste.size()-1].promotion=1*pos.farbe;
+                       if(zugliste[zugliste.size()-1].promotion!=0){
                            for(int k=2; k<=4; k++){
                                zug2.promotion=k*pos.farbe;
                                zugliste.push_back(zug2);
