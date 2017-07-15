@@ -74,10 +74,9 @@ feldType Koenig=  {{       // weiss
 
 int bewertung(const position& pos){ 
     nodes++;
-    int gute, leufer[2]={};
-    gute=0;
-    for(int i=0; i<8; i++)
-        for(int j=0; j<8; j++)
+    int gute=0, doppel_p[2]={}, doppel_r[2]={}, leufer[2]={};
+    for(int j=0; j<8; j++){
+        for(int i=0; i<8; i++)
             switch(pos.felt[i][j]){
                 case  1:
                     gute+=320;
@@ -100,10 +99,12 @@ int bewertung(const position& pos){
                 case  3:
                     gute+=500;
                     gute+=Turm[i][j];
+                    doppel_r[0]+=1;
                     break;
                 case -3:
                     gute-=500;
                     gute-=Turm[7-i][j];
+                    doppel_r[1]+=1;
                     break;
                 case  4:
                     gute+=Dame[i][j];
@@ -122,15 +123,26 @@ int bewertung(const position& pos){
                 case  6:
                     gute+=100;
                     gute+=Bauer[i][j];
+                    doppel_p[0]+=1;
                     break;
                 case -6:
                     gute-=100;
                     gute-=Bauer[7-i][j];
+                    doppel_p[1]+=1;
                     break;
             }
+        gute-= doppel_p[0]>=2 ? (doppel_p[0]-1)*30 : 0;
+        gute+= doppel_p[1]>=2 ? (doppel_p[1]-1)*30 : 0;
+        gute+= doppel_r[0]>=2 ? (doppel_r[0]-1)*10 : 0;
+        gute-= doppel_r[1]>=2 ? (doppel_r[1]-1)*10 : 0;
+        doppel_p[0]=0;
+        doppel_p[1]=0;
+        doppel_r[0]=0;
+        doppel_r[1]=0;
+    }
 
-    if (leufer[0]>1) gute+=10;
-    if (leufer[1]>1) gute-=10;
+    if (leufer[0]>1) gute+=30;
+    if (leufer[1]>1) gute-=30;
 
     gute*=pos.farbe;
     return gute;
