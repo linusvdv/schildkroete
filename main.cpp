@@ -120,7 +120,7 @@ int main(){
                 } else {
                     spieltiefe=100;
                 }
-                if (pos.farbe==1) 
+                if (pos.farbe==1)
                     n=zeile.find("wtime ");
                 else
                     n=zeile.find("btime ");
@@ -129,6 +129,18 @@ int main(){
                     istringstream strIn(zeit);
                     strIn >> spielzeit;
                     spielzeit/=100;
+                }
+                if (pos.farbe==1)
+                    n=zeile.find("winc ");
+                else
+                    n=zeile.find("binc ");
+                if (n!=string::npos) {
+                    int extra;
+                    string zeit=zeile.substr(n+5);
+                    istringstream strIn(zeit);
+                    strIn >> extra;
+                    extra/=10;
+                    spielzeit+=extra;
                 }
                 nodes=0;
                 seldepth=0;
