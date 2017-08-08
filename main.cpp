@@ -62,6 +62,7 @@ int main(){
 
     int spieltiefe = 6;
     int spielzeit;
+    int extra;
 
     auto future = std::async(std::launch::async, zeileLeser);
     std::string zeile;
@@ -135,7 +136,6 @@ int main(){
                 else
                     n=zeile.find("binc ");
                 if (n!=string::npos) {
-                    int extra;
                     string zeit=zeile.substr(n+5);
                     istringstream strIn(zeit);
                     strIn >> extra;
