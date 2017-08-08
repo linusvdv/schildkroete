@@ -23,9 +23,13 @@ size_t hash<position>::operator()(const position & pos) const{
         return h1;
 };
 
+void transpositionTable::loeschen() {
+    std::fill(table.begin(), table.end(), hte());
+}
+
 void transpositionTable::groesseAendern(size_t ziel){
     table.resize(ziel);
-    std::fill(table.begin(), table.end(), hte());
+    loeschen();
 }
 
 void transpositionTable::schreiben(const position & pos, zuege& besterZug, int& wert, int& tiefe){

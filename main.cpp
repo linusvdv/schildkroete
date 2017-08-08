@@ -24,6 +24,7 @@
 #include <array>
 #include <chrono>
 #include <future>
+#include <atomic>
 
 #include "types.h"
 #include "hashtable.h"
@@ -39,11 +40,15 @@
 
 using namespace std;
 
+std::atomic<bool> sucheStop;
+
 std::string zeileLeser() {
     std::string zeile;
     std::getline(std::cin, zeile);
     if (std::cin.eof())
        zeile="quit";
+    if (zeile.find("quit")!=string::npos || zeile.find("stop")!=string::npos)
+       sucheStop=true;
     return zeile;
 }
 
@@ -71,6 +76,7 @@ int main(){
                 cout << "readyok" << endl;
             else if(zeile.find("ucinewgame")!=string::npos) {
                 FEN_leser(pos, "a");
+                newGame();
             }
             else if(zeile.find("uci")!=string::npos)
             {
@@ -126,19 +132,25 @@ int main(){
                 }
                 nodes=0;
                 seldepth=0;
+                sucheStop=false;
+                zuege bestZug;
                 std::chrono::time_point<std::chrono::high_resolution_clock> start, stop;
                 start = std::chrono::high_resolution_clock::now();
                 for(int i=1; i<=spieltiefe; i++){
-                    int wert = miniMax(pos, i, 0, zug, -1000000000, 1000000000);
+                    int wert = miniMax(pos, i, 0, zug, -1000000000, 1000000000, sucheStop);
                     stop = std::chrono::high_resolution_clock::now();
                     auto denkZeit = std::chrono::duration_cast<std::chrono::milliseconds>(stop-start).count();
-                    cout << "info depth " << i << " seldepth " << seldepth << " score cp " << wert << " nodes " << nodes <<
+                    if (sucheStop==false || i==1) {
+                       bestZug = zug;
+                       cout << "info depth " << i << " seldepth " << seldepth << " score cp " << wert << " nodes " << nodes <<
                             " time " << denkZeit <<
                             " pv " << char('a'+zug.Zahl[1]) << zug.Zahl[0]+1 << char('a'+zug.Zahl[3]) << zug.Zahl[2]+1 << promo(zug) << endl;
-                    if (denkZeit>spielzeit)
+                    }
+                    if (denkZeit>spielzeit || sucheStop)
                        break;
                 }
-                cout << "bestmove " << char('a'+zug.Zahl[1]) << zug.Zahl[0]+1 << char('a'+zug.Zahl[3]) << zug.Zahl[2]+1 << promo(zug) << endl;
+                cout << "bestmove " << char('a'+bestZug.Zahl[1]) << bestZug.Zahl[0]+1 
+                                    << char('a'+bestZug.Zahl[3]) << bestZug.Zahl[2]+1 << promo(bestZug) << endl;
             }
             else if(zeile=="feld")
                 feld(pos);

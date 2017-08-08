@@ -17,6 +17,12 @@ int seldepth;
 std::array<zuege,100> betaZuege0 = {};
 std::array<zuege,100> betaZuege1 = {};
 
+void newGame() {
+   betaZuege0 = {};
+   betaZuege1 = {};
+   TT.loeschen();
+}
+
 void zuegesort(position& pos, vector<zuege>& zugliste, int hoehe, zuege& ttZug){
 
     zugliste = alleZuege(pos);
@@ -131,7 +137,10 @@ int quiescence(position& pos, int tiefe, int hoehe, int alpha, int beta){
 
 }
 
-int miniMax(position& pos, int tiefe, int hoehe, zuege& besterZug, int alpha, int beta){
+int miniMax(position& pos, int tiefe, int hoehe, zuege& besterZug, int alpha, int beta, std::atomic<bool>& sucheStop){
+
+    if (tiefe > 4 && sucheStop==true)
+       return 42424242;
 
     if (tiefe == 0)
        return quiescence(pos, tiefe, hoehe, alpha, beta);
@@ -147,7 +156,7 @@ int miniMax(position& pos, int tiefe, int hoehe, zuege& besterZug, int alpha, in
        }
     } else {
       if (tiefe>4)
-         miniMax(pos, tiefe*2/3, hoehe, besterZug, alpha, beta);
+         miniMax(pos, tiefe*2/3, hoehe, besterZug, alpha, beta, sucheStop);
          TT.finden(pos, ttZug, ttWert, ttTiefe);
     }
 
@@ -177,7 +186,7 @@ int miniMax(position& pos, int tiefe, int hoehe, zuege& besterZug, int alpha, in
            wert = 0;
        }
        else {
-           wert = -miniMax(pos2, tiefe-1, hoehe+1, besterZug, -beta, -maxWert);
+           wert = -miniMax(pos2, tiefe-1, hoehe+1, besterZug, -beta, -maxWert, sucheStop);
        }
        if (wert > maxWert) {
           maxWert = wert;

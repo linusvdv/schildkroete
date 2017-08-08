@@ -28,6 +28,7 @@ class hte {
 class transpositionTable {
   public:
     void groesseAendern(size_t ziel);
+    void loeschen();
     void schreiben(const position & pos, zuege& besterZug, int& wert, int& tiefe);
     bool finden(const position & pos, zuege& besterZug, int& wert, int& tiefe);
   private:
