@@ -64,6 +64,8 @@ int main(){
     while (true) {
         if (future.wait_for(chrono::seconds(0)) == future_status::ready) {
             zeile = future.get();
+            if(zeile.find("quit")!=string::npos)
+                break;
             future = async(launch::async, zeileLeser);
             if(zeile.find("isready")!=string::npos)
                 cout << "readyok" << endl;
@@ -137,9 +139,6 @@ int main(){
                        break;
                 }
                 cout << "bestmove " << char('a'+zug.Zahl[1]) << zug.Zahl[0]+1 << char('a'+zug.Zahl[3]) << zug.Zahl[2]+1 << promo(zug) << endl;
-            }
-            else if(zeile.find("quit")!=string::npos){
-                break;
             }
             else if(zeile=="feld")
                 feld(pos);
