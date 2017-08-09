@@ -131,7 +131,7 @@ int main(){
                     string zeit=zeile.substr(n+6);
                     istringstream strIn(zeit);
                     strIn >> spielzeit;
-                    spielzeit/=100;
+                    spielzeit/=150;
                 }
                 if (pos.farbe==1)
                     n=zeile.find("winc ");
@@ -141,7 +141,7 @@ int main(){
                     string zeit=zeile.substr(n+5);
                     istringstream strIn(zeit);
                     strIn >> extra;
-                    extra/=10;
+                    extra/=15;
                     spielzeit+=extra;
                 }
                 nodes=0;
