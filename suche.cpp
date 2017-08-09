@@ -16,6 +16,7 @@ int seldepth;
 
 std::array<zuege,100> betaZuege0 = {};
 std::array<zuege,100> betaZuege1 = {};
+std::array<std::array<int, 832>, 832> geschichte = {};
 
 void newGame() {
    betaZuege0 = {};
@@ -23,12 +24,15 @@ void newGame() {
    TT.loeschen();
 }
 
-void zuegesort(position& pos, vector<zuege>& zugliste, int hoehe, zuege& ttZug){
+void zuegesort(position& pos, vector<zuege>& zugliste, int hoehe, zuege& ttZug, int voheriger_zug){
 
     zugliste = alleZuege(pos);
 
     int linie[8]={5, 10, 25, 50, 50, 25, 10, 5};
     for(unsigned int i=0; i<zugliste.size(); i++){
+
+       int derbeste=((pos.felt[zugliste[i].Zahl[1]][zugliste[i].Zahl[0]]+6)*8+zugliste[i].Zahl[3])*8+zugliste[i].Zahl[4]+1;
+       zugliste[i].wert+=geschichte[voheriger_zug][derbeste];
 
        if (zugliste[i].Zahl[0]==ttZug.Zahl[0] &&
            zugliste[i].Zahl[1]==ttZug.Zahl[1] &&
@@ -57,7 +61,7 @@ void zuegesort(position& pos, vector<zuege>& zugliste, int hoehe, zuege& ttZug){
     });
 }
 
-int quiescence(position& pos, int tiefe, int hoehe, int alpha, int beta){
+int quiescence(position& pos, int tiefe, int hoehe, int alpha, int beta, int voheriger_zug){
 
     seldepth=hoehe>seldepth?hoehe:seldepth;
 
@@ -80,7 +84,7 @@ int quiescence(position& pos, int tiefe, int hoehe, int alpha, int beta){
        alpha = wert;
 
     vector<zuege> zugliste;
-    zuegesort(pos, zugliste, hoehe, ttZug);
+    zuegesort(pos, zugliste, hoehe, ttZug, voheriger_zug);
 
     position pos2 = pos;
     pos2.farbe*=-1;
@@ -114,7 +118,8 @@ int quiescence(position& pos, int tiefe, int hoehe, int alpha, int beta){
            wert = 0;
        }
        else {
-           wert = -quiescence(pos2, tiefe-1, hoehe+1, -beta, -alpha);
+           int voheriger_zug=((pos.felt[zug.Zahl[1]][zug.Zahl[0]]+6)*8+zug.Zahl[3])*8+zug.Zahl[4]+1;
+           wert = -quiescence(pos2, tiefe-1, hoehe+1, -beta, -alpha, voheriger_zug);
        }
        if (wert > alpha) {
           schreibe=true;
@@ -137,13 +142,14 @@ int quiescence(position& pos, int tiefe, int hoehe, int alpha, int beta){
 
 }
 
-int miniMax(position& pos, int tiefe, int hoehe, zuege& besterZug, int alpha, int beta, std::atomic<bool>& sucheStop){
+int miniMax(position& pos, int tiefe, int hoehe, zuege& besterZug, int alpha, int beta, std::atomic<bool>& sucheStop, int voheriger_zug){
 
     if (tiefe > 4 && sucheStop==true)
        return 42424242;
 
-    if (tiefe == 0)
-       return quiescence(pos, tiefe, hoehe, alpha, beta);
+    if (tiefe == 0){
+       return quiescence(pos, tiefe, hoehe, alpha, beta, voheriger_zug);
+    }
 
     zuege ttZug;
     int ttWert;
@@ -155,13 +161,14 @@ int miniMax(position& pos, int tiefe, int hoehe, zuege& besterZug, int alpha, in
          return ttWert;
        }
     } else {
-      if (tiefe>4)
-         miniMax(pos, tiefe*2/3, hoehe, besterZug, alpha, beta, sucheStop);
+      if (tiefe>4){
+           miniMax(pos, tiefe*2/3, hoehe, besterZug, alpha, beta, sucheStop, voheriger_zug);
+         }
          TT.finden(pos, ttZug, ttWert, ttTiefe);
     }
 
     vector<zuege> zugliste;
-    zuegesort(pos, zugliste, hoehe, ttZug);
+    zuegesort(pos, zugliste, hoehe, ttZug, voheriger_zug);
 
     if (zugliste.size()==0) {
        position pos2 = pos;
@@ -186,7 +193,8 @@ int miniMax(position& pos, int tiefe, int hoehe, zuege& besterZug, int alpha, in
            wert = 0;
        }
        else {
-           wert = -miniMax(pos2, tiefe-1, hoehe+1, besterZug, -beta, -maxWert, sucheStop);
+           int voheriger_zug=((pos.felt[zug.Zahl[1]][zug.Zahl[0]]+6)*8+zug.Zahl[3])*8+zug.Zahl[4]+1;
+           wert = -miniMax(pos2, tiefe-1, hoehe+1, besterZug, -beta, -maxWert, sucheStop, voheriger_zug);
        }
        if (wert > maxWert) {
           maxWert = wert;
@@ -205,6 +213,8 @@ int miniMax(position& pos, int tiefe, int hoehe, zuege& besterZug, int alpha, in
 
     if (maxWert>alpha)
        TT.schreiben(pos, gefundenerZug, maxWert, tiefe);
- 
+
+    int derbeste=((pos.felt[besterZug.Zahl[1]][besterZug.Zahl[0]]+6)*8+besterZug.Zahl[3])*8+besterZug.Zahl[4];
+    geschichte[voheriger_zug][derbeste]=1000;
     return maxWert;
 }

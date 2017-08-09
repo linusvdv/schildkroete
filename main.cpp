@@ -60,6 +60,7 @@ int main(){
 
     TT.groesseAendern(1024*1024*16);
 
+    int voheriger_zug = 384;
     int spieltiefe = 6;
     int spielzeit;
     int extra;
@@ -105,6 +106,7 @@ int main(){
                        strIn >> nextmove;
                        strIn >> ws;
                        mensch(pos, zug, nextmove);
+                       voheriger_zug=((pos.felt[zug.Zahl[1]][zug.Zahl[0]]+6)*8+zug.Zahl[3])*8+zug.Zahl[4];
                        zugmacher(pos, zug);
                        pos.hash = hash_fn(pos);
                        istRemis(pos);
@@ -149,7 +151,7 @@ int main(){
                 std::chrono::time_point<std::chrono::high_resolution_clock> start, stop;
                 start = std::chrono::high_resolution_clock::now();
                 for(int i=1; i<=spieltiefe; i++){
-                    int wert = miniMax(pos, i, 0, zug, -1000000000, 1000000000, sucheStop);
+                    int wert = miniMax(pos, i, 0, zug, -1000000000, 1000000000, sucheStop, voheriger_zug);
                     stop = std::chrono::high_resolution_clock::now();
                     auto denkZeit = std::chrono::duration_cast<std::chrono::milliseconds>(stop-start).count();
                     if (sucheStop==false || i==1) {
