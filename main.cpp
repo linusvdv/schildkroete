@@ -118,30 +118,7 @@ int main(){
                 sucheStop=false;
                 auto n=zeile.find("infinit ");
                 if(n!=string::npos){
-                    
-                    nodes=0;
-                    seldepth=0;
-                    sucheStop=false;
-                    zuege bestZug;
-                    std::chrono::time_point<std::chrono::high_resolution_clock> start, stop;
-                    start = std::chrono::high_resolution_clock::now();
-                    for(int i=1; i<=512; i++){
-                        int wert = miniMax(pos, i, 0, zug, -1000000000, 1000000000, sucheStop, voheriger_zug);
-                        stop = std::chrono::high_resolution_clock::now();
-                        auto denkZeit = std::chrono::duration_cast<std::chrono::milliseconds>(stop-start).count();
-                        if (sucheStop==false || i==1) {
-                           bestZug = zug;
-                           cout << "info depth " << i << " seldepth " << seldepth << " score cp " << wert << " nodes " << nodes <<
-                                " time " << denkZeit <<
-                                " pv " << char('a'+zug.Zahl[1]) << zug.Zahl[0]+1 << char('a'+zug.Zahl[3]) << zug.Zahl[2]+1 << promo(zug) << endl;
-                        }
-                        if (denkZeit>spielzeit || sucheStop)
-                           break;
-                    }
-                    sucheStop=false;
-                    cout << "bestmove " << char('a'+bestZug.Zahl[1]) << bestZug.Zahl[0]+1
-                                        << char('a'+bestZug.Zahl[3]) << bestZug.Zahl[2]+1 << promo(bestZug) << endl;
-                    break;
+                    spieltiefe=512; 
                 }
                 n=zeile.find("depth ");
                 if (n!=string::npos) {
