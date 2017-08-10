@@ -14,8 +14,8 @@
 
 int seldepth;
 
-std::array<zuege,100> betaZuege0 = {};
-std::array<zuege,100> betaZuege1 = {};
+std::array<zuege,10000> betaZuege0 = {};
+std::array<zuege,10000> betaZuege1 = {};
 std::array<std::array<int, 832>, 832> geschichte = {};
 
 void newGame() {
