@@ -116,7 +116,7 @@ int main(){
             }
             else if(zeile.find("go")!=string::npos){
                 sucheStop=false;
-                auto n=zeile.find("infinit ");
+                auto n=zeile.find("infinite");
                 if(n!=string::npos){
                     spieltiefe=512; 
                 }
