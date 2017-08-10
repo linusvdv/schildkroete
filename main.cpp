@@ -125,7 +125,7 @@ int main(){
                     zuege bestZug;
                     std::chrono::time_point<std::chrono::high_resolution_clock> start, stop;
                     start = std::chrono::high_resolution_clock::now();
-                    for(int i=1; i<=1000; i++){
+                    for(int i=1; i<=512; i++){
                         int wert = miniMax(pos, i, 0, zug, -1000000000, 1000000000, sucheStop, voheriger_zug);
                         stop = std::chrono::high_resolution_clock::now();
                         auto denkZeit = std::chrono::duration_cast<std::chrono::milliseconds>(stop-start).count();
