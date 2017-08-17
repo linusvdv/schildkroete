@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
+#include <chrono>
 
 #include "types.h"
 #include "hashtable.h"
@@ -142,10 +143,18 @@ int quiescence(position& pos, int tiefe, int hoehe, int alpha, int beta, int voh
 
 }
 
-int miniMax(position& pos, int tiefe, int hoehe, zuege& besterZug, int alpha, int beta, std::atomic<bool>& sucheStop, int voheriger_zug){
+int miniMax(position& pos, int tiefe, int hoehe, zuege& besterZug, int alpha, int beta, std::atomic<bool>& sucheStop, int voheriger_zug, int spielzeit, const std::chrono::time_point<std::chrono::high_resolution_clock>& start){
 
-    if (tiefe > 4 && sucheStop==true)
-       return 42424242;
+    
+    if (tiefe > 3){
+       std::chrono::time_point<std::chrono::high_resolution_clock> stop;
+       stop = std::chrono::high_resolution_clock::now();
+       auto denkZeit = std::chrono::duration_cast<std::chrono::milliseconds>(stop-start).count();
+       if(denkZeit>spielzeit*5)
+           sucheStop=true;
+       if(sucheStop==true)
+           return 42424242;
+    }
 
     if (tiefe == 0){
        return quiescence(pos, tiefe, hoehe, alpha, beta, voheriger_zug);
@@ -162,7 +171,7 @@ int miniMax(position& pos, int tiefe, int hoehe, zuege& besterZug, int alpha, in
        }
     } else {
       if (tiefe>4){
-           miniMax(pos, tiefe*2/3, hoehe, besterZug, alpha, beta, sucheStop, voheriger_zug);
+           miniMax(pos, tiefe*2/3, hoehe, besterZug, alpha, beta, sucheStop, voheriger_zug, spielzeit, start);
          }
          TT.finden(pos, ttZug, ttWert, ttTiefe);
     }
@@ -194,7 +203,7 @@ int miniMax(position& pos, int tiefe, int hoehe, zuege& besterZug, int alpha, in
        }
        else {
            int voheriger_zug=((pos.felt[zug.Zahl[1]][zug.Zahl[0]]+6)*8+zug.Zahl[3])*8+zug.Zahl[4]+1;
-           wert = -miniMax(pos2, tiefe-1, hoehe+1, besterZug, -beta, -maxWert, sucheStop, voheriger_zug);
+           wert = -miniMax(pos2, tiefe-1, hoehe+1, besterZug, -beta, -maxWert, sucheStop, voheriger_zug, spielzeit, start);
        }
        if (wert > maxWert) {
           maxWert = wert;
