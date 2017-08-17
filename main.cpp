@@ -116,6 +116,8 @@ int main(){
             }
             else if(zeile.find("go")!=string::npos){
                 sucheStop=false;
+                spielzeit=1000*3600*24*3; // Vorsicht overflow...
+                spieltiefe=512;
                 auto n=zeile.find("infinite");
                 if(n!=string::npos){
                     spieltiefe=512; 
@@ -125,9 +127,6 @@ int main(){
                     string tiefe=zeile.substr(n+6);
                     istringstream strIn(tiefe);
                     strIn >> spieltiefe;
-                    spielzeit=1000*3600*24*7;
-                } else {
-                    spieltiefe=100;
                 }
                 if (pos.farbe==1)
                     n=zeile.find("wtime ");

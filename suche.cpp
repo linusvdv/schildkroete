@@ -150,8 +150,10 @@ int miniMax(position& pos, int tiefe, int hoehe, zuege& besterZug, int alpha, in
        std::chrono::time_point<std::chrono::high_resolution_clock> stop;
        stop = std::chrono::high_resolution_clock::now();
        auto denkZeit = std::chrono::duration_cast<std::chrono::milliseconds>(stop-start).count();
-       if(denkZeit>spielzeit*5)
+       if(denkZeit>spielzeit*5) {
+           std::cout << denkZeit << " " << spielzeit*5 << std::endl;
            sucheStop=true;
+       }
        if(sucheStop==true)
            return 42424242;
     }
