@@ -4,6 +4,7 @@
 #include "bewertung.h"
 #include "types.h"
 #include "FEN_schreiber.h"
+#include "stet_der_koenig_schach.h"
 
 uint64_t nodes;
 
@@ -75,7 +76,7 @@ feldType Koenig=  {{       // weiss
 
 int bewertung(const position& pos){ 
     nodes++;
-//    FEN_schreiber(pos);
+
     int gute=0, doppel_p[2]={}, doppel_r[2]={}, leufer[2]={};
     for(int j=0; j<8; j++){
         for(int i=0; i<8; i++)

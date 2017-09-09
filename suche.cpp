@@ -57,7 +57,7 @@ void zuegesort(position& pos, vector<zuege>& zugliste, int hoehe, zuege& ttZug, 
        zugliste[i].wert+=linie[zugliste[i].Zahl[3]];
     }
 
-    std::stable_sort(zugliste.begin(),zugliste.end(),[](const zuege& a, const zuege& b) {
+    std::sort(zugliste.begin(),zugliste.end(),[](const zuege& a, const zuege& b) {
         return b.wert < a.wert;
     });
 }
@@ -72,24 +72,27 @@ int quiescence(position& pos, int tiefe, int hoehe, int alpha, int beta, int voh
     int ttWert;
     int ttTiefe;
     bool ttGefunden;
-    ttGefunden = TT.finden(pos, ttZug, ttWert, ttTiefe);
-    if (ttGefunden==true) {
-       wert = ttWert;
-    } else {
-       wert = bewertung(pos);
-    }
-
-    if (wert>=beta)    
-       return beta;
-    if (alpha<wert)
-       alpha = wert;
-
-    vector<zuege> zugliste;
-    zuegesort(pos, zugliste, hoehe, ttZug, voheriger_zug);
 
     position pos2 = pos;
     pos2.farbe*=-1;
     bool schach = stet_der_koenig_schach(pos2)==true;
+
+    if (!schach) {
+        ttGefunden = TT.finden(pos, ttZug, ttWert, ttTiefe);
+        if (ttGefunden==true) {
+           wert = ttWert;
+        } else {
+           wert = bewertung(pos);
+        }
+
+        if (wert>=beta)    
+           return beta;
+        if (alpha<wert)
+           alpha = wert;
+    }
+
+    vector<zuege> zugliste;
+    zuegesort(pos, zugliste, hoehe, ttZug, voheriger_zug);
 
     std::hash<position> hash_fn;
 
@@ -240,5 +243,3 @@ int miniMax(position& pos, int tiefe, int hoehe, zuege& besterZug, int alpha, in
     geschichte[voheriger_zug][derbeste]+=50;
     return maxWert;
 }
-
-
