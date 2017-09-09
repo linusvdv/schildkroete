@@ -57,7 +57,7 @@ void zuegesort(position& pos, vector<zuege>& zugliste, int hoehe, zuege& ttZug, 
        zugliste[i].wert+=linie[zugliste[i].Zahl[3]];
     }
 
-    std::sort(zugliste.begin(),zugliste.end(),[](zuege& a, zuege& b) {
+    std::stable_sort(zugliste.begin(),zugliste.end(),[](const zuege& a, const zuege& b) {
         return b.wert < a.wert;
     });
 }
@@ -91,27 +91,24 @@ int quiescence(position& pos, int tiefe, int hoehe, int alpha, int beta, int voh
     pos2.farbe*=-1;
     bool schach = stet_der_koenig_schach(pos2)==true;
 
-    if (zugliste.size()==0) {
-       position pos2 = pos;
-       pos2.farbe*=-1;
-       if(stet_der_koenig_schach(pos2)==true)
-          return -(100000+tiefe);
-       else
-          return 0;
-    }
-
     std::hash<position> hash_fn;
 
     zuege gefundenerZug = {};
     bool schreibe=false;
+    int anzahlZuege;
+    anzahlZuege=0;
 
     for(auto& zug : zugliste) {
+
+       position pos2=pos;
+       zugmacher(pos2, zug);
+       if (stet_der_koenig_schach(pos2)==true)
+           continue;
+       anzahlZuege++;
 
        if (pos.felt[zug.Zahl[2]][zug.Zahl[3]]==0 && zug.promotion==0 && !schach)
           continue;
 
-       position pos2=pos;
-       zugmacher(pos2, zug);
        pos2.hash=hash_fn(pos2);
 
        int wert;
@@ -134,6 +131,15 @@ int quiescence(position& pos, int tiefe, int hoehe, int alpha, int beta, int voh
           alpha = wert;
           break;
        }
+    }
+
+    if (anzahlZuege==0) {
+       position pos2 = pos;
+       pos2.farbe*=-1;
+       if(stet_der_koenig_schach(pos2)==true)
+          return -(100000+tiefe);
+       else
+          return 0;
     }
 
     if (schreibe)
@@ -181,22 +187,16 @@ int miniMax(position& pos, int tiefe, int hoehe, zuege& besterZug, int alpha, in
     vector<zuege> zugliste;
     zuegesort(pos, zugliste, hoehe, ttZug, voheriger_zug);
 
-    if (zugliste.size()==0) {
-       position pos2 = pos;
-       pos2.farbe*=-1;
-       if(stet_der_koenig_schach(pos2)==true)
-          return -(100000+tiefe);
-       else
-          return 0;
-    }
-
     std::hash<position> hash_fn;
 
+    int i=0;
     int maxWert = alpha;
     zuege gefundenerZug;
     for(auto& zug : zugliste) {
        position pos2=pos;
        zugmacher(pos2, zug);
+       if(stet_der_koenig_schach(pos2)==true)
+           continue;
        pos2.hash=hash_fn(pos2);
 
        int wert;
@@ -204,6 +204,7 @@ int miniMax(position& pos, int tiefe, int hoehe, zuege& besterZug, int alpha, in
            wert = 0;
        }
        else {
+           i++;
            int voheriger_zug=((pos.felt[zug.Zahl[1]][zug.Zahl[0]]+6)*8+zug.Zahl[3])*8+zug.Zahl[4]+1;
            wert = -miniMax(pos2, tiefe-1, hoehe+1, besterZug, -beta, -maxWert, sucheStop, voheriger_zug, spielzeit, start);
        }
@@ -219,6 +220,15 @@ int miniMax(position& pos, int tiefe, int hoehe, zuege& besterZug, int alpha, in
        }
     }
 
+    if (i==0) {
+       position pos2 = pos;
+       pos2.farbe*=-1;
+       if(stet_der_koenig_schach(pos2)==true)
+          return -(100000+tiefe);
+       else
+          return 0;
+    }
+
     if (hoehe == 0)
        besterZug = gefundenerZug;
 
@@ -230,3 +240,5 @@ int miniMax(position& pos, int tiefe, int hoehe, zuege& besterZug, int alpha, in
     geschichte[voheriger_zug][derbeste]+=50;
     return maxWert;
 }
+
+

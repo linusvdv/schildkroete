@@ -21,7 +21,7 @@ EXE=schildkroete
 RM=rm -f
 
 SRCS=mensch.cpp istRemis.cpp rokade.cpp feld.cpp main.cpp zugmacher.cpp hashtable.cpp\
-     FEN_leser.cpp  echt_zug.cpp perft.cpp stet_der_koenig_schach.cpp alleZuege.cpp suche.cpp bewertung.cpp
+     FEN_leser.cpp FEN_schreiber.cpp echt_zug.cpp perft.cpp stet_der_koenig_schach.cpp alleZuege.cpp suche.cpp bewertung.cpp
 
 OBJS=$(subst .cpp,.o,$(SRCS))
 

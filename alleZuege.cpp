@@ -3,7 +3,6 @@
 #include <array>
 
 #include "echt_zug.h"
-#include "stet_der_koenig_schach.h"
 #include "zugmacher.h"
 #include "feld.h"
 
@@ -19,18 +18,10 @@ bool ok(const position& pos, zuege& zug, vector<zuege>& zugliste, int i, int j){
     if(pos.felt[zug.Zahl[2]][zug.Zahl[3]]*pos.farbe>0)
         return false;
     if(pos.felt[zug.Zahl[0]][zug.Zahl[1]]*pos.farbe==1){
-        position pos2 = pos;
-        zugmacher(pos2, zug);
-        if(stet_der_koenig_schach(pos2)==true)
-            return false;
         zugliste.push_back(zug);
         return true;
     }else{
         if(echt_zug(pos, zug, false)==true){
-            position pos2 = pos;
-            zugmacher(pos2, zug);
-            if(stet_der_koenig_schach(pos2)==true)
-                return false;
             zugliste.push_back(zug);
             return true;
         }

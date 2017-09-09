@@ -129,22 +129,22 @@ void FEN_leser(position& pos, string cppin){
     }
     else{
         pos.enpassent[0]=int(cppin[was])-int('a');
-        pos.enpassent[1]=2;
+        pos.enpassent[1]=(pos.farbe==1 ? 2 : 5);
         was+=1;
     }
     was+=2;
 
     //fuenfzig
     pos.fuenfzigzuege=0;
-    while(cppin[was]==' '){
+    while(was<cppin.size() && cppin[was]!=' '){
         pos.fuenfzigzuege*=10;
         pos.fuenfzigzuege+=int(cppin[was])-int('0');
         was+=1;
     }
-    was+=2;
+    was+=1;
     //zugtiefe
     pos.zugtiefe=0;
-    while(cppin[was]==' '){
+    while(was<cppin.size() && cppin[was]!=' '){
         pos.zugtiefe*=10;
         pos.zugtiefe+=int(cppin[was])-int('0');
         was+=1;
