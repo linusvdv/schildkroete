@@ -2,6 +2,7 @@
 #include <string>
 
 #include "feld.h"
+#include "FEN_schreiber.h"
 
 using namespace std;
 
@@ -57,4 +58,5 @@ void feld(position pos){
         cout << "|\n";
     }
     cout << "   A B C D E F G H " << (pos.farbe<0 ? schrift_rot : schrift_blau) << "O" << reset << "\n\n";
+    FEN_schreiber(pos);
 }

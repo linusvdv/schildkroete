@@ -201,13 +201,13 @@ int miniMax(position& pos, int tiefe, int hoehe, zuege& besterZug, int alpha, in
        if(stet_der_koenig_schach(pos2)==true)
            continue;
        pos2.hash=hash_fn(pos2);
+       i++;
 
        int wert;
        if (istRemis(pos2)==true) {
            wert = 0;
        }
        else {
-           i++;
            int voheriger_zug=((pos.felt[zug.Zahl[1]][zug.Zahl[0]]+6)*8+zug.Zahl[3])*8+zug.Zahl[4]+1;
            wert = -miniMax(pos2, tiefe-1, hoehe+1, besterZug, -beta, -maxWert, sucheStop, voheriger_zug, spielzeit, start);
        }
