@@ -66,6 +66,7 @@ vector<zuege> alleZuege(const position& pos){
             //bauer
             if(pos.felt[zug.Zahl[0]][zug.Zahl[1]]*pos.farbe==6){
                 for(int j=-1; j<2; j++){
+                    zug2 = zug;
                     if(ok(pos, zug2, zugliste, 1*pos.farbe, j)==true){
                        if(zugliste[zugliste.size()-1].promotion!=0){
                            for(int k=2; k<=4; k++){
