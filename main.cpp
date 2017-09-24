@@ -62,6 +62,7 @@ int main(){
     TT.groesseAendern(1024*1024*16);
 
     int voheriger_zug = 384;
+    int movestogo;
     int spieltiefe = 6;
     int spielzeit;
     int extra;
@@ -136,7 +137,16 @@ int main(){
                     string zeit=zeile.substr(n+6);
                     istringstream strIn(zeit);
                     strIn >> spielzeit;
-                    spielzeit/=150;
+                    n=zeile.find("movestogo ");
+                    if(n!=string::npos){
+                        string tiefe=zeile.substr(n+10);
+                        istringstream strIn(tiefe);
+                        strIn >> movestogo;
+                        spielzeit/=(movestogo*5);
+                    }
+                    else{
+                        spielzeit/=150;
+                    }
                 }
                 if (pos.farbe==1)
                     n=zeile.find("winc ");
