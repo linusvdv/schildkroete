@@ -160,6 +160,7 @@ int main(){
                     spielzeit+=extra;
                 }
                 nodes=0;
+                nodesZeit=0;
                 seldepth=0;
                 sucheStop=false;
                 zuege bestZug;
@@ -172,7 +173,7 @@ int main(){
                     if (sucheStop==false || i==1) {
                        bestZug = zug;
                        cout << "info depth " << i << " seldepth " << seldepth << " score cp " << wert << " nodes " << nodes <<
-                            " time " << denkZeit <<
+                            " time " << denkZeit << " nps " << nodes * 1000 / (denkZeit==0 ? 1 : denkZeit) <<
                             " pv " << char('a'+zug.Zahl[1]) << zug.Zahl[0]+1 << char('a'+zug.Zahl[3]) << zug.Zahl[2]+1 << promo(zug) << endl;
                     }
                     if (denkZeit>spielzeit || sucheStop)

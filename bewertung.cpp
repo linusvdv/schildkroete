@@ -6,7 +6,7 @@
 #include "FEN_schreiber.h"
 #include "stet_der_koenig_schach.h"
 
-uint64_t nodes;
+uint64_t nodes, nodesZeit;
 
 feldType Bauer=   {{       // weiss
                   {{  0,  0,  0,  0,  0,  0,  0,  0}},

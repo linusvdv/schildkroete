@@ -155,12 +155,14 @@ int quiescence(position& pos, int tiefe, int hoehe, int alpha, int beta, int voh
 int miniMax(position& pos, int tiefe, int hoehe, zuege& besterZug, int alpha, int beta, std::atomic<bool>& sucheStop, int voheriger_zug, int spielzeit, const std::chrono::time_point<std::chrono::high_resolution_clock>& start){
 
     
-    if (tiefe > 3){
+    if (nodes > nodesZeit){
        std::chrono::time_point<std::chrono::high_resolution_clock> stop;
        stop = std::chrono::high_resolution_clock::now();
        auto denkZeit = std::chrono::duration_cast<std::chrono::milliseconds>(stop-start).count();
-       if(denkZeit>spielzeit*5) {
+       if((denkZeit>spielzeit*8) || sucheStop) {
            sucheStop=true;
+       } else {
+         nodesZeit += 10000;
        }
        if(sucheStop==true)
            return 42424242;
@@ -209,7 +211,7 @@ int miniMax(position& pos, int tiefe, int hoehe, zuege& besterZug, int alpha, in
        else {
            int neueTiefe = tiefe-1;
 
-           if (pos.felt[zug.Zahl[2]][zug.Zahl[3]]*pos.farbe==pos.felt[zug.Zahl[0]][zug.Zahl[1]] || zug.promotion!=0)
+           if (pos.felt[zug.Zahl[2]][zug.Zahl[3]]*pos.farbe==pos.felt[zug.Zahl[0]][zug.Zahl[1]] || zug.promotion==4*pos.farbe)
                neueTiefe++;
 
            int voheriger_zug=((pos.felt[zug.Zahl[1]][zug.Zahl[0]]+6)*8+zug.Zahl[3])*8+zug.Zahl[2];
