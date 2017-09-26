@@ -108,7 +108,7 @@ int main(){
                        strIn >> nextmove;
                        strIn >> ws;
                        mensch(pos, zug, nextmove);
-                       voheriger_zug=((pos.felt[zug.Zahl[1]][zug.Zahl[0]]+6)*8+zug.Zahl[3])*8+zug.Zahl[4];
+                       voheriger_zug=((pos.felt[zug.Zahl[1]][zug.Zahl[0]]+6)*8+zug.Zahl[3])*8+zug.Zahl[2];
                        zugmacher(pos, zug);
                        pos.hash = hash_fn(pos);
                        istRemis(pos);

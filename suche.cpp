@@ -32,7 +32,7 @@ void zuegesort(position& pos, vector<zuege>& zugliste, int hoehe, zuege& ttZug, 
     int linie[8]={5, 10, 25, 50, 50, 25, 10, 5};
     for(unsigned int i=0; i<zugliste.size(); i++){
 
-       int derbeste=((pos.felt[zugliste[i].Zahl[1]][zugliste[i].Zahl[0]]+6)*8+zugliste[i].Zahl[3])*8+zugliste[i].Zahl[4]+1;
+       int derbeste=((pos.felt[zugliste[i].Zahl[1]][zugliste[i].Zahl[0]]+6)*8+zugliste[i].Zahl[3])*8+zugliste[i].Zahl[2]+1;
        zugliste[i].wert+=geschichte[voheriger_zug][derbeste];
 
        if (zugliste[i].Zahl[0]==ttZug.Zahl[0] &&
@@ -77,8 +77,8 @@ int quiescence(position& pos, int tiefe, int hoehe, int alpha, int beta, int voh
     pos2.farbe*=-1;
     bool schach = stet_der_koenig_schach(pos2)==true;
 
+    ttGefunden = TT.finden(pos, ttZug, ttWert, ttTiefe);
     if (!schach) {
-        ttGefunden = TT.finden(pos, ttZug, ttWert, ttTiefe);
         if (ttGefunden==true) {
            wert = ttWert;
         } else {
@@ -119,7 +119,7 @@ int quiescence(position& pos, int tiefe, int hoehe, int alpha, int beta, int voh
            wert = 0;
        }
        else {
-           int voheriger_zug=((pos.felt[zug.Zahl[1]][zug.Zahl[0]]+6)*8+zug.Zahl[3])*8+zug.Zahl[4]+1;
+           int voheriger_zug=((pos.felt[zug.Zahl[1]][zug.Zahl[0]]+6)*8+zug.Zahl[3])*8+zug.Zahl[2]+1;
            wert = -quiescence(pos2, tiefe-1, hoehe+1, -beta, -alpha, voheriger_zug);
        }
        if (wert > alpha) {
@@ -207,7 +207,7 @@ int miniMax(position& pos, int tiefe, int hoehe, zuege& besterZug, int alpha, in
            wert = 0;
        }
        else {
-           int voheriger_zug=((pos.felt[zug.Zahl[1]][zug.Zahl[0]]+6)*8+zug.Zahl[3])*8+zug.Zahl[4]+1;
+           int voheriger_zug=((pos.felt[zug.Zahl[1]][zug.Zahl[0]]+6)*8+zug.Zahl[3])*8+zug.Zahl[2]+1;
            wert = -miniMax(pos2, tiefe-1, hoehe+1, besterZug, -beta, -maxWert, sucheStop, voheriger_zug, spielzeit, start);
        }
        if (wert > maxWert) {
@@ -237,7 +237,7 @@ int miniMax(position& pos, int tiefe, int hoehe, zuege& besterZug, int alpha, in
     if (maxWert>alpha)
        TT.schreiben(pos, gefundenerZug, maxWert, tiefe);
 
-    int derbeste=((pos.felt[besterZug.Zahl[1]][besterZug.Zahl[0]]+6)*8+besterZug.Zahl[3])*8+besterZug.Zahl[4];
+    int derbeste=((pos.felt[besterZug.Zahl[1]][besterZug.Zahl[0]]+6)*8+besterZug.Zahl[3])*8+besterZug.Zahl[2];
     geschichte[voheriger_zug][derbeste]=geschichte[voheriger_zug][derbeste]*99/100;
     geschichte[voheriger_zug][derbeste]+=50;
     return maxWert;
