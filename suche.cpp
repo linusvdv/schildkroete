@@ -208,8 +208,10 @@ int miniMax(position& pos, int tiefe, int hoehe, zuege& besterZug, int alpha, in
        }
        else {
            int neueTiefe = tiefe-1;
-           if (pos.felt[zug.Zahl[2]][zug.Zahl[3]]!=0 || zug.promotion!=0)
+
+           if (pos.felt[zug.Zahl[2]][zug.Zahl[3]]*pos.farbe==pos.felt[zug.Zahl[0]][zug.Zahl[1]] || zug.promotion!=0)
                neueTiefe++;
+
            int voheriger_zug=((pos.felt[zug.Zahl[1]][zug.Zahl[0]]+6)*8+zug.Zahl[3])*8+zug.Zahl[2];
            wert = -miniMax(pos2, neueTiefe, hoehe+1, besterZug, -beta, -maxWert, sucheStop, voheriger_zug, spielzeit, start);
        }
