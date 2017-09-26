@@ -61,7 +61,7 @@ int main(){
 
     TT.groesseAendern(1024*1024*16);
 
-    int voheriger_zug = 384;
+    int voheriger_zug = 0;
     int movestogo;
     int spieltiefe = 6;
     int spielzeit;

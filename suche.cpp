@@ -32,7 +32,7 @@ void zuegesort(position& pos, vector<zuege>& zugliste, int hoehe, zuege& ttZug, 
     int linie[8]={5, 10, 25, 50, 50, 25, 10, 5};
     for(unsigned int i=0; i<zugliste.size(); i++){
 
-       int derbeste=((pos.felt[zugliste[i].Zahl[1]][zugliste[i].Zahl[0]]+6)*8+zugliste[i].Zahl[3])*8+zugliste[i].Zahl[2]+1;
+       int derbeste=((pos.felt[zugliste[i].Zahl[1]][zugliste[i].Zahl[0]]+6)*8+zugliste[i].Zahl[3])*8+zugliste[i].Zahl[2];
        zugliste[i].wert+=geschichte[voheriger_zug][derbeste];
 
        if (zugliste[i].Zahl[0]==ttZug.Zahl[0] &&
@@ -119,7 +119,7 @@ int quiescence(position& pos, int tiefe, int hoehe, int alpha, int beta, int voh
            wert = 0;
        }
        else {
-           int voheriger_zug=((pos.felt[zug.Zahl[1]][zug.Zahl[0]]+6)*8+zug.Zahl[3])*8+zug.Zahl[2]+1;
+           int voheriger_zug=((pos.felt[zug.Zahl[1]][zug.Zahl[0]]+6)*8+zug.Zahl[3])*8+zug.Zahl[2];
            wert = -quiescence(pos2, tiefe-1, hoehe+1, -beta, -alpha, voheriger_zug);
        }
        if (wert > alpha) {
@@ -207,7 +207,7 @@ int miniMax(position& pos, int tiefe, int hoehe, zuege& besterZug, int alpha, in
            wert = 0;
        }
        else {
-           int voheriger_zug=((pos.felt[zug.Zahl[1]][zug.Zahl[0]]+6)*8+zug.Zahl[3])*8+zug.Zahl[2]+1;
+           int voheriger_zug=((pos.felt[zug.Zahl[1]][zug.Zahl[0]]+6)*8+zug.Zahl[3])*8+zug.Zahl[2];
            wert = -miniMax(pos2, tiefe-1, hoehe+1, besterZug, -beta, -maxWert, sucheStop, voheriger_zug, spielzeit, start);
        }
        if (wert > maxWert) {
