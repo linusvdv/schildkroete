@@ -13,6 +13,9 @@ void zugmacher(position& pos, const zuege& zug){
     else
        pos.fuenfzigzuege++;
 
+    if (pos.farbe==-1)
+       pos.zugtiefe++;
+
     pos.farbe*=-1;
     pos.felt[zug.Zahl[2]][zug.Zahl[3]]= zug.promotion!=0 ? zug.promotion : pos.felt[zug.Zahl[0]][zug.Zahl[1]];
     pos.felt[zug.Zahl[0]][zug.Zahl[1]]=0;

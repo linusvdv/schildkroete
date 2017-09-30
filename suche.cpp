@@ -66,6 +66,9 @@ int quiescence(position& pos, int tiefe, int hoehe, int alpha, int beta, int voh
 
     seldepth=hoehe>seldepth?hoehe:seldepth;
 
+    if (istRemis(pos)==true)
+       return 0;
+
     int wert;
 
     zuege ttZug;
@@ -114,14 +117,8 @@ int quiescence(position& pos, int tiefe, int hoehe, int alpha, int beta, int voh
 
        pos2.hash=hash_fn(pos2);
 
-       int wert;
-       if (istRemis(pos2)==true) {
-           wert = 0;
-       }
-       else {
-           int voheriger_zug=((pos.felt[zug.Zahl[1]][zug.Zahl[0]]+6)*8+zug.Zahl[3])*8+zug.Zahl[2];
-           wert = -quiescence(pos2, tiefe-1, hoehe+1, -beta, -alpha, voheriger_zug);
-       }
+       int voheriger_zug=((pos.felt[zug.Zahl[1]][zug.Zahl[0]]+6)*8+zug.Zahl[3])*8+zug.Zahl[2];
+       int wert = -quiescence(pos2, tiefe-1, hoehe+1, -beta, -alpha, voheriger_zug);
        if (wert > alpha) {
           schreibe=true;
           gefundenerZug = zug;
@@ -168,6 +165,9 @@ int miniMax(position& pos, int tiefe, int hoehe, zuege& besterZug, int alpha, in
            return 42424242;
     }
 
+    if (istRemis(pos)==true)
+       return 0;
+
     if (tiefe == 0){
        return quiescence(pos, tiefe, hoehe, alpha, beta, voheriger_zug);
     }
@@ -204,19 +204,12 @@ int miniMax(position& pos, int tiefe, int hoehe, zuege& besterZug, int alpha, in
        pos2.hash=hash_fn(pos2);
        i++;
 
-       int wert;
-       if (istRemis(pos2)==true) {
-           wert = 0;
-       }
-       else {
-           int neueTiefe = tiefe-1;
+       int neueTiefe = tiefe-1;
+       if (pos.felt[zug.Zahl[2]][zug.Zahl[3]]*pos.farbe==pos.felt[zug.Zahl[0]][zug.Zahl[1]] || zug.promotion==4*pos.farbe)
+           neueTiefe++;
 
-           if (pos.felt[zug.Zahl[2]][zug.Zahl[3]]*pos.farbe==pos.felt[zug.Zahl[0]][zug.Zahl[1]] || zug.promotion==4*pos.farbe)
-               neueTiefe++;
-
-           int voheriger_zug=((pos.felt[zug.Zahl[1]][zug.Zahl[0]]+6)*8+zug.Zahl[3])*8+zug.Zahl[2];
-           wert = -miniMax(pos2, neueTiefe, hoehe+1, besterZug, -beta, -maxWert, sucheStop, voheriger_zug, spielzeit, start);
-       }
+       int voheriger_zug=((pos.felt[zug.Zahl[1]][zug.Zahl[0]]+6)*8+zug.Zahl[3])*8+zug.Zahl[2];
+       int wert = -miniMax(pos2, neueTiefe, hoehe+1, besterZug, -beta, -maxWert, sucheStop, voheriger_zug, spielzeit, start);
        if (wert > maxWert) {
           maxWert = wert;
           gefundenerZug = zug;
