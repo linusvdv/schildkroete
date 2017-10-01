@@ -234,11 +234,11 @@ int miniMax(position& pos, int tiefe, int hoehe, zuege& besterZug, int alpha, in
     if (hoehe == 0)
        besterZug = gefundenerZug;
 
-    if (maxWert>alpha)
+    if (maxWert>alpha) {
        TT.schreiben(pos, gefundenerZug, maxWert, tiefe);
-
-    int derbeste=((pos.felt[besterZug.Zahl[1]][besterZug.Zahl[0]]+6)*8+besterZug.Zahl[3])*8+besterZug.Zahl[2];
-    geschichte[voheriger_zug][derbeste]=geschichte[voheriger_zug][derbeste]*99/100;
-    geschichte[voheriger_zug][derbeste]+=50;
+       int derbeste=((pos.felt[gefundenerZug.Zahl[1]][gefundenerZug.Zahl[0]]+6)*8+gefundenerZug.Zahl[3])*8+gefundenerZug.Zahl[2];
+       geschichte[voheriger_zug][derbeste]=geschichte[voheriger_zug][derbeste]*99/100;
+       geschichte[voheriger_zug][derbeste]+=50;
+    }
     return maxWert;
 }
