@@ -25,6 +25,7 @@ size_t hash<position>::operator()(const position & pos) const{
 
 void transpositionTable::loeschen() {
     std::fill(table.begin(), table.end(), hte());
+    Zaehler=0;
 }
 
 void transpositionTable::groesseAendern(size_t ziel){
@@ -32,21 +33,27 @@ void transpositionTable::groesseAendern(size_t ziel){
     loeschen();
 }
 
-void transpositionTable::schreiben(const position & pos, zuege& besterZug, int& wert, int& tiefe){
+void transpositionTable::schreiben(const position & pos, zuege& besterZug, int& wert, int& tiefe, int hoehe){
     size_t index = pos.hash % table.size();
-    table[index].hash = pos.hash;
-    table[index].besterZug = besterZug;
-    table[index].wert = wert;
-    table[index].tiefe = tiefe;
+    if (    tiefe >= table[index].tiefe
+        || (table[index].hash != pos.hash && tiefe >= table[index].tiefe - 8 * (Zaehler - table[index].Zaehler) - 2)) {
+       table[index].hash = pos.hash;
+       table[index].besterZug = besterZug;
+       table[index].wert = wert > mattWertMin ? wert + hoehe : wert < - mattWertMin ? wert - hoehe : wert ;
+       table[index].tiefe = tiefe;
+       table[index].Zaehler = Zaehler;
+    }
 }
 
-bool transpositionTable::finden(const position & pos, zuege& besterZug, int& wert, int& tiefe){
+bool transpositionTable::finden(const position & pos, zuege& besterZug, int& wert, int& tiefe, int hoehe){
     size_t index = pos.hash % table.size();
     bool gefunden = (table[index].hash == pos.hash);
     if (gefunden==true) {
        besterZug = table[index].besterZug;
-       wert = table[index].wert;
+       int ttWert = table[index].wert;
+       wert = ttWert > mattWertMin ? ttWert - hoehe : ttWert < -mattWertMin ? wert + hoehe : ttWert;
        tiefe = table[index].tiefe;
+       table[index].Zaehler = Zaehler;
     } else {
        besterZug = {};
     }

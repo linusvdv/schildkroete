@@ -18,21 +18,25 @@ class hte {
      besterZug = {};
      wert = 0;
      tiefe = 0;
+     Zaehler = 0;
    }
    size_t hash;
    zuege besterZug;
    int wert;
    int tiefe;
+   int Zaehler;
 };
 
 class transpositionTable {
   public:
     void groesseAendern(size_t ziel);
     void loeschen();
-    void schreiben(const position & pos, zuege& besterZug, int& wert, int& tiefe);
-    bool finden(const position & pos, zuege& besterZug, int& wert, int& tiefe);
+    void naechsteRunde() {Zaehler++; };
+    void schreiben(const position & pos, zuege& besterZug, int& wert, int& tiefe, int hoehe);
+    bool finden(const position & pos, zuege& besterZug, int& wert, int& tiefe, int hoehe);
   private:
     std::vector<hte> table;
+    int Zaehler;
 };
 
 extern transpositionTable TT;

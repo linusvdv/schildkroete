@@ -67,7 +67,7 @@ int quiescence(position& pos, int tiefe, int hoehe, int alpha, int beta, int voh
 
     seldepth=hoehe>seldepth?hoehe:seldepth;
 
-    if (istRemis(pos)==true)
+    if (istRemis(pos)==true || hoehe>=maxTiefe)
        return 0;
 
     int wert;
@@ -81,7 +81,7 @@ int quiescence(position& pos, int tiefe, int hoehe, int alpha, int beta, int voh
     pos2.farbe*=-1;
     bool schach = stet_der_koenig_schach(pos2)==true;
 
-    ttGefunden = TT.finden(pos, ttZug, ttWert, ttTiefe);
+    ttGefunden = TT.finden(pos, ttZug, ttWert, ttTiefe, hoehe);
     if (!schach) {
         if (ttGefunden==true) {
            wert = ttWert;
@@ -142,13 +142,13 @@ int quiescence(position& pos, int tiefe, int hoehe, int alpha, int beta, int voh
 
     if (anzahlZuege==0) {
        if(schach==true)
-          return -(100000+tiefe);
+          return -(mattWert-hoehe);
        else
           return 0;
     }
 
     if (schreibe)
-       TT.schreiben(pos, gefundenerZug, alpha, tiefe);
+       TT.schreiben(pos, gefundenerZug, alpha, tiefe, hoehe);
 
     return alpha;
 
@@ -170,7 +170,7 @@ int miniMax(position& pos, int tiefe, int hoehe, zuege& besterZug, int alpha, in
            return 42424242;
     }
 
-    if (istRemis(pos)==true)
+    if (istRemis(pos)==true || hoehe>maxTiefe)
        return 0;
 
     if (tiefe == 0){
@@ -181,7 +181,7 @@ int miniMax(position& pos, int tiefe, int hoehe, zuege& besterZug, int alpha, in
     int ttWert;
     int ttTiefe;
     bool ttGefunden;
-    ttGefunden = TT.finden(pos, ttZug, ttWert, ttTiefe);
+    ttGefunden = TT.finden(pos, ttZug, ttWert, ttTiefe, hoehe);
     if (ttGefunden==true) {
        if(ttTiefe>=tiefe && ttWert>=beta) {
          return ttWert;
@@ -190,7 +190,7 @@ int miniMax(position& pos, int tiefe, int hoehe, zuege& besterZug, int alpha, in
       if (tiefe>4){
            miniMax(pos, tiefe*2/3, hoehe, besterZug, alpha, beta, sucheStop, voheriger_zug, spielzeit, start);
          }
-         TT.finden(pos, ttZug, ttWert, ttTiefe);
+         TT.finden(pos, ttZug, ttWert, ttTiefe, hoehe);
     }
 
     vector<zuege> zugliste;
@@ -231,7 +231,7 @@ int miniMax(position& pos, int tiefe, int hoehe, zuege& besterZug, int alpha, in
        position pos2 = pos;
        pos2.farbe*=-1;
        if(stet_der_koenig_schach(pos2)==true)
-          return -(100000+tiefe);
+          return -(mattWert-hoehe);
        else
           return 0;
     }
@@ -240,7 +240,7 @@ int miniMax(position& pos, int tiefe, int hoehe, zuege& besterZug, int alpha, in
        besterZug = gefundenerZug;
 
     if (maxWert>alpha) {
-       TT.schreiben(pos, gefundenerZug, maxWert, tiefe);
+       TT.schreiben(pos, gefundenerZug, maxWert, tiefe, hoehe);
        int derbeste=((pos.felt[gefundenerZug.Zahl[1]][gefundenerZug.Zahl[0]]+6)*8+gefundenerZug.Zahl[3])*8+gefundenerZug.Zahl[2];
        geschichte[voheriger_zug][derbeste]=geschichte[voheriger_zug][derbeste]*99/100;
        geschichte[voheriger_zug][derbeste]+=50;

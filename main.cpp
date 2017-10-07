@@ -42,6 +42,17 @@ using namespace std;
 
 std::atomic<bool> sucheStop;
 
+std::string uciWert(int wert) {
+   string score = string(" score cp ") + to_string(wert);
+   if (wert>=mattWertMin)
+      score = string(" score cp ") + to_string((100000 + (mattWert-wert+1)/2)) + string(" mate ") + to_string((mattWert-wert+1)/2);
+
+   if (wert<=-mattWertMin)
+      score = string(" score cp ") + to_string((-100000+(-(mattWert+wert))/2)) + string(" mate ") + to_string((-(mattWert+wert))/2);
+
+   return score;
+}
+
 std::string zeileLeser() {
     std::string zeile;
     std::getline(std::cin, zeile);
@@ -118,7 +129,7 @@ int main(){
             else if(zeile.find("go")!=string::npos){
                 sucheStop=false;
                 spielzeit=1000*3600*24*3; // Vorsicht overflow...
-                spieltiefe=512;
+                spieltiefe=maxTiefe;
                 auto n=zeile.find("infinite");
                 if(n!=string::npos){
                     spieltiefe=512; 
@@ -159,6 +170,7 @@ int main(){
                     extra/=8;
                     spielzeit+=extra;
                 }
+                TT.naechsteRunde();
                 nodes=0;
                 nodesZeit=0;
                 seldepth=0;
@@ -172,7 +184,7 @@ int main(){
                     auto denkZeit = std::chrono::duration_cast<std::chrono::milliseconds>(stop-start).count();
                     if (sucheStop==false || i==1) {
                        bestZug = zug;
-                       cout << "info depth " << i << " seldepth " << seldepth << " score cp " << wert << " nodes " << nodes <<
+                       cout << "info depth " << i << " seldepth " << seldepth << uciWert(wert) << " nodes " << nodes <<
                             " time " << denkZeit << " nps " << nodes * 1000 / (denkZeit==0 ? 1 : denkZeit) <<
                             " pv " << char('a'+zug.Zahl[1]) << zug.Zahl[0]+1 << char('a'+zug.Zahl[3]) << zug.Zahl[2]+1 << promo(zug) << endl;
                     }
