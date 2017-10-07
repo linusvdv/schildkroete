@@ -93,47 +93,47 @@ int bewertung(const position& pos){
         for(int i=0; i<8; i++)
             switch(pos.felt[i][j]){
                 case  1:
-                    entspiel+=320;
-                    gute+=320;
+                    entspiel+=stueckWert[1];
+                    gute+=stueckWert[1];
                     gute+=Pferd[i][j];
                     break;
                 case -1:
-                    entspiel+=320;
-                    gute-=320;
+                    entspiel+=stueckWert[1];
+                    gute-=stueckWert[1];
                     gute-=Pferd[7-i][j];
                     break;
                 case  2:
-                    entspiel+=330;
-                    gute+=330;
+                    entspiel+=stueckWert[2];
+                    gute+=stueckWert[2];
                     gute+=Leufer[i][j];
                     leufer[0]++;
                     break;
                 case -2:
-                    entspiel+=330;
-                    gute-=330;
+                    entspiel+=stueckWert[2];
+                    gute-=stueckWert[2];
                     gute-=Leufer[7-i][j];
                     leufer[1]++;
                     break;
                 case  3:
-                    entspiel+=500;
-                    gute+=500;
+                    entspiel+=stueckWert[3];
+                    gute+=stueckWert[3];
                     gute+=Turm[i][j];
                     doppel_r[0]+=1;
                     break;
                 case -3:
-                    entspiel+=500;
-                    gute-=500;
+                    entspiel+=stueckWert[3];
+                    gute-=stueckWert[3];
                     gute-=Turm[7-i][j];
                     doppel_r[1]+=1;
                     break;
                 case  4:
-                    entspiel+=900;
+                    entspiel+=stueckWert[4];
                     gute+=Dame[i][j];
-                    gute+=900;
+                    gute+=stueckWert[4];
                     break;
                 case -4:
-                    entspiel+=900;
-                    gute-=900;
+                    entspiel+=stueckWert[4];
+                    gute-=stueckWert[4];
                     gute-=Dame[7-i][j];
                     break;
                 case  5:
@@ -145,14 +145,14 @@ int bewertung(const position& pos){
                     wo_koenig[0][1]=j;
                     break;
                 case  6:
-                    entspiel+=100;
-                    gute+=100;
+                    entspiel+=stueckWert[6];
+                    gute+=stueckWert[6];
                     gute+=Bauer[i][j];
                     doppel_p[0]+=1;
                     break;
                 case -6:
-                    entspiel+=100;
-                    gute-=100;
+                    entspiel+=stueckWert[6];
+                    gute-=stueckWert[6];
                     gute-=Bauer[7-i][j];
                     doppel_p[1]+=1;
                     break;

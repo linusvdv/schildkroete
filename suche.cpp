@@ -2,6 +2,7 @@
 #include <vector>
 #include <algorithm>
 #include <chrono>
+#include <cstdlib>
 
 #include "types.h"
 #include "hashtable.h"
@@ -108,12 +109,18 @@ int quiescence(position& pos, int tiefe, int hoehe, int alpha, int beta, int voh
 
        position pos2=pos;
        zugmacher(pos2, zug);
-       if (stet_der_koenig_schach(pos2)==true)
-           continue;
        anzahlZuege++;
 
        if (pos.felt[zug.Zahl[2]][zug.Zahl[3]]==0 && zug.promotion==0 && !schach)
           continue;
+
+       if (!schach && !zug.promotion && wert + 75 + stueckWert[std::abs(pos.felt[zug.Zahl[2]][zug.Zahl[3]])] < alpha)
+          continue;
+
+       if (stet_der_koenig_schach(pos2)==true) {
+           anzahlZuege--;
+           continue;
+       }
 
        pos2.hash=hash_fn(pos2);
 
@@ -134,9 +141,7 @@ int quiescence(position& pos, int tiefe, int hoehe, int alpha, int beta, int voh
     }
 
     if (anzahlZuege==0) {
-       position pos2 = pos;
-       pos2.farbe*=-1;
-       if(stet_der_koenig_schach(pos2)==true)
+       if(schach==true)
           return -(100000+tiefe);
        else
           return 0;
