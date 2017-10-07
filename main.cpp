@@ -145,7 +145,7 @@ int main(){
                         spielzeit/=(movestogo*5);
                     }
                     else{
-                        spielzeit/=150;
+                        spielzeit/=60;
                     }
                 }
                 if (pos.farbe==1)
@@ -156,7 +156,7 @@ int main(){
                     string zeit=zeile.substr(n+5);
                     istringstream strIn(zeit);
                     strIn >> extra;
-                    extra/=15;
+                    extra/=8;
                     spielzeit+=extra;
                 }
                 nodes=0;
