@@ -2,6 +2,7 @@
 #include <iostream>
 
 #include "bewertung.h"
+#include "feld.h"
 #include "types.h"
 #include "FEN_schreiber.h"
 #include "stet_der_koenig_schach.h"
@@ -86,6 +87,7 @@ feldType Koenigentspiel={{       // weiss
                         }} ;     // schwarz
 
 int bewertung(const position& pos){ 
+//    feld(pos);
     nodes++;
     int wbauer[8]={};
     int bbauer[8]={};
@@ -102,11 +104,13 @@ int bewertung(const position& pos){
                    wbauer[j]=i;
             if(pos.felt[7-i][j]==-6)
                 if(bbauer[j]==0)
-                   bbauer[j]=i;
+                   bbauer[j]=7-i;
         }
         if(wbauer[j]==0)
         wbauer[j]=7;
     }
+    // std::cout << "wbauer " << wbauer[0] << " " << wbauer[1] << " " << wbauer[2] << " " << wbauer[3] << " " << wbauer[4] << " " << wbauer[5] << " " << wbauer[6] << " " << wbauer[7] << std::endl;
+    // std::cout << "bbauer " << bbauer[0] << " " << bbauer[1] << " " << bbauer[2] << " " << bbauer[3] << " " << bbauer[4] << " " << bbauer[5] << " " << bbauer[6] << " " << bbauer[7] << std::endl;
     for(int j=0; j<8; j++){
         for(int i=0; i<8; i++)
             switch(pos.felt[i][j]){
@@ -163,16 +167,20 @@ int bewertung(const position& pos){
                     wo_koenig[0][1]=j;
                     break;
                 case  6:
-                    if(bbauer[i]<=j && bbauer[std::max(0, bbauer[i-1])]<=j &&  bbauer[std::min(7, bbauer[i+1])]<=j)
-                        gute+=j*100;
+                    if(bbauer[j]<=i && bbauer[std::max(0, j-1)]<=i &&  bbauer[std::min(7, j+1)]<=i) {
+//                        std::cout << "Weiss: i " << i << " j " << j << " wert " << j*25 << std::endl;
+                        gute+=j*25;
+                    }
                     entspiel+=stueckWert[6];
                     gute+=stueckWert[6];
                     gute+=Bauer[i][j];
                     doppel_p[0]+=1;
                     break;
                 case -6:
-                    if(wbauer[i]>=j && wbauer[std::max(0, wbauer[i-1])]>=j &&  wbauer[std::min(7, wbauer[i+1])]>=j)
-                        gute-=(7-j)*50;
+                    if(wbauer[j]>=i && wbauer[std::max(0, j-1)]>=i &&  wbauer[std::min(7, j+1)]>=i) {
+//                        std::cout << "Schwarz: i " << i << " j " << j << " wert " << (7-j)*25 << std::endl;
+                        gute-=(7-j)*25;
+                    }
                     entspiel+=stueckWert[6];
                     gute-=stueckWert[6];
                     gute-=Bauer[7-i][j];
