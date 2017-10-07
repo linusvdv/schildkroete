@@ -87,8 +87,26 @@ feldType Koenigentspiel={{       // weiss
 
 int bewertung(const position& pos){ 
     nodes++;
-
-    int gute=0, doppel_p[2]={}, doppel_r[2]={}, leufer[2]={}, entspiel=0, wo_koenig[2][2]={};
+    int wbauer[8]={};
+    int bbauer[8]={};
+    int gute=0;
+    int doppel_p[2]={};
+    int doppel_r[2]={};
+    int leufer[2]={};
+    int entspiel=0;
+    int wo_koenig[2][2]={};
+    for(int j=0; j<8; j++){
+        for(int i=0; i<8; i++){
+            if(pos.felt[i][j]==6)
+                if(wbauer[j]==0)
+                   wbauer[j]=i;
+            if(pos.felt[7-i][j]==-6)
+                if(bbauer[j]==0)
+                   bbauer[j]=i;
+        }
+        if(wbauer[j]==0)
+        wbauer[j]=7;
+    }
     for(int j=0; j<8; j++){
         for(int i=0; i<8; i++)
             switch(pos.felt[i][j]){
@@ -145,12 +163,16 @@ int bewertung(const position& pos){
                     wo_koenig[0][1]=j;
                     break;
                 case  6:
+                    if(bbauer[i]<=j && bbauer[std::max(0, bbauer[i-1])]<=j &&  bbauer[std::min(7, bbauer[i+1])]<=j)
+                        gute+=j*100;
                     entspiel+=stueckWert[6];
                     gute+=stueckWert[6];
                     gute+=Bauer[i][j];
                     doppel_p[0]+=1;
                     break;
                 case -6:
+                    if(wbauer[i]>=j && wbauer[std::max(0, wbauer[i-1])]>=j &&  wbauer[std::min(7, wbauer[i+1])]>=j)
+                        gute-=(7-j)*50;
                     entspiel+=stueckWert[6];
                     gute-=stueckWert[6];
                     gute-=Bauer[7-i][j];
