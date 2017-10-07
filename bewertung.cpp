@@ -2,6 +2,7 @@
 #include <iostream>
 
 #include "bewertung.h"
+#include "feld.h"
 #include "types.h"
 #include "FEN_schreiber.h"
 #include "stet_der_koenig_schach.h"
@@ -87,8 +88,26 @@ feldType Koenigentspiel={{       // weiss
 
 int bewertung(const position& pos){ 
     nodes++;
-
-    int gute=0, doppel_p[2]={}, doppel_r[2]={}, leufer[2]={}, entspiel=0, wo_koenig[2][2]={};
+    int wbauer[8]={};
+    int bbauer[8]={};
+    int gute=0;
+    int doppel_p[2]={};
+    int doppel_r[2]={};
+    int leufer[2]={};
+    int entspiel=0;
+    int wo_koenig[2][2]={};
+    for(int j=0; j<8; j++){
+        for(int i=0; i<8; i++){
+            if(pos.felt[i][j]==6)
+                if(wbauer[j]==0)
+                   wbauer[j]=i;
+            if(pos.felt[7-i][j]==-6)
+                if(bbauer[j]==0)
+                   bbauer[j]=7-i;
+        }
+        if(wbauer[j]==0)
+        wbauer[j]=7;
+    }
     for(int j=0; j<8; j++){
         for(int i=0; i<8; i++)
             switch(pos.felt[i][j]){
@@ -145,12 +164,18 @@ int bewertung(const position& pos){
                     wo_koenig[0][1]=j;
                     break;
                 case  6:
+                    if(bbauer[j]<=i && bbauer[std::max(0, j-1)]<=i &&  bbauer[std::min(7, j+1)]<=i) {
+                        gute+=i*15;
+                    }
                     entspiel+=stueckWert[6];
                     gute+=stueckWert[6];
                     gute+=Bauer[i][j];
                     doppel_p[0]+=1;
                     break;
                 case -6:
+                    if(wbauer[j]>=i && wbauer[std::max(0, j-1)]>=i &&  wbauer[std::min(7, j+1)]>=i) {
+                        gute-=(7-i)*15;
+                    }
                     entspiel+=stueckWert[6];
                     gute-=stueckWert[6];
                     gute-=Bauer[7-i][j];
