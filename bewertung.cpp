@@ -90,6 +90,9 @@ const int turmAufLinie = 18;
 
 int bewertung(const position& pos){ 
     nodes++;
+    int stuecke[3][6]={};
+    int anzahlstuecke=0;
+    int farbestuecke[2]={};
     int wbauer[8]={};
     int bbauer[8]={};
     int gute=0;
@@ -100,16 +103,81 @@ int bewertung(const position& pos){
     int wo_koenig[2][2]={};
     for(int j=0; j<8; j++){
         for(int i=0; i<8; i++){
-            if(pos.felt[i][j]==6)
-                if(wbauer[j]==0)
-                   wbauer[j]=i;
-            if(pos.felt[7-i][j]==-6)
-                if(bbauer[j]==0)
-                   bbauer[j]=7-i;
+            switch(pos.felt[i][j]){
+                case  6:
+                    if(wbauer[j]==0)
+                       wbauer[j]=i;
+                    anzahlstuecke+=1;
+                    break;
+                case -6:
+                    if(bbauer[j]==0)
+                       bbauer[j]=7-i;
+                    anzahlstuecke+=1;
+                    break;
+	        case  1:
+                    stuecke[0][1]+=1;
+                    farbestuecke[0]+=1;
+                    stuecke[2][1]+=1;
+                    anzahlstuecke+=1;
+                    break;
+	        case -1:
+                    stuecke[1][1]+=1;
+                    farbestuecke[1]+=1;
+                    stuecke[2][1]+=1;
+                    anzahlstuecke+=1;
+                    break;
+	        case  2:
+                    stuecke[0][2]+=1;
+                    farbestuecke[0]+=1;
+                    stuecke[2][2]+=1;
+                    anzahlstuecke+=1;
+                    break;
+	        case -2:
+                    stuecke[1][2]+=1;
+                    farbestuecke[1]+=1;
+                    stuecke[2][2]+=1;
+                    anzahlstuecke+=1;
+                    break;
+	        case  3:
+                    stuecke[0][3]+=1;
+                    farbestuecke[0]+=1;
+                    stuecke[2][3]+=1;
+                    anzahlstuecke+=1;
+                    break;
+	        case -3:
+                    stuecke[1][3]+=1;
+                    farbestuecke[1]+=1;
+                    stuecke[2][3]+=1;
+                    anzahlstuecke+=1;
+                    break;
+	        case  4:
+                    stuecke[0][4]+=1;
+                    farbestuecke[0]+=1;
+                    stuecke[2][4]+=1;
+                    anzahlstuecke+=1;
+                    break;
+	        case -4:
+                    stuecke[1][4]+=1;
+                    farbestuecke[1]+=1;
+                    stuecke[2][4]+=1;
+                    anzahlstuecke+=1;
+                    break;
+            }
         }
         if(wbauer[j]==0)
-        wbauer[j]=7;
+           wbauer[j]=7;
     }
+    int punktwert[6]={0, 0, 0, mattWert/10, mattWert/9, 0};
+    if(anzahlstuecke==1){
+        for(int i=0; i<6; i++) {
+            if(stuecke[(farbestuecke[0]==1 ? 0 : 1)][i]==1){
+                if(punktwert[i]==0)
+                    return 0;
+                gute+=punktwert[i]*(farbestuecke[0]==1 ? 1 : -1);
+            }
+        }
+    }
+       
     for(int j=0; j<8; j++){
         for(int i=0; i<8; i++)
             switch(pos.felt[i][j]){
