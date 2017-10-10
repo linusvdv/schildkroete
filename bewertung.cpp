@@ -179,6 +179,10 @@ int bewertung(const position& pos){
                     if(bbauer[j]<=i && bbauer[std::max(0, j-1)]<=i &&  bbauer[std::min(7, j+1)]<=i) {
                         gute+=i*15;
                     }
+
+                    if ((j==0 || wbauer[j-1]==7) && (j==7 || wbauer[j+1]==7))
+                        gute-=12;
+
                     entspiel+=stueckWert[6];
                     gute+=stueckWert[6];
                     gute+=Bauer[i][j];
@@ -188,6 +192,10 @@ int bewertung(const position& pos){
                     if(wbauer[j]>=i && wbauer[std::max(0, j-1)]>=i &&  wbauer[std::min(7, j+1)]>=i) {
                         gute-=(7-i)*15;
                     }
+
+                    if ((j==0 || bbauer[j-1]==0) && (j==7 || bbauer[j+1]==0))
+                        gute+=12;
+
                     entspiel+=stueckWert[6];
                     gute-=stueckWert[6];
                     gute-=Bauer[7-i][j];
