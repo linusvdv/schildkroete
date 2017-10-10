@@ -86,6 +86,8 @@ feldType Koenigentspiel={{       // weiss
                         {{-50,-40,-30,-20,-20,-30,-40,-50}},
                         }} ;     // schwarz
 
+const int turmAufLinie = 18;
+
 int bewertung(const position& pos){ 
     nodes++;
     int wbauer[8]={};
@@ -138,12 +140,22 @@ int bewertung(const position& pos){
                     gute+=stueckWert[3];
                     gute+=Turm[i][j];
                     doppel_r[0]+=1;
+                    if (wbauer[j]==7) {
+                       gute+=turmAufLinie;
+                       if (bbauer[j]==0)
+                          gute+=turmAufLinie/2;
+                    }
                     break;
                 case -3:
                     entspiel+=stueckWert[3];
                     gute-=stueckWert[3];
                     gute-=Turm[7-i][j];
                     doppel_r[1]+=1;
+                    if (bbauer[j]==0) {
+                       gute-=turmAufLinie;
+                       if (wbauer[j]==7)
+                          gute-=turmAufLinie/2;
+                    }
                     break;
                 case  4:
                     entspiel+=stueckWert[4];
