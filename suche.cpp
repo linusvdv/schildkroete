@@ -39,22 +39,27 @@ void zuegesort(position& pos, vector<zuege>& zugliste, int hoehe, zuege& ttZug, 
        if (zugliste[i].Zahl[0]==ttZug.Zahl[0] &&
            zugliste[i].Zahl[1]==ttZug.Zahl[1] &&
            zugliste[i].Zahl[2]==ttZug.Zahl[2] &&
-           zugliste[i].Zahl[3]==ttZug.Zahl[3] ) zugliste[i].wert+=1000;
+           zugliste[i].Zahl[3]==ttZug.Zahl[3] ) zugliste[i].wert+=20000;
 
        if (zugliste[i].Zahl[0]==betaZuege0[hoehe].Zahl[0] &&
            zugliste[i].Zahl[1]==betaZuege0[hoehe].Zahl[1] &&
            zugliste[i].Zahl[2]==betaZuege0[hoehe].Zahl[2] &&
-           zugliste[i].Zahl[3]==betaZuege0[hoehe].Zahl[3] ) zugliste[i].wert+=500;
+           zugliste[i].Zahl[3]==betaZuege0[hoehe].Zahl[3] ) zugliste[i].wert+=5000;
 
        if (zugliste[i].Zahl[0]==betaZuege1[hoehe].Zahl[0] &&
            zugliste[i].Zahl[1]==betaZuege1[hoehe].Zahl[1] &&
            zugliste[i].Zahl[2]==betaZuege1[hoehe].Zahl[2] &&
-           zugliste[i].Zahl[3]==betaZuege1[hoehe].Zahl[3] ) zugliste[i].wert+=300;
+           zugliste[i].Zahl[3]==betaZuege1[hoehe].Zahl[3] ) zugliste[i].wert+=3000;
 
-       if (pos.felt[zugliste[i].Zahl[2]][zugliste[i].Zahl[3]]!=0)
-           zugliste[i].wert+=200;
+       if (pos.felt[zugliste[i].Zahl[2]][zugliste[i].Zahl[3]]!=0) {
+           int ich = std::abs(pos.felt[zugliste[i].Zahl[0]][zugliste[i].Zahl[1]]);
+           int er =  std::abs(pos.felt[zugliste[i].Zahl[2]][zugliste[i].Zahl[3]]);
+           zugliste[i].wert += 5 * stueckWert[er] - stueckWert[ich];
+       }
+
        if (pos.felt[zugliste[i].Zahl[0]][zugliste[i].Zahl[1]]==6)
            zugliste[i].wert+=100;
+
        zugliste[i].wert+=linie[zugliste[i].Zahl[3]];
     }
 
