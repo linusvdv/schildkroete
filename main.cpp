@@ -53,6 +53,34 @@ std::string uciWert(int wert) {
    return score;
 }
 
+std::string uciZug(const zuege& zug) {
+   return   string(1, char('a'+zug.Zahl[1]))
+          + to_string(zug.Zahl[0]+1)
+          + string(1,char('a'+zug.Zahl[3]))
+          + to_string(zug.Zahl[2]+1) + promo(zug);
+}
+
+std::string pvZuege(const position& pos, const zuege& zug) {
+
+   std::hash<position> hash_fn;
+   position pos2;
+   pos2 = pos;
+   zugmacher(pos2, zug);
+   pos2.hash=hash_fn(pos2);
+
+   zuege ttZug;
+   int ttWert;
+   int ttTiefe;
+   bool ttGefunden;
+   ttGefunden = TT.finden(pos2, ttZug, ttWert, ttTiefe, 0);
+
+   if (!istRemis(pos) && ttGefunden==true && ttTiefe>0) {
+     return string(" ") + uciZug(zug) + pvZuege(pos2, ttZug);
+   } else {
+     return string (" ") + uciZug(zug);
+   }
+}
+
 std::string zeileLeser() {
     std::string zeile;
     std::getline(std::cin, zeile);
@@ -186,13 +214,12 @@ int main(){
                        bestZug = zug;
                        cout << "info depth " << i << " seldepth " << seldepth << uciWert(wert) << " nodes " << nodes <<
                             " time " << denkZeit << " nps " << nodes * 1000 / (denkZeit==0 ? 1 : denkZeit) <<
-                            " pv " << char('a'+zug.Zahl[1]) << zug.Zahl[0]+1 << char('a'+zug.Zahl[3]) << zug.Zahl[2]+1 << promo(zug) << endl;
+                            " pv" << pvZuege(pos, zug) << endl;
                     }
                     if (denkZeit>spielzeit || sucheStop)
                        break;
                 }
-                cout << "bestmove " << char('a'+bestZug.Zahl[1]) << bestZug.Zahl[0]+1 
-                                    << char('a'+bestZug.Zahl[3]) << bestZug.Zahl[2]+1 << promo(bestZug) << endl;
+                cout << "bestmove " << uciZug(bestZug) << endl;
             }
             else if(zeile=="feld")
                 feld(pos);
