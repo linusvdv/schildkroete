@@ -93,8 +93,8 @@ int bewertung(const position& pos){
     int stuecke[3][6]={};
     int anzahlstuecke=0;
     int farbestuecke[2]={};
-    int wbauer[8]={};
-    int bbauer[8]={};
+    int wbauer[8]={7,7,7,7,7,7,7,7};
+    int bbauer[8]={0,0,0,0,0,0,0,0};
     int gute=0;
     int doppel_p[2]={};
     int doppel_r[2]={};
@@ -105,13 +105,11 @@ int bewertung(const position& pos){
         for(int i=0; i<8; i++){
             switch(pos.felt[i][j]){
                 case  6:
-                    if(wbauer[j]==0)
-                       wbauer[j]=i;
+                    wbauer[j]=std::min(i,wbauer[j]);
                     anzahlstuecke+=1;
                     break;
                 case -6:
-                    if(bbauer[j]==0)
-                       bbauer[j]=7-i;
+                    bbauer[j]=std::max(i,bbauer[j]);
                     anzahlstuecke+=1;
                     break;
 	        case  1:
@@ -164,8 +162,6 @@ int bewertung(const position& pos){
                     break;
             }
         }
-        if(wbauer[j]==0)
-           wbauer[j]=7;
     }
     int punktwert[6]={0, 0, 0, mattWert/10, mattWert/9, 0};
     if(anzahlstuecke==1){
@@ -292,6 +288,7 @@ int bewertung(const position& pos){
         gute+=Koenig[wo_koenig[1][0]][wo_koenig[1][1]];
         gute-=Koenig[wo_koenig[0][0]][wo_koenig[0][1]];
     }
+
     gute*=pos.farbe;
     return gute;
 }
