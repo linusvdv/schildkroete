@@ -191,11 +191,31 @@ int miniMax(position& pos, int tiefe, int hoehe, zuege& besterZug, int alpha, in
        if(ttTiefe>=tiefe && ttWert>=beta) {
          return ttWert;
        }
-    } else {
-      if (tiefe>4){
-           miniMax(pos, tiefe*2/3, hoehe, besterZug, alpha, beta, sucheStop, voheriger_zug, spielzeit, start);
-         }
-         TT.finden(pos, ttZug, ttWert, ttTiefe, hoehe);
+    }
+
+    int wert;
+
+    position pos2 = pos;
+    pos2.farbe*=-1;
+    bool schach = stet_der_koenig_schach(pos2)==true;
+
+    if (!schach) {
+       wert = ttGefunden ? ttWert : bewertung(pos);
+
+       if (tiefe < 5 && wert >= beta + 70 * tiefe && wert<mattWert/2)
+          return wert;
+
+       if (wert>=beta) {
+          int neueTiefe = std::max(0, tiefe * 4 / 5 - 2);
+          wert = -miniMax(pos2, neueTiefe, hoehe+1, besterZug, -beta, -alpha, sucheStop, 0, spielzeit, start);
+          if (wert>=beta && wert<mattWert/2)
+             return wert;
+       }
+
+       if (tiefe>4 && ttGefunden==false) {
+          miniMax(pos, tiefe*2/3, hoehe, besterZug, alpha, beta, sucheStop, voheriger_zug, spielzeit, start);
+          TT.finden(pos, ttZug, ttWert, ttTiefe, hoehe);
+       }
     }
 
     vector<zuege> zugliste;
@@ -219,7 +239,7 @@ int miniMax(position& pos, int tiefe, int hoehe, zuege& besterZug, int alpha, in
            neueTiefe++;
 
        int voheriger_zug=((pos.felt[zug.Zahl[1]][zug.Zahl[0]]+6)*8+zug.Zahl[3])*8+zug.Zahl[2];
-       int wert = -miniMax(pos2, neueTiefe, hoehe+1, besterZug, -beta, -maxWert, sucheStop, voheriger_zug, spielzeit, start);
+       wert = -miniMax(pos2, neueTiefe, hoehe+1, besterZug, -beta, -maxWert, sucheStop, voheriger_zug, spielzeit, start);
        if (wert > maxWert) {
           maxWert = wert;
           gefundenerZug = zug;
@@ -233,9 +253,7 @@ int miniMax(position& pos, int tiefe, int hoehe, zuege& besterZug, int alpha, in
     }
 
     if (i==0) {
-       position pos2 = pos;
-       pos2.farbe*=-1;
-       if(stet_der_koenig_schach(pos2)==true)
+       if(schach==true)
           return -(mattWert-hoehe);
        else
           return 0;
