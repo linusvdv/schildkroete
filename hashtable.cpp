@@ -56,6 +56,7 @@ bool transpositionTable::finden(const position & pos, zuege& besterZug, int& wer
        table[index].Zaehler = Zaehler;
     } else {
        besterZug = {};
+       tiefe = 0;
     }
     return gefunden;
 }

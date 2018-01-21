@@ -75,7 +75,7 @@ int quiescence(position& pos, int tiefe, int hoehe, int alpha, int beta, int voh
     if (istRemis(pos)==true || hoehe>=maxTiefe)
        return 0;
 
-    int wert;
+    int wert = 0;
 
     zuege ttZug;
     int ttWert;
