@@ -75,7 +75,7 @@ int quiescence(position& pos, int tiefe, int hoehe, int alpha, int beta, int voh
     if (istRemis(pos)==true || hoehe>=maxTiefe)
        return 0;
 
-    int wert;
+    int wert = 0;
 
     zuege ttZug;
     int ttWert;
@@ -183,7 +183,7 @@ int miniMax(position& pos, int tiefe, int hoehe, zuege& besterZug, int alpha, in
     }
 
     zuege ttZug;
-    int ttWert;
+    int ttWert = 0;
     int ttTiefe;
     bool ttGefunden;
     ttGefunden = TT.finden(pos, ttZug, ttWert, ttTiefe, hoehe);
