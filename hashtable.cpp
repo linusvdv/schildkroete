@@ -51,7 +51,7 @@ bool transpositionTable::finden(const position & pos, zuege& besterZug, int& wer
     if (gefunden==true) {
        besterZug = table[index].besterZug;
        int ttWert = table[index].wert;
-       wert = ttWert > mattWertMin ? ttWert - hoehe : ttWert < -mattWertMin ? wert + hoehe : ttWert;
+       wert = ttWert > mattWertMin ? ttWert - hoehe : ttWert < -mattWertMin ? ttWert + hoehe : ttWert;
        tiefe = table[index].tiefe;
        table[index].Zaehler = Zaehler;
     } else {
