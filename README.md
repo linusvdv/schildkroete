@@ -1,6 +1,6 @@
 # Schildkroete
 
-Schildkroete ist ein Schachprogramm geschrieben von linusvdv in C++. Linus ist 11 Jahre alt.
+Schildkroete ist ein Schachprogramm geschrieben von linusvdv in C++. Linus ist 12 Jahre alt.
 
 Um gegen Schildkroete zu spielen brauchst du ein UCI GUI. 
 
